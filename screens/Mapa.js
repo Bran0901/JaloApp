@@ -36,7 +36,7 @@ const Mapa = () => {
 
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         <View>
-          <Text>Hola Mundo - Tarjeta Joven</Text>
+          <Text>El mapa estará aqui</Text>
         </View>
       </ScrollView>
 
