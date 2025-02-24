@@ -12,6 +12,7 @@ import Eventos from './screens/Eventos';
 import Mapa from './screens/Mapa';
 import Otro from './screens/Otro';
 import Cuenta from './screens/Cuenta';
+import Login from './screens/Login';
 
 const Stack = createStackNavigator();
 
@@ -29,6 +30,7 @@ export default function App() {
         <Stack.Screen name="Mapa" component={Mapa} options={{ headerShown: false }} />
         <Stack.Screen name="Otro" component={Otro} options={{ headerShown: false }} />
         <Stack.Screen name="Cuenta" component={Cuenta} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
     

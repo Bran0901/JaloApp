@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 30,
+    marginBottom: 20,
     color: '#ffffff',
   },
   title2:{
@@ -141,6 +141,51 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#ffffff',
   },
+  input: {
+    width: '100%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  card: {
+    width: '90%', // Ajuste del ancho para mantener proporción
+    backgroundColor: '#FDEEEE', // Fondo blanco para el card
+    borderRadius: 10, // Bordes redondeados
+    padding: 20, // Espaciado interno
+    shadowColor: '#000', // Sombra para efecto de elevación
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5, // Sombra para Android
+    alignItems: 'center',
+  },
+  input2: {
+    width: '100%', // Para que los inputs ocupen todo el ancho del card
+    height: 40,
+    borderColor: 'black',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    backgroundColor: '#FFFFFF', // Asegura fondo blanco en inputs
+    textAlign: 'center'
+  },
+  boton: {
+    backgroundColor: '#007bff', // Azul como en la imagen
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    width: '100%', // Que ocupe todo el ancho del card
+    marginTop: 10,
+  },
+  textoBoton: {
+    color: '#ffffff', // Texto blanco en el botón
+    fontWeight: 'bold',
+  },
+  
    
 });
 
