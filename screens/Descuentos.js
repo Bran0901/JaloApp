@@ -5,13 +5,11 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Dimensions,
   Modal,
 } from "react-native";
 import { Card, Text, Button, Avatar } from "react-native-paper";
-import styles from "../styles/styles"; // Asegúrate de importar tus estilos
-
-const screenHeight = Dimensions.get("window").height;
+import styles from "../styles/stylesDescuento/stylesLista"; // Importamos los nuevos estilos
+import { useNavigation } from "@react-navigation/native";
 
 const descuentos = [
   {
@@ -67,10 +65,10 @@ export default function DescuentosScreen() {
     item.title.toLowerCase().includes(search.toLowerCase())
   );
 
+  const navigation = useNavigation();
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#68004d" }}>
-      {" "}
-      {/* Fondo totalmente guinda */}
+    <View style={styles.container}>
       {/* Encabezado */}
       <View style={styles.header}>
         <View style={styles.imageContainer}>
@@ -93,61 +91,53 @@ export default function DescuentosScreen() {
         </TouchableOpacity>
       </View>
       <View style={styles.separator} />
-      {/* Contenido de Descuentos */}
-      <View style={{ flex: 1 }}>
-        {" "}
-        {/* Se eliminó padding innecesario */}
-        {/* Barra de búsqueda */}
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            marginBottom: 10,
-            paddingHorizontal: 16,
-          }}
-        >
-          <TextInput
-            placeholder="Buscar"
-            value={search}
-            onChangeText={setSearch}
-            style={{
-              flex: 1,
-              backgroundColor: "#eee",
-              padding: 10,
-              borderRadius: 20,
-              marginRight: 10,
-            }}
-          />
-          <Button mode="contained" style={{ backgroundColor: "#880E4F" }}>
-            Filtrar ▼
-          </Button>
-        </View>
-        {/* Lista de descuentos */}
-        <FlatList
-          data={filteredData}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={{ paddingHorizontal: 16 }} // Evita márgenes blancos
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => {
-                setSelectedItem(item);
-                setModalVisible(true);
-              }}
-            >
-              <Card style={{ marginBottom: 10, padding: 10 }}>
-                <Card.Title
-                  title={item.title}
-                  left={(props) => <Avatar.Text {...props} label={item.icon} />}
-                />
-                <Card.Content>
-                  <Text>{item.desc}</Text>
-                  <Text style={{ color: "gray" }}>{item.date}</Text>
-                </Card.Content>
-              </Card>
-            </TouchableOpacity>
-          )}
+
+      {/* Barra de búsqueda */}
+      <View style={styles.searchBarContainer}>
+        <TextInput
+          placeholder="Buscar"
+          value={search}
+          onChangeText={setSearch}
+          style={styles.searchInput}
         />
+        <Button mode="contained" style={styles.filterButton}>
+          Filtrar ▼
+        </Button>
       </View>
+
+      {/* Lista de descuentos */}
+      <FlatList
+        data={filteredData}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={styles.listContainer}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => {
+              setSelectedItem(item);
+              setModalVisible(true);
+            }}
+          >
+            <Card style={styles.card}>
+              <Card.Title
+                title={item.title}
+                left={(props) => <Avatar.Text {...props} label={item.icon} />}
+              />
+              <Card.Content>
+                <Text>{item.desc}</Text>
+                <Text style={styles.discountDate}>{item.date}</Text>
+              </Card.Content>
+            </Card>
+          </TouchableOpacity>
+        )}
+      />
+      <Button
+        mode="contained"
+        onPress={() => navigation.navigate("DescuentoForm")}
+        style={styles.button}
+      >
+        Agregar Descuento
+      </Button>
+
       {/* Modal de información */}
       <Modal
         visible={modalVisible}
@@ -155,35 +145,17 @@ export default function DescuentosScreen() {
         animationType="slide"
         onRequestClose={() => setModalVisible(false)}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: "white",
-              padding: 20,
-              borderRadius: 10,
-              width: "80%",
-            }}
-          >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
             {selectedItem && (
               <>
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-                  {selectedItem.title}
-                </Text>
-                <Text style={{ marginTop: 10 }}>{selectedItem.desc}</Text>
-                <Text style={{ color: "gray", marginTop: 5 }}>
-                  {selectedItem.date}
-                </Text>
+                <Text style={styles.modalTitle}>{selectedItem.title}</Text>
+                <Text style={styles.modalText}>{selectedItem.desc}</Text>
+                <Text style={styles.discountDate}>{selectedItem.date}</Text>
                 <Button
                   mode="contained"
                   onPress={() => setModalVisible(false)}
-                  style={{ marginTop: 20 }}
+                  style={styles.modalCloseButton}
                 >
                   Cerrar
                 </Button>
