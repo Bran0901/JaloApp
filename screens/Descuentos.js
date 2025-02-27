@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   FlatList,
@@ -6,70 +6,83 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  Alert,
+  ScrollView,
 } from "react-native";
 import { Card, Text, Button, Avatar } from "react-native-paper";
-import styles from "../styles/stylesDescuento/stylesLista"; // Importamos los nuevos estilos
+import styles from "../styles/stylesDescuento/stylesLista";
 import { useNavigation } from "@react-navigation/native";
-
-const descuentos = [
-  {
-    id: "1",
-    title: "Cinepolis",
-    desc: "2x1 En boleto general",
-    date: "Todos los jueves hasta el 30 de abril",
-    icon: "🛒",
-  },
-  {
-    id: "2",
-    title: "Pizza Little Caesars",
-    desc: "30% de descuento en pizzas",
-    date: "Todos los días hasta el 03 de mayo",
-    icon: "🛒",
-  },
-  {
-    id: "3",
-    title: "Tiendas 3B",
-    desc: "20% de descuento en productos",
-    date: "Todos los días hasta el 12 de julio",
-    icon: "🛒",
-  },
-  {
-    id: "4",
-    title: "Sephora MakeUp",
-    desc: "30% de descuento en maquillaje general",
-    date: "Todos los días hasta el 05 de mayo",
-    icon: "🛒",
-  },
-  {
-    id: "5",
-    title: "KFC",
-    desc: "10% en alitas de pollo",
-    date: "Todos los días hasta el 31 de diciembre",
-    icon: "🛒",
-  },
-  {
-    id: "6",
-    title: "Starbucks",
-    desc: "30% de descuento en frappes",
-    date: "Todos los días hasta el 09 de enero",
-    icon: "🛒",
-  },
-];
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
+import { db } from "../firebaseConfig";
 
 export default function DescuentosScreen() {
   const [search, setSearch] = useState("");
+  const [descuentos, setDescuentos] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
-
-  const filteredData = descuentos.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
-
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const fetchDescuentos = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "descuentos"));
+        const descuentosArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setDescuentos(descuentosArray);
+      } catch (error) {
+        console.error("Error obteniendo descuentos:", error);
+      }
+    };
+    fetchDescuentos();
+  }, []);
+
+  const eliminarDescuento = async (id, descuento) => {
+    Alert.alert(
+      "Confirmación",
+      "¿Está seguro de que desea eliminar el descuento?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
+        },
+        {
+          text: "Eliminar",
+          onPress: async () => {
+            try {
+              await addDoc(collection(db, "descuentoseliminados"), descuento);
+              await deleteDoc(doc(db, "descuentos", id));
+              setDescuentos(descuentos.filter((item) => item.id !== id));
+              setModalVisible(false);
+            } catch (error) {
+              console.error("Error al eliminar el descuento:", error);
+            }
+          },
+        },
+      ]
+    );
+  };
+
+  // Barra de búsqueda por texto y categoría
+  const searchData = descuentos.filter(
+    (item) =>
+      [item.titulo, item.empresa, item.direccion].some((field) =>
+        field?.toLowerCase().includes(search.toLowerCase())
+      ) &&
+      (!selectedCategory || item.categoria === selectedCategory)
+  );
 
   return (
     <View style={styles.container}>
-      {/* Encabezado */}
       <View style={styles.header}>
         <View style={styles.imageContainer}>
           <Image
@@ -92,22 +105,17 @@ export default function DescuentosScreen() {
       </View>
       <View style={styles.separator} />
 
-      {/* Barra de búsqueda */}
       <View style={styles.searchBarContainer}>
         <TextInput
-          placeholder="Buscar"
+          placeholder="Buscar por empresa, estado o localidad"
           value={search}
           onChangeText={setSearch}
           style={styles.searchInput}
         />
-        <Button mode="contained" style={styles.filterButton}>
-          Filtrar ▼
-        </Button>
       </View>
 
-      {/* Lista de descuentos */}
       <FlatList
-        data={filteredData}
+        data={searchData}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
@@ -119,17 +127,22 @@ export default function DescuentosScreen() {
           >
             <Card style={styles.card}>
               <Card.Title
-                title={item.title}
-                left={(props) => <Avatar.Text {...props} label={item.icon} />}
+                title={item.empresa}
+                left={(props) => <Avatar.Text {...props} label="🛒" />}
               />
               <Card.Content>
-                <Text>{item.desc}</Text>
-                <Text style={styles.discountDate}>{item.date}</Text>
+                <Text style={styles.modalTitle}>{item.titulo}</Text>
+                <Text style={styles.cardDesc}>{item.descripcion}</Text>
+                <Text style={styles.discountDate}>
+                  {item.fechaInicio} - {item.fechaFin}
+                </Text>
+                <Text>{item.direccion}</Text>
               </Card.Content>
             </Card>
           </TouchableOpacity>
         )}
       />
+
       <Button
         mode="contained"
         onPress={() => navigation.navigate("DescuentoForm")}
@@ -138,7 +151,7 @@ export default function DescuentosScreen() {
         Agregar Descuento
       </Button>
 
-      {/* Modal de información */}
+      {/* Modal de Detalles */}
       <Modal
         visible={modalVisible}
         transparent={true}
@@ -149,13 +162,39 @@ export default function DescuentosScreen() {
           <View style={styles.modalContent}>
             {selectedItem && (
               <>
-                <Text style={styles.modalTitle}>{selectedItem.title}</Text>
-                <Text style={styles.modalText}>{selectedItem.desc}</Text>
-                <Text style={styles.discountDate}>{selectedItem.date}</Text>
+                <Text style={styles.modalHeader}>{selectedItem.empresa}</Text>
+                <Text style={styles.modalTitle}>Descuento:</Text>
+                <Text style={styles.modalText}>{selectedItem.titulo}</Text>
+                <Text style={styles.modalTitle}>Descripción:</Text>
+                <Text style={styles.cardDesc}>{selectedItem.descripcion}</Text>
+                <Text style={styles.modalTitle}>Disponible desde:</Text>
+                <Text style={styles.modalText}>{selectedItem.fechaInicio}</Text>
+                <Text style={styles.modalTitle}>Hasta:</Text>
+                <Text style={styles.modalText}>{selectedItem.fechaFin}</Text>
+                <Text style={styles.modalTitle}>Dirección:</Text>
+                <Text>{selectedItem.direccion}</Text>
+                <Button
+                  mode="contained"
+                  onPress={() =>
+                    navigation.navigate("DescuentoFormAct", { selectedItem })
+                  }
+                  style={styles.button}
+                >
+                  Actualizar Descuento
+                </Button>
+                <Button
+                  mode="contained"
+                  onPress={() =>
+                    eliminarDescuento(selectedItem.id, selectedItem)
+                  }
+                  style={styles.button}
+                >
+                  Eliminar Descuento
+                </Button>
                 <Button
                   mode="contained"
                   onPress={() => setModalVisible(false)}
-                  style={styles.modalCloseButton}
+                  style={styles.button}
                 >
                   Cerrar
                 </Button>

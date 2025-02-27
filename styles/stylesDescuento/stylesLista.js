@@ -70,6 +70,9 @@ export default StyleSheet.create({
     marginBottom: 10,
     padding: 10,
   },
+  cardDesc: {
+    textAlign: "justify",
+  },
   button: {
     marginTop: 10,
     marginBottom: 10,
@@ -84,6 +87,13 @@ export default StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
+  modalHeader: {
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginTop: 5,
+    marginBottom: 15,
+  },
   modalContent: {
     backgroundColor: "white",
     padding: 20,
@@ -91,7 +101,7 @@ export default StyleSheet.create({
     width: "80%",
   },
   modalTitle: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
   },
   modalText: {

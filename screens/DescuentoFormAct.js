@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -13,23 +13,27 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { styles } from "../styles/stylesDescuento/stylesForm";
 import { db } from "../firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 
-const DescuentosForm = () => {
-  const [fechaInicio, setFechaInicio] = useState(new Date());
-  const [fechaFin, setFechaFin] = useState(new Date());
+const DescuentoFormAct = ({ route }) => {
+  const { selectedItem } = route.params; // Recibe el descuento seleccionado del modal
+
+  const [fechaInicio, setFechaInicio] = useState(
+    new Date(selectedItem.fechaInicio)
+  );
+  const [fechaFin, setFechaFin] = useState(new Date(selectedItem.fechaFin));
   const [showInicio, setShowInicio] = useState(false);
   const [showFin, setShowFin] = useState(false);
 
-  const [empresa, setEmpresa] = useState("");
-  const [titulo, setTitulo] = useState("");
-  const [descripcion, setDescripcion] = useState("");
-  const [direccion, setDireccion] = useState("");
+  const [empresa, setEmpresa] = useState(selectedItem.empresa);
+  const [titulo, setTitulo] = useState(selectedItem.titulo);
+  const [descripcion, setDescripcion] = useState(selectedItem.descripcion);
+  const [direccion, setDireccion] = useState(selectedItem.direccion);
 
   const navigation = useNavigation();
 
-  const handleAgregarDescuento = async () => {
+  const handleActualizarDescuento = async () => {
     if (
       !empresa.trim() ||
       !titulo.trim() ||
@@ -48,29 +52,42 @@ const DescuentosForm = () => {
       return;
     }
 
-    try {
-      await addDoc(collection(db, "descuentos"), {
-        empresa: empresa.trim(),
-        titulo: titulo.trim(),
-        descripcion: descripcion.trim(),
-        direccion: direccion.trim(),
-        fechaInicio: fechaInicio.toISOString().split("T")[0],
-        fechaFin: fechaFin.toISOString().split("T")[0],
-      });
+    // Muestra el alert de confirmación
+    Alert.alert(
+      "Confirmación",
+      "¿Está seguro que desea actualizar el descuento?",
+      [
+        {
+          text: "Sí",
+          onPress: async () => {
+            try {
+              const descuentoRef = doc(db, "descuentos", selectedItem.id);
+              await updateDoc(descuentoRef, {
+                empresa: empresa.trim(),
+                titulo: titulo.trim(),
+                descripcion: descripcion.trim(),
+                direccion: direccion.trim(),
+                fechaInicio: fechaInicio.toISOString().split("T")[0],
+                fechaFin: fechaFin.toISOString().split("T")[0],
+              });
 
-      Alert.alert("Éxito", "Descuento agregado exitosamente.");
-      setEmpresa("");
-      setTitulo("");
-      setDescripcion("");
-      setDireccion("");
-      setFechaInicio(new Date());
-      setFechaFin(new Date());
-
-      navigation.navigate("Descuentos");
-    } catch (error) {
-      console.error("Error al agregar descuento:", error);
-      Alert.alert("Error", "Hubo un problema al agregar el descuento.");
-    }
+              Alert.alert("Éxito", "Descuento actualizado exitosamente.");
+              navigation.navigate("Descuentos");
+            } catch (error) {
+              console.error("Error al actualizar descuento:", error);
+              Alert.alert(
+                "Error",
+                "Hubo un problema al actualizar el descuento."
+              );
+            }
+          },
+        },
+        {
+          text: "No",
+          onPress: () => {},
+        },
+      ]
+    );
   };
 
   return (
@@ -101,7 +118,7 @@ const DescuentosForm = () => {
         </View>
 
         <View style={styles.formContainer}>
-          <Text style={styles.title}>Agregar Descuento</Text>
+          <Text style={styles.title}>Actualizar Descuento</Text>
           <Text>Empresa</Text>
           <TextInput
             style={styles.input}
@@ -178,9 +195,9 @@ const DescuentosForm = () => {
           <View style={styles.buttonContainer}>
             <TouchableOpacity
               style={styles.addButton}
-              onPress={handleAgregarDescuento}
+              onPress={handleActualizarDescuento}
             >
-              <Text style={styles.buttonText}>Agregar</Text>
+              <Text style={styles.buttonText}>Actualizar</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cancelButton}
@@ -195,4 +212,4 @@ const DescuentosForm = () => {
   );
 };
 
-export default DescuentosForm;
+export default DescuentoFormAct;

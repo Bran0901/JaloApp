@@ -14,6 +14,7 @@ import Otro from "./screens/Otro";
 import Cuenta from "./screens/Cuenta";
 import Login from "./screens/Login";
 import DescuentoForm from "./screens/DescuentoForm";
+import DescuentoFormAct from "./screens/DescuentoFormAct";
 
 const Stack = createStackNavigator();
 
@@ -74,6 +75,11 @@ export default function App() {
         <Stack.Screen
           name="DescuentoForm"
           component={DescuentoForm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="DescuentoFormAct"
+          component={DescuentoFormAct}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
