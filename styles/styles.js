@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   separator: {
     width: "100%",
     height: 4,
-    backgroundColor: "#6A0F49", // Línea negra divisoria
+    backgroundColor: "black", // Línea negra divisoria
   },
   scrollContainer: {
     flexGrow: 1,
