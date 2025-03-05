@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   title2: {
     color: "#000",
-    fontWeight: "bold",
+    marginBottom:5
   },
   avatar: {
     width: 250,

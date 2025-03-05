@@ -68,9 +68,9 @@ const Cuenta = () => {
         <View style={styles.imageContainer}>
           <Image source={require('../assets/jovenes.png')} style={styles.logo} />
         </View>
-        <View style={styles.titleContainer}>
+        <TouchableOpacity style={styles.titleContainer} onPress={() => navigation.navigate('Inicio')}>
           <Image source={require('../assets/jaloLogo.png')} style={styles.titleLogo} />
-        </View>
+        </TouchableOpacity>
         <TouchableOpacity style={styles.imageContainer}>
           <Image source={require('../assets/usuario-seguro.png')} style={styles.userIcon} />
         </TouchableOpacity>
@@ -128,7 +128,7 @@ const Cuenta = () => {
 
               <Text style={{ color: 'black', marginTop: 10, fontWeight: 'bold' }}>o</Text>
 
-              <TouchableOpacity onPress={() => navigation.navigate('Login')} style={{ backgroundColor: '#66aefa', padding: 10,borderRadius: 5,alignItems: 'center',width: '100%', marginTop: 10, fontWeight: 'bold' }}>
+              <TouchableOpacity onPress={() => navigation.navigate('Login')} style={styles.boton}>
                 <Text style={styles.textoBoton}>Iniciar sesión</Text>
               </TouchableOpacity>
             </View>
