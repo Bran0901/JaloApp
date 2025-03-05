@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window"); // Obtiene tamaño de la pantalla
 
-const stylesVacantesForm = StyleSheet.create({
+const stylesProgramasForm = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6a0f49",
@@ -144,4 +144,4 @@ const stylesVacantesForm = StyleSheet.create({
   }
 });
 
-export default stylesVacantesForm;
+export default stylesProgramasForm;

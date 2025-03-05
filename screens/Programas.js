@@ -3,40 +3,41 @@ import {
   View, Text, Image, TouchableOpacity, ScrollView, Dimensions, TextInput, 
   Modal, Alert, ActivityIndicator 
 } from 'react-native';
-import { collection, onSnapshot, doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { collection, onSnapshot, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig';
-import styles from '../styles/stylesVacantes/stylesVacantes';
+import styles from '../styles/stylesProgramas/stylesProgramas';
 import { useNavigation } from '@react-navigation/native';
+import moment from 'moment';
 
 const screenHeight = Dimensions.get('window').height;
 
-const Vacantes = () => {
+const Programas = () => {
   const navigation = useNavigation();
-  const [vacantes, setVacantes] = useState([]);
+  const [programas, setProgramas] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedVacante, setSelectedVacante] = useState(null);
+  const [selectedPrograma, setSelectedPrograma] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(
-      collection(db, 'vacantes'),
+      collection(db, 'programas'),
       (snapshot) => {
-        const vacantesData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setVacantes(vacantesData);
+        const programasData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setProgramas(programasData);
         setLoading(false);
       },
       (error) => {
-        console.error('Error obteniendo vacantes:', error);
+        console.error('Error obteniendo programas:', error);
         setLoading(false);
       }
     );
     return () => unsubscribe();
   }, []);
 
-  const deleteVacante = async (id) => {
+  const deletePrograma = async (id) => {
     Alert.alert(
       'Confirmar Eliminación',
-      '¿Estás seguro de que deseas eliminar esta vacante?',
+      '¿Estás seguro de que deseas eliminar este programa?',
       [
         { text: 'Cancelar', style: 'cancel' },
         {
@@ -44,12 +45,12 @@ const Vacantes = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await deleteDoc(doc(db, 'vacantes', id));
-              Alert.alert('Eliminado', 'La vacante ha sido eliminada.');
-              setSelectedVacante(null);
+              await deleteDoc(doc(db, 'programas', id));
+              Alert.alert('Eliminado', 'El programa ha sido eliminado.');
+              setSelectedPrograma(null);
             } catch (error) {
               console.error('Error al eliminar:', error);
-              Alert.alert('Error', 'No se pudo eliminar la vacante.');
+              Alert.alert('Error', 'No se pudo eliminar el programa.');
             }
           }
         }
@@ -57,10 +58,9 @@ const Vacantes = () => {
     );
   };
 
-  const filteredVacantes = vacantes.filter(vacante =>
-    vacante.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    vacante.cargo.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    vacante.requisitos.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredProgramas = programas.filter(programa =>
+    programa.nombre?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    programa.descripcion?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -85,7 +85,7 @@ const Vacantes = () => {
       <View style={styles.searchBarContainer}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Buscar vacante por nombre"
+          placeholder="Buscar programa por nombre"
           placeholderTextColor="#94949b"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -97,17 +97,16 @@ const Vacantes = () => {
         <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />
       ) : (
         <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]} showsVerticalScrollIndicator={false}>
-          {filteredVacantes.map((vacante) => (
+          {filteredProgramas.map((programa) => (
             <TouchableOpacity 
-              key={vacante.id}   
+              key={programa.id}   
               style={styles.card} 
-              onPress={() => setSelectedVacante(vacante)}
+              onPress={() => setSelectedPrograma(programa)}
             >
-              <Text style={styles.cardTitle}>{vacante.nombre}</Text>
-              <Text style={styles.cardText}>Cargo: {vacante.cargo}</Text>
-              <Text style={styles.cardText}>Salario: {vacante.salario}</Text>
-              <Text style={styles.cardText}>Requisitos: {vacante.requisitos}</Text>
-              <Text style={styles.cardText}>Experiencia: {vacante.experiencia}</Text>
+              <Text style={styles.cardTitle}>{programa.nombre}</Text>
+              <Text style={styles.cardText}>Descripción: {programa.descripcion}</Text>
+              <Text style={styles.cardText}>Fecha: {moment(programa.fecha).format('DD/MM/YYYY')}</Text>
+              <Text style={styles.cardText}>Ubicación: {programa.ubicacion}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -115,39 +114,37 @@ const Vacantes = () => {
 
       <TouchableOpacity 
         style={styles.addButton} 
-        onPress={() => navigation.navigate('VacantesForm')}
+        onPress={() => navigation.navigate('ProgramasForm')}
       >
-        <Text style={styles.addButtonText}>Agregar Vacante</Text>
+        <Text style={styles.addButtonText}>Agregar Programa</Text>
       </TouchableOpacity>
 
-      {/* Modal para mostrar detalles de la vacante seleccionada */}
-            {/* Modal para mostrar detalles de la vacante seleccionada */}
-            <Modal 
-        visible={!!selectedVacante} 
+      {/* Modal para mostrar detalles del programa seleccionado */}
+      <Modal 
+        visible={!!selectedPrograma} 
         transparent 
         animationType="slide"
-        onRequestClose={() => setSelectedVacante(null)}
+        onRequestClose={() => setSelectedPrograma(null)}
       >
         <TouchableOpacity 
           style={styles.modalContainer} 
           activeOpacity={1} 
-          onPress={() => setSelectedVacante(null)}
+          onPress={() => setSelectedPrograma(null)}
         >
           <View style={styles.modalContent}>
-            {selectedVacante && (
+            {selectedPrograma && (
               <>
-                <Text style={styles.cardTitle}>{selectedVacante.nombre}</Text>
-                <Text style={styles.cardText}>Cargo: {selectedVacante.cargo}</Text>
-                <Text style={styles.cardText}>Salario: {selectedVacante.salario}</Text>
-                <Text style={styles.cardText}>Requisitos: {selectedVacante.requisitos}</Text>
-                <Text style={styles.cardText}>Experiencia: {selectedVacante.experiencia}</Text>
+                <Text style={styles.cardTitle}>{selectedPrograma.nombre}</Text>
+                <Text style={styles.cardText}>Descripción: {selectedPrograma.descripcion}</Text>
+                <Text style={styles.cardText}>Fecha: {moment(selectedPrograma.fecha).format('DD/MM/YYYY')}</Text>
+                <Text style={styles.cardText}>Ubicación: {selectedPrograma.ubicacion}</Text>
 
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity 
                     style={[styles.modalButton, styles.updateButton]} 
                     onPress={() => {
-                      navigation.navigate('VacantesForm', { vacante: selectedVacante });
-                      setSelectedVacante(null);
+                      navigation.navigate('ProgramasForm', { programa: selectedPrograma });
+                      setSelectedPrograma(null);
                     }}
                   >
                     <Text style={styles.buttonText}>Actualizar</Text>
@@ -155,13 +152,13 @@ const Vacantes = () => {
 
                   <TouchableOpacity 
                     style={[styles.modalButton, styles.deleteButton]} 
-                    onPress={() => deleteVacante(selectedVacante.id)}
+                    onPress={() => deletePrograma(selectedPrograma.id)}
                   >
                     <Text style={styles.buttonText}>Eliminar</Text>
                   </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.closeButton} onPress={() => setSelectedVacante(null)}>
+                <TouchableOpacity style={styles.closeButton} onPress={() => setSelectedPrograma(null)}>
                   <Text style={styles.buttonText}>Cerrar</Text>
                 </TouchableOpacity>
               </>
@@ -170,7 +167,6 @@ const Vacantes = () => {
         </TouchableOpacity>
       </Modal>
 
-            {/* Barra inferior */}
       <View style={styles.separator} />
 
       <View style={styles.footer}>
@@ -188,9 +184,9 @@ const Vacantes = () => {
         </TouchableOpacity>
         
       </View>
-
+      
     </View>
   );
 };
 
-export default Vacantes;
+export default Programas;

@@ -66,17 +66,17 @@ const Inicio = () => {
             <Image source={require('../assets/evento.png')} style={styles.icon} />
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Mapa')}>
-            <Text style={styles.title2}>Mapa</Text>
-            <Image source={require('../assets/mapa.png')} style={styles.icon} />
+          <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Programas')}>
+            <Text style={styles.title2}>Programas</Text>
+            <Image source={require('../assets/personas.png')} style={styles.icon} />
           </TouchableOpacity>
 
         </View>
 
         {/* Botón Otros */}
-        <TouchableOpacity style={styles.otrosButton} onPress={() => navigation.navigate('Otro')}>
-            <Text style={styles.title2}>Otro</Text>
-            <Image source={require('../assets/otro.png')} style={styles.icon} />
+        <TouchableOpacity style={styles.otrosButton} onPress={() => navigation.navigate('Mapa')}>
+            <Text style={styles.title2}>Mapa</Text>
+            <Image source={require('../assets/mapa.png')} style={styles.icon} />
         </TouchableOpacity>
 
 

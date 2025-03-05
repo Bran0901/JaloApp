@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-const stylesVacantes = StyleSheet.create({
+const stylesProgramas = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6a0f49",
@@ -181,4 +181,4 @@ const stylesVacantes = StyleSheet.create({
   },
 });
 
-export default stylesVacantes;
+export default stylesProgramas;

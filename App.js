@@ -8,14 +8,16 @@ import TarjetaJoven from "./screens/TarjetaJoven";
 import Perfil from "./screens/Perfil";
 import Descuentos from "./screens/Descuentos";
 import Vacantes from "./screens/Vacantes";
+import VacantesForm from "./screens/VacantesForm";
 import Eventos from "./screens/Eventos";
+import EventosForm from "./screens/EventosForm";
 import Mapa from "./screens/Mapa";
-import Otro from "./screens/Otro";
 import Cuenta from "./screens/Cuenta";
 import Login from "./screens/Login";
 import DescuentoForm from "./screens/DescuentoForm";
 import DescuentoFormAct from "./screens/DescuentoFormAct";
-import VacantesForm from "./screens/VacantesForm";
+import Programas from "./screens/Programas";
+import ProgramasForm from "./screens/ProgramasForm";
 
 const Stack = createStackNavigator();
 
@@ -59,8 +61,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Otro"
-          component={Otro}
+          name="Programas"
+          component={Programas}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -86,6 +88,16 @@ export default function App() {
         <Stack.Screen
           name="VacantesForm"
           component={VacantesForm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="EventosForm"
+          component={EventosForm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProgramasForm"
+          component={ProgramasForm}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
