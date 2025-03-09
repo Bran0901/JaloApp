@@ -15,6 +15,7 @@ import { styles } from "../styles/stylesDescuento/stylesForm";
 import { db } from "../firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
+import Encabezado from "../screens/Encabezado";
 
 const DescuentosForm = () => {
   const [fechaInicio, setFechaInicio] = useState(new Date());
@@ -79,26 +80,8 @@ const DescuentosForm = () => {
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.header}>
-          <View style={styles.imageContainer}>
-            <Image
-              source={require("../assets/jovenes.png")}
-              style={styles.logo}
-            />
-          </View>
-          <View style={styles.titleContainer}>
-            <Image
-              source={require("../assets/jaloLogo.png")}
-              style={styles.titleLogo}
-            />
-          </View>
-          <TouchableOpacity style={styles.imageContainer}>
-            <Image
-              source={require("../assets/usuario-seguro.png")}
-              style={styles.userIcon}
-            />
-          </TouchableOpacity>
-        </View>
+        {/* Encabezado */}
+        <Encabezado />
 
         <View style={styles.formContainer}>
           <Text style={styles.title}>Agregar Descuento</Text>

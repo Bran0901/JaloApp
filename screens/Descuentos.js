@@ -12,6 +12,7 @@ import {
 import { Card, Text, Button, Avatar } from "react-native-paper";
 import styles from "../styles/stylesDescuento/stylesLista";
 import { useNavigation } from "@react-navigation/native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {
   collection,
   getDocs,
@@ -20,6 +21,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { db } from "../firebaseConfig";
+import Encabezado from "../screens/Encabezado";
 
 export default function DescuentosScreen() {
   const [search, setSearch] = useState("");
@@ -83,34 +85,22 @@ export default function DescuentosScreen() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.imageContainer}>
-          <Image
-            source={require("../assets/jovenes.png")}
-            style={styles.logo}
-          />
-        </View>
-        <View style={styles.titleContainer}>
-          <Image
-            source={require("../assets/jaloLogo.png")}
-            style={styles.titleLogo}
-          />
-        </View>
-        <TouchableOpacity style={styles.imageContainer}>
-          <Image
-            source={require("../assets/usuario-seguro.png")}
-            style={styles.userIcon}
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.separator} />
+      {/* Encabezado */}
+      <Encabezado />
+      <Icon
+        name="arrow-left"
+        size={30}
+        color="white"
+        onPress={() => navigation.navigate("Inicio")}
+        style={{ alignSelf: "left", marginHorizontal: 20, marginVertical: 5 }}
+      />
 
       <View style={styles.searchBarContainer}>
         <TextInput
           placeholder="Buscar por empresa, estado o localidad"
           value={search}
           onChangeText={setSearch}
-          style={styles.searchInput}
+          style={styles.searchBar}
         />
       </View>
 

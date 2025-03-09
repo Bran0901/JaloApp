@@ -18,6 +18,7 @@ import DescuentoForm from "./screens/DescuentoForm";
 import DescuentoFormAct from "./screens/DescuentoFormAct";
 import Programas from "./screens/Programas";
 import ProgramasForm from "./screens/ProgramasForm";
+import Bienvenida from "./screens/Bienvenida";
 
 const Stack = createStackNavigator();
 
@@ -98,6 +99,11 @@ export default function App() {
         <Stack.Screen
           name="ProgramasForm"
           component={ProgramasForm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Bienvenida"
+          component={Bienvenida}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

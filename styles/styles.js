@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  icon: {
+    alignSelf: "left",
+    marginHorizontal: 20,
+  },
   header: {
     width: "100%",
     height: height * 0.12, // Ajuste dinámico según la pantalla
@@ -114,14 +118,16 @@ const styles = StyleSheet.create({
     height: 60,
   },
   title: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#ffffff",
+    color: "#000000",
+    textAlign: "center",
   },
   title2: {
     color: "#000",
-    marginBottom:5
+    marginBottom: 5,
+    textAlign: "left",
   },
   avatar: {
     width: 250,
@@ -151,8 +157,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   card: {
-    width: "90%", // Ajuste del ancho para mantener proporción
-    backgroundColor: "#FDEEEE", // Fondo blanco para el card
+    width: 310, // Ajuste del ancho para mantener proporción
+    backgroundColor: "#FFFFFF", // Fondo blanco para el card
     borderRadius: 10, // Bordes redondeados
     padding: 20, // Espaciado interno
     shadowColor: "#000", // Sombra para efecto de elevación
@@ -160,18 +166,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5, // Sombra para Android
-    alignItems: "center",
   },
   input2: {
-    width: "100%", // Para que los inputs ocupen todo el ancho del card
-    height: 40,
-    borderColor: "black",
-    borderWidth: 1,
+    backgroundColor: "#f0f0f0",
     borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    backgroundColor: "#FFFFFF", // Asegura fondo blanco en inputs
-    textAlign: "center",
+    padding: 10,
+    marginVertical: 8,
+    height: 40,
+    width: "100%",
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 15,
   },
   boton: {
     backgroundColor: "#007bff", // Azul como en la imagen
@@ -182,8 +187,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   textoBoton: {
+    backgroundColor: "#650D36",
+    padding: 10,
+    borderRadius: 5,
     color: "#ffffff", // Texto blanco en el botón
-    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

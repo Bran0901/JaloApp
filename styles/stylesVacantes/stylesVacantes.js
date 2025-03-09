@@ -19,6 +19,12 @@ const stylesVacantes = StyleSheet.create({
     paddingTop: 35,
     backgroundColor: "#FFFFFF",
   },
+  button: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: "#c83182",
+    color: "#00000",
+  },
   imageContainer: {
     flex: 1,
     alignItems: "center",
@@ -80,15 +86,15 @@ const stylesVacantes = StyleSheet.create({
     marginBottom: 5,
   },
   addButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 100,
     left: 20,
     right: 20,
-    backgroundColor: '#C83182',
+    backgroundColor: "#C83182",
     padding: 15,
     borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     elevation: 5, // Sombra para que resalte
   },
   addButtonText: {
@@ -96,15 +102,19 @@ const stylesVacantes = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  searchBarContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+    paddingHorizontal: 16,
+  },
   searchBar: {
-    backgroundColor: "#ffffff",
-    paddingVertical: 10,
-    paddingHorizontal: 30,
+    flex: 1,
+    backgroundColor: "#FFFF",
+    padding: 10,
     borderRadius: 20,
-    fontSize: 16,
-    marginHorizontal: 15,
-    elevation: 2,
-    marginTop: 30, // Reducido para mejor espacio
+    marginRight: 10,
+    marginBottom: -10,
   },
   modalContainer: {
     flex: 1,
@@ -125,27 +135,27 @@ const stylesVacantes = StyleSheet.create({
     elevation: 5,
   },
   buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 20,
   },
   modalButton: {
     padding: 10,
     borderRadius: 5,
-    alignItems: 'center',
+    alignItems: "center",
     flex: 1,
     marginHorizontal: 5,
   },
   updateButton: {
-    backgroundColor: '#C83182', // Verde para actualizar
+    backgroundColor: "#C83182", // Verde para actualizar
   },
   deleteButton: {
-    backgroundColor: '#C83182', // Rojo para eliminar
+    backgroundColor: "#C83182", // Rojo para eliminar
   },
   buttonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },  
+    color: "white",
+    fontWeight: "bold",
+  },
   loadingIndicator: {
     marginTop: 20,
     alignItems: "center",

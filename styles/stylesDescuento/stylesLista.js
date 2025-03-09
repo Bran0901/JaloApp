@@ -53,12 +53,13 @@ export default StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 16,
   },
-  searchInput: {
+  searchBar: {
     flex: 1,
-    backgroundColor: "#eee",
+    backgroundColor: "#FFFF",
     padding: 10,
     borderRadius: 20,
     marginRight: 10,
+    marginBottom: 10,
   },
   filterButton: {
     backgroundColor: "#880E4F",
