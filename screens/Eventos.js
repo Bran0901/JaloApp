@@ -19,6 +19,7 @@ import moment from "moment";
 import Encabezado from "../screens/Encabezado";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Card, Avatar } from "react-native-paper";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -116,20 +117,30 @@ const Eventos = () => {
           showsVerticalScrollIndicator={false}
         >
           {filteredEventos.map((evento) => (
-            <TouchableOpacity
+            <Card
               key={evento.id}
               style={styles.card}
               onPress={() => setSelectedEvento(evento)}
             >
-              <Text style={styles.cardTitle}>{evento.nombre}</Text>
-              <Text style={styles.cardText}>
-                Descripción: {evento.descripcion}
+              <Card.Title
+                style={{ fontWeight: "bold" }}
+                title={evento.nombre}
+                left={(props) => (
+                  <Avatar.Icon
+                    {...props}
+                    icon="calendar"
+                    color="white"
+                    backgroundColor="#6a0f49"
+                  />
+                )}
+              />
+
+              <Text style={styles.cardText}>{evento.descripcion}</Text>
+              <Text style={styles.cardText2}>
+                {moment(evento.fecha).format("DD/MM/YYYY")}
               </Text>
-              <Text style={styles.cardText}>
-                Fecha: {moment(evento.fecha).format("DD/MM/YYYY")}
-              </Text>
-              <Text style={styles.cardText}>Ubicación: {evento.ubicacion}</Text>
-            </TouchableOpacity>
+              <Text style={styles.cardText}>{evento.ubicacion}</Text>
+            </Card>
           ))}
         </ScrollView>
       )}
@@ -158,15 +169,14 @@ const Eventos = () => {
             {selectedEvento && (
               <>
                 <Text style={styles.cardTitle}>{selectedEvento.nombre}</Text>
-                <Text style={styles.cardText}>
-                  Descripción: {selectedEvento.descripcion}
+                <Text style={styles.modalTitle}>Descripción:</Text>
+                <Text style={styles.modalText}>
+                  {selectedEvento.descripcion}
                 </Text>
-                <Text style={styles.cardText}>
-                  Fecha: {selectedEvento.fecha}
-                </Text>
-                <Text style={styles.cardText}>
-                  Ubicación: {selectedEvento.ubicacion}
-                </Text>
+                <Text style={styles.modalTitle}>Fecha:</Text>
+                <Text style={styles.modalText}>{selectedEvento.fecha}</Text>
+                <Text style={styles.modalTitle}>Ubicación:</Text>
+                <Text style={styles.modalText}>{selectedEvento.ubicacion}</Text>
 
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity

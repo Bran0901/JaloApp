@@ -18,7 +18,7 @@ const stylesEventos = StyleSheet.create({
   },
   card: {
     width: width * 0.9, // Se ajusta dinámicamente al ancho de la pantalla
-    backgroundColor: "#FDEEEE",
+    backgroundColor: "#FFFFFF",
     borderRadius: 10,
     padding: 20,
     shadowColor: "#000",
@@ -29,10 +29,11 @@ const stylesEventos = StyleSheet.create({
     marginBottom: 15,
   },
   cardTitle: {
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 5,
-    color: "#333",
+    textAlign: "center",
+    marginTop: 5,
+    marginBottom: 15,
   },
   cardText: {
     fontSize: 15,
@@ -81,7 +82,7 @@ const stylesEventos = StyleSheet.create({
   },
   modalContent: {
     width: "85%", // Ajustar tamaño
-    backgroundColor: "#FDEEEE",
+    backgroundColor: "#FFFFFF",
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
@@ -150,6 +151,35 @@ const stylesEventos = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: "#c83182",
+  },
+  cardTitle2: {
+    fontSize: 20,
+    color: "#333",
+    textAlign: "left", // Alineado a la izquierda
+    flexWrap: "wrap", // Para que no se desborde el texto
+    width: "100%", // Ocupar todo el ancho disponible
+    marginBottom: 5,
+    fontWeight: "bold",
+  },
+  cardText2: {
+    fontSize: 15,
+    color: "gray",
+    textAlign: "center", // Alineado a la izquierda
+    flexWrap: "wrap", // Para que no se desborde el texto
+    width: "100%", // Ocupar todo el ancho disponible
+    marginBottom: 5,
+  },
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "center",
+  },
+  modalText: {
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "center",
   },
 });
 

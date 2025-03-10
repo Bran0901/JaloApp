@@ -24,6 +24,7 @@ import { useNavigation } from "@react-navigation/native";
 import Encabezado from "../screens/Encabezado";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Card, Avatar } from "react-native-paper";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -122,21 +123,29 @@ const Vacantes = () => {
           showsVerticalScrollIndicator={false}
         >
           {filteredVacantes.map((vacante) => (
-            <TouchableOpacity
+            <Card
               key={vacante.id}
               style={styles.card}
               onPress={() => setSelectedVacante(vacante)}
             >
-              <Text style={styles.cardTitle}>{vacante.nombre}</Text>
-              <Text style={styles.cardText}>Cargo: {vacante.cargo}</Text>
-              <Text style={styles.cardText}>Salario: {vacante.salario}</Text>
-              <Text style={styles.cardText}>
-                Requisitos: {vacante.requisitos}
-              </Text>
+              <Card.Title
+                title={vacante.nombre}
+                left={(props) => (
+                  <Avatar.Icon
+                    {...props}
+                    icon="briefcase"
+                    color="white"
+                    backgroundColor="#6a0f49"
+                  />
+                )}
+              />
+              <Text style={styles.cardTitle2}>{vacante.cargo}</Text>
+              <Text style={styles.cardText2}>{vacante.salario}</Text>
+              <Text style={styles.cardDesc}>{vacante.requisitos}</Text>
               <Text style={styles.cardText}>
                 Experiencia: {vacante.experiencia}
               </Text>
-            </TouchableOpacity>
+            </Card>
           ))}
         </ScrollView>
       )}
@@ -164,17 +173,17 @@ const Vacantes = () => {
             {selectedVacante && (
               <>
                 <Text style={styles.cardTitle}>{selectedVacante.nombre}</Text>
-                <Text style={styles.cardText}>
-                  Cargo: {selectedVacante.cargo}
+                <Text style={styles.modalTitle}>Cargo:</Text>
+                <Text style={styles.modalText}>{selectedVacante.cargo}</Text>
+                <Text style={styles.modalTitle}>Salario:</Text>
+                <Text style={styles.modalText}>{selectedVacante.salario}</Text>
+                <Text style={styles.modalTitle}>Descripción:</Text>
+                <Text style={styles.modalTextDesc}>
+                  {selectedVacante.requisitos}
                 </Text>
-                <Text style={styles.cardText}>
-                  Salario: {selectedVacante.salario}
-                </Text>
-                <Text style={styles.cardText}>
-                  Requisitos: {selectedVacante.requisitos}
-                </Text>
-                <Text style={styles.cardText}>
-                  Experiencia: {selectedVacante.experiencia}
+                <Text style={styles.modalTitle}>Experiencia:</Text>
+                <Text style={styles.modalText}>
+                  {selectedVacante.experiencia}
                 </Text>
 
                 <View style={styles.buttonContainer}>

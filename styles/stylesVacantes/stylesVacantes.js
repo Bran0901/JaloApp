@@ -61,7 +61,7 @@ const stylesVacantes = StyleSheet.create({
   },
   card: {
     width: width * 0.9, // Se ajusta dinámicamente al ancho de la pantalla
-    backgroundColor: "#FDEEEE",
+    backgroundColor: "#FFFFFF",
     borderRadius: 10,
     padding: 20,
     shadowColor: "#000",
@@ -72,10 +72,11 @@ const stylesVacantes = StyleSheet.create({
     marginBottom: 15,
   },
   cardTitle: {
-    fontSize: 19,
+    fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 5,
-    color: "#333",
+    textAlign: "center",
+    marginTop: 5,
+    marginBottom: 15,
   },
   cardText: {
     fontSize: 15,
@@ -84,6 +85,23 @@ const stylesVacantes = StyleSheet.create({
     flexWrap: "wrap", // Para que no se desborde el texto
     width: "100%", // Ocupar todo el ancho disponible
     marginBottom: 5,
+  },
+  cardText2: {
+    fontSize: 15,
+    color: "gray",
+    textAlign: "left", // Alineado a la izquierda
+    flexWrap: "wrap", // Para que no se desborde el texto
+    width: "100%", // Ocupar todo el ancho disponible
+    marginBottom: 5,
+  },
+  cardTitle2: {
+    fontSize: 16,
+    color: "#333",
+    textAlign: "center", // Alineado a la izquierda
+    flexWrap: "wrap", // Para que no se desborde el texto
+    width: "100%", // Ocupar todo el ancho disponible
+    marginBottom: 5,
+    fontWeight: "bold",
   },
   addButton: {
     position: "absolute",
@@ -124,7 +142,7 @@ const stylesVacantes = StyleSheet.create({
   },
   modalContent: {
     width: "85%", // Ajustar tamaño
-    backgroundColor: "#FDEEEE",
+    backgroundColor: "#FFFFFF",
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
@@ -188,6 +206,29 @@ const stylesVacantes = StyleSheet.create({
     maxWidth: 40,
     height: 35,
     resizeMode: "contain",
+  },
+
+  modalTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "left",
+  },
+  modalText: {
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "left",
+  },
+  modalTextDesc: {
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "justify",
+  },
+  cardDesc: {
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "justify",
   },
 });
 

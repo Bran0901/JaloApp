@@ -73,6 +73,13 @@ export default StyleSheet.create({
   },
   cardDesc: {
     textAlign: "justify",
+    marginTop: 2,
+    marginBottom: 2,
+  },
+  direccion: {
+    textAlign: "center",
+    marginTop: 2,
+    marginBottom: 2,
   },
   button: {
     marginTop: 10,
@@ -81,6 +88,9 @@ export default StyleSheet.create({
   },
   discountDate: {
     color: "gray",
+    marginTop: 2,
+    marginBottom: 2,
+    textAlign: "center",
   },
   modalOverlay: {
     flex: 1,
@@ -102,14 +112,37 @@ export default StyleSheet.create({
     width: "80%",
   },
   modalTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "center",
+  },
+  modalTitle2: {
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 2,
+    marginBottom: 2,
+    textAlign: "center",
   },
   modalText: {
-    marginTop: 10,
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "center",
+  },
+  modalTextDesc: {
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "justify",
   },
   modalCloseButton: {
     marginTop: 20,
     backgroundColor: "#6a0f49",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+    alignItems: "center",
   },
 });

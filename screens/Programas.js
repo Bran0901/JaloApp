@@ -19,7 +19,7 @@ import moment from "moment";
 import Encabezado from "../screens/Encabezado";
 import { Button } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-
+import { Card, Avatar } from "react-native-paper";
 const screenHeight = Dimensions.get("window").height;
 
 const Programas = () => {
@@ -116,22 +116,29 @@ const Programas = () => {
           showsVerticalScrollIndicator={false}
         >
           {filteredProgramas.map((programa) => (
-            <TouchableOpacity
+            <Card
               key={programa.id}
               style={styles.card}
               onPress={() => setSelectedPrograma(programa)}
             >
+              <Card.Title
+                title={"Programa Gubernamental"}
+                left={(props) => (
+                  <Avatar.Icon
+                    {...props}
+                    icon="check"
+                    color="white"
+                    backgroundColor="#6a0f49"
+                  />
+                )}
+              />
               <Text style={styles.cardTitle}>{programa.nombre}</Text>
-              <Text style={styles.cardText}>
-                Descripción: {programa.descripcion}
+              <Text style={styles.cardTextDesc}>{programa.descripcion}</Text>
+              <Text style={styles.cardDate}>
+                {moment(programa.fecha).format("DD/MM/YYYY")}
               </Text>
-              <Text style={styles.cardText}>
-                Fecha: {moment(programa.fecha).format("DD/MM/YYYY")}
-              </Text>
-              <Text style={styles.cardText}>
-                Ubicación: {programa.ubicacion}
-              </Text>
-            </TouchableOpacity>
+              <Text style={styles.cardText}>{programa.ubicacion}</Text>
+            </Card>
           ))}
         </ScrollView>
       )}
@@ -159,15 +166,20 @@ const Programas = () => {
           <View style={styles.modalContent}>
             {selectedPrograma && (
               <>
-                <Text style={styles.cardTitle}>{selectedPrograma.nombre}</Text>
-                <Text style={styles.cardText}>
-                  Descripción: {selectedPrograma.descripcion}
+                <Text style={styles.modalHeader}>
+                  {selectedPrograma.nombre}
                 </Text>
-                <Text style={styles.cardText}>
-                  Fecha: {moment(selectedPrograma.fecha).format("DD/MM/YYYY")}
+                <Text style={styles.modalTitle}>Descripción:</Text>
+                <Text style={styles.modalText}>
+                  {selectedPrograma.descripcion}
                 </Text>
-                <Text style={styles.cardText}>
-                  Ubicación: {selectedPrograma.ubicacion}
+                <Text style={styles.modalTitle}>Fecha:</Text>
+                <Text style={styles.modalText}>
+                  {moment(selectedPrograma.fecha).format("DD/MM/YYYY")}
+                </Text>
+                <Text style={styles.modalTitle}>Ubicación:</Text>
+                <Text style={styles.modalText}>
+                  {selectedPrograma.ubicacion}
                 </Text>
 
                 <View style={styles.buttonContainer}>

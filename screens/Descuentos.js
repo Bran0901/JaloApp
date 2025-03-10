@@ -118,15 +118,22 @@ export default function DescuentosScreen() {
             <Card style={styles.card}>
               <Card.Title
                 title={item.empresa}
-                left={(props) => <Avatar.Text {...props} label="🛒" />}
+                left={(props) => (
+                  <Avatar.Icon
+                    {...props}
+                    icon="cart"
+                    color="white"
+                    backgroundColor="#6a0f49"
+                  />
+                )}
               />
               <Card.Content>
-                <Text style={styles.modalTitle}>{item.titulo}</Text>
+                <Text style={styles.modalTitle2}>{item.titulo}</Text>
                 <Text style={styles.cardDesc}>{item.descripcion}</Text>
                 <Text style={styles.discountDate}>
                   {item.fechaInicio} - {item.fechaFin}
                 </Text>
-                <Text>{item.direccion}</Text>
+                <Text style={styles.direccion}>{item.direccion}</Text>
               </Card.Content>
             </Card>
           </TouchableOpacity>
@@ -156,31 +163,37 @@ export default function DescuentosScreen() {
                 <Text style={styles.modalTitle}>Descuento:</Text>
                 <Text style={styles.modalText}>{selectedItem.titulo}</Text>
                 <Text style={styles.modalTitle}>Descripción:</Text>
-                <Text style={styles.cardDesc}>{selectedItem.descripcion}</Text>
+                <Text style={styles.modalTextDesc}>
+                  {selectedItem.descripcion}
+                </Text>
                 <Text style={styles.modalTitle}>Disponible desde:</Text>
                 <Text style={styles.modalText}>{selectedItem.fechaInicio}</Text>
                 <Text style={styles.modalTitle}>Hasta:</Text>
                 <Text style={styles.modalText}>{selectedItem.fechaFin}</Text>
                 <Text style={styles.modalTitle}>Dirección:</Text>
-                <Text>{selectedItem.direccion}</Text>
-                <Button
-                  mode="contained"
-                  onPress={() =>
-                    navigation.navigate("DescuentoFormAct", { selectedItem })
-                  }
-                  style={styles.button}
-                >
-                  Actualizar Descuento
-                </Button>
-                <Button
-                  mode="contained"
-                  onPress={() =>
-                    eliminarDescuento(selectedItem.id, selectedItem)
-                  }
-                  style={styles.button}
-                >
-                  Eliminar Descuento
-                </Button>
+                <Text style={styles.modalText}>{selectedItem.direccion}</Text>
+
+                <View style={styles.buttonContainer}>
+                  <Button
+                    mode="contained"
+                    onPress={() =>
+                      navigation.navigate("DescuentoFormAct", { selectedItem })
+                    }
+                    style={styles.button}
+                  >
+                    Actualizar
+                  </Button>
+                  <Button
+                    mode="contained"
+                    onPress={() =>
+                      eliminarDescuento(selectedItem.id, selectedItem)
+                    }
+                    style={styles.button}
+                  >
+                    Eliminar
+                  </Button>
+                </View>
+
                 <Button
                   mode="contained"
                   onPress={() => setModalVisible(false)}
