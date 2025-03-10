@@ -86,10 +86,10 @@ const ProgramasForm = ({ navigation, route }) => {
           {/* Encabezado */}
           <Encabezado />
 
-          <View style={styles.cardWrapper}>
-            <Card style={styles.card}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <Card style={styles.formContainer}>
               <Card.Content>
-                <Text style={styles.title}>
+                <Text style={styles.titleForm}>
                   {programa ? "Editar Programa" : "Agregar Programa"}
                 </Text>
 
@@ -97,27 +97,18 @@ const ProgramasForm = ({ navigation, route }) => {
                   contentContainerStyle={styles.scrollContent}
                   keyboardShouldPersistTaps="handled"
                 >
-                  <Text style={styles.title2}>Nombre</Text>
+                  <Text style={styles.textForm}>Nombre</Text>
                   <TextInput
-                    style={styles.input}
+                    style={styles.inputForm}
                     placeholder="Ingrese el nombre"
                     value={nombre}
                     onChangeText={setNombre}
                   />
 
-                  <Text style={styles.title2}>Fecha</Text>
+                  <Text style={styles.textForm}>Fecha</Text>
                   <TouchableOpacity
                     onPress={() => setMostrarCalendario(true)}
-                    style={{
-                      paddingTop: 10,
-                      width: "100%",
-                      height: 40,
-                      borderWidth: 1,
-                      borderRadius: 5,
-                      marginBottom: 20,
-                      backgroundColor: "#FFFFFF",
-                      alignItems: "center",
-                    }}
+                    style={styles.inputForm}
                   >
                     <Text style={{ color: "#555" }}>
                       {moment(fecha).format("DD/MM/YYYY")}
@@ -133,17 +124,17 @@ const ProgramasForm = ({ navigation, route }) => {
                     onCancel={() => setMostrarCalendario(false)}
                   />
 
-                  <Text style={styles.title2}>Ubicación</Text>
+                  <Text style={styles.textForm}>Ubicación</Text>
                   <TextInput
-                    style={styles.input}
+                    style={styles.inputForm}
                     placeholder="Ingrese la ubicación"
                     value={ubicacion}
                     onChangeText={setUbicacion}
                   />
 
-                  <Text style={styles.title2}>Descripción</Text>
+                  <Text style={styles.textForm}>Descripción</Text>
                   <TextInput
-                    style={styles.input2}
+                    style={styles.inputForm}
                     placeholder="Ingrese la descripcion"
                     value={descripcion}
                     onChangeText={setDescripcion}
@@ -152,15 +143,25 @@ const ProgramasForm = ({ navigation, route }) => {
                     placeholderTextColor="#94949b"
                   />
                 </ScrollView>
-
-                <TouchableOpacity style={styles.button} onPress={handleGuardar}>
-                  <Text style={styles.buttonText}>
-                    {programa ? "Actualizar Programa" : "Guardar Programa"}
-                  </Text>
-                </TouchableOpacity>
+                <View style={styles.buttonContainerForm}>
+                  <TouchableOpacity
+                    style={styles.addButtonForm}
+                    onPress={handleGuardar}
+                  >
+                    <Text style={styles.buttonTextForm}>
+                      {programa ? "Actualizar" : "Agregar"}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.cancelButtonForm}
+                    onPress={() => navigation.navigate("Programas")}
+                  >
+                    <Text style={styles.buttonTextForm}>Cancelar</Text>
+                  </TouchableOpacity>
+                </View>
               </Card.Content>
             </Card>
-          </View>
+          </ScrollView>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

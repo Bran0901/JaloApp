@@ -53,27 +53,26 @@ const stylesCuenta = StyleSheet.create({
     justifyContent: "center",
   },
   card: {
-    width: "90%",
-    backgroundColor: "#FDEEEE",
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: "#000",
+    width: 310, // Ajuste del ancho para mantener proporción
+    backgroundColor: "#FFFFFF", // Fondo blanco para el card
+    borderRadius: 10, // Bordes redondeados
+    padding: 20, // Espaciado interno
+    shadowColor: "#000", // Sombra para efecto de elevación
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5,
-    alignItems: "center",
+    elevation: 5, // Sombra para Android
   },
   input2: {
-    width: "100%",
-    height: 40,
-    borderColor: "black",
-    borderWidth: 1,
+    backgroundColor: "#f0f0f0",
     borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    backgroundColor: "#FFFFFF",
-    textAlign: "center",
+    padding: 10,
+    marginVertical: 8,
+    height: 40,
+    width: "100%",
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 15,
   },
   boton: {
     backgroundColor: "#007bff",
@@ -108,10 +107,39 @@ const stylesCuenta = StyleSheet.create({
     resizeMode: "contain",
   },
   title: {
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
-    color: "#ffffff",
+    color: "#000000",
+    textAlign: "center",
+  },
+  title2: {
+    color: "#000",
+    marginBottom: 5,
+    textAlign: "left",
+    fontWeight: "bold",
+  },
+  cancelButton: {
+    backgroundColor: "#A67B89",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  addButton: {
+    backgroundColor: "#650D36",
+    padding: 10,
+    borderRadius: 5,
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 20,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
 

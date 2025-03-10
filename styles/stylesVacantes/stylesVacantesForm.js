@@ -55,42 +55,35 @@ const stylesVacantesForm = StyleSheet.create({
     width: "90%",
   },
   cardWrapper: {
-    width: "90%",  // 🔹 Mantiene el tamaño sin overflow
-    alignItems: "center", 
+    width: "90%", // 🔹 Mantiene el tamaño sin overflow
+    alignItems: "center",
     justifyContent: "center",
   },
   card: {
-    width: "100%",
-    backgroundColor: "#FDEEEE",
-    padding: 20,
-    borderRadius: 10,
-    shadowColor: "#000",
+    width: 310, // Ajuste del ancho para mantener proporción
+    backgroundColor: "#FFFFFF", // Fondo blanco para el card
+    borderRadius: 10, // Bordes redondeados
+    padding: 15, // Espaciado interno
+    shadowColor: "#000", // Sombra para efecto de elevación
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5,
-    
+    elevation: 5, // Sombra para Android
   },
   scrollContent: {
     flexGrow: 1,
   },
   title: {
-    fontSize: 28,
     fontWeight: "bold",
-    marginBottom: 20,
-    color: "#333",
+    fontSize: 20,
     textAlign: "center",
+    marginBottom: 20,
   },
   input: {
-    width: "100%",
-    height: 40,
-    borderColor: "black",
-    borderWidth: 1,
+    backgroundColor: "#f0f0f0",
     borderRadius: 5,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-    backgroundColor: "#FFFFFF",
-    textAlign: "center",
+    padding: 10,
+    marginVertical: 8,
   },
   input2: {
     width: "100%",
@@ -140,8 +133,44 @@ const stylesVacantesForm = StyleSheet.create({
     resizeMode: "contain",
   },
   title2: {
-    textAlign: 'center'
-  }
+    color: "#000",
+    marginBottom: 5,
+    textAlign: "left",
+    fontWeight: "bold",
+  },
+  addButton: {
+    backgroundColor: "#650D36",
+    padding: 10,
+    borderRadius: 5,
+  },
+  cancelButton: {
+    backgroundColor: "#A67B89",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 30,
+  },
+  formContainer: {
+    width: "90%",
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    marginTop: 45,
+    alignSelf: "center",
+  },
 });
 
 export default stylesVacantesForm;

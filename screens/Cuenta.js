@@ -96,13 +96,6 @@ const Cuenta = () => {
             showsVerticalScrollIndicator={false}
             keyboardShouldPersistTaps="handled"
           >
-            <Text style={styles.title}>Bienvenido a la Jalo App</Text>
-            <Image
-              source={require("../assets/jaloLogo.png")}
-              style={{ width: 100, height: 100, marginBottom: 20 }}
-            />
-            <Text style={styles.title}>REGÍSTRATE</Text>
-
             {mensajeExito ? (
               <Text style={{ color: "white", marginBottom: 10, fontSize: 20 }}>
                 {mensajeExito}
@@ -110,6 +103,7 @@ const Cuenta = () => {
             ) : null}
 
             <View style={styles.card}>
+              <Text style={styles.title}>REGÍSTRATE</Text>
               <Text style={styles.title2}>Nombre</Text>
               <TextInput
                 style={styles.input2}
@@ -121,16 +115,7 @@ const Cuenta = () => {
               <Text style={styles.title2}>Fecha de Nacimiento</Text>
               <TouchableOpacity
                 onPress={() => setMostrarCalendario(true)}
-                style={{
-                  paddingTop: 10,
-                  width: "100%",
-                  height: 40,
-                  borderWidth: 1,
-                  borderRadius: 5,
-                  marginBottom: 20,
-                  backgroundColor: "#FFFFFF",
-                  alignItems: "center",
-                }}
+                style={styles.input2}
               >
                 <Text style={{ color: "#555" }}>
                   {moment(fechaNacimiento).format("DD/MM/YYYY")}
@@ -158,21 +143,17 @@ const Cuenta = () => {
                 autoCorrect={false}
               />
 
-              <TouchableOpacity onPress={handleRegistro} style={styles.boton}>
-                <Text style={styles.textoBoton}>Registrar</Text>
-              </TouchableOpacity>
-
-              <Text
-                style={{ color: "black", marginTop: 10, fontWeight: "bold" }}
-              >
-                o
-              </Text>
-
               <TouchableOpacity
-                onPress={() => navigation.navigate("Login")}
-                style={styles.boton}
+                onPress={handleRegistro}
+                style={styles.addButton}
               >
-                <Text style={styles.textoBoton}>Iniciar sesión</Text>
+                <Text style={styles.buttonText}>Registrar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigation.navigate("Bienvenida")}
+                style={styles.cancelButton}
+              >
+                <Text style={styles.buttonText}>Cancelar</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>

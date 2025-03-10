@@ -85,31 +85,37 @@ const DescuentosForm = () => {
 
         <View style={styles.formContainer}>
           <Text style={styles.title}>Agregar Descuento</Text>
-          <Text>Empresa</Text>
+          <Text style={styles.text}>Empresa</Text>
           <TextInput
             style={styles.input}
             value={empresa}
             onChangeText={setEmpresa}
+            placeholder="Ingrese la empresa"
+            placeholderTextColor="#94949b"
           />
 
-          <Text>Título</Text>
+          <Text style={styles.text}>Título</Text>
           <TextInput
             style={styles.input}
             value={titulo}
             onChangeText={setTitulo}
+            placeholder="Ingrese el titulo"
+            placeholderTextColor="#94949b"
           />
 
-          <Text>Descripción</Text>
+          <Text style={styles.text}>Descripción</Text>
           <TextInput
             style={styles.input}
             value={descripcion}
             onChangeText={setDescripcion}
+            placeholder="Ingrese la descripcion"
+            placeholderTextColor="#94949b"
             multiline
           />
 
           <View style={styles.row}>
             <View>
-              <Text>Fecha de inicio</Text>
+              <Text style={styles.text}>Fecha de inicio</Text>
               <TouchableOpacity
                 onPress={() => setShowInicio(true)}
                 style={styles.input}
@@ -130,7 +136,7 @@ const DescuentosForm = () => {
             </View>
 
             <View>
-              <Text>Fecha de fin</Text>
+              <Text style={styles.text}>Fecha de fin</Text>
               <TouchableOpacity
                 onPress={() => setShowFin(true)}
                 style={styles.input}
@@ -151,11 +157,13 @@ const DescuentosForm = () => {
             </View>
           </View>
 
-          <Text>Dirección</Text>
+          <Text style={styles.text}>Dirección</Text>
           <TextInput
             style={styles.input}
             value={direccion}
             onChangeText={setDireccion}
+            placeholder="Ingrese la dirección"
+            placeholderTextColor="#94949b"
           />
 
           <View style={styles.buttonContainer}>

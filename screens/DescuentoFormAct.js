@@ -102,21 +102,21 @@ const DescuentoFormAct = ({ route }) => {
 
         <View style={styles.formContainer}>
           <Text style={styles.title}>Actualizar Descuento</Text>
-          <Text>Empresa</Text>
+          <Text style={styles.text}>Empresa</Text>
           <TextInput
             style={styles.input}
             value={empresa}
             onChangeText={setEmpresa}
           />
 
-          <Text>Título</Text>
+          <Text style={styles.text}>Título</Text>
           <TextInput
             style={styles.input}
             value={titulo}
             onChangeText={setTitulo}
           />
 
-          <Text>Descripción</Text>
+          <Text style={styles.text}>Descripción</Text>
           <TextInput
             style={styles.input}
             value={descripcion}
@@ -126,7 +126,7 @@ const DescuentoFormAct = ({ route }) => {
 
           <View style={styles.row}>
             <View>
-              <Text>Fecha de inicio</Text>
+              <Text style={styles.text}>Fecha de inicio</Text>
               <TouchableOpacity
                 onPress={() => setShowInicio(true)}
                 style={styles.input}
@@ -147,7 +147,7 @@ const DescuentoFormAct = ({ route }) => {
             </View>
 
             <View>
-              <Text>Fecha de fin</Text>
+              <Text style={styles.text}>Fecha de fin</Text>
               <TouchableOpacity
                 onPress={() => setShowFin(true)}
                 style={styles.input}
@@ -168,7 +168,7 @@ const DescuentoFormAct = ({ route }) => {
             </View>
           </View>
 
-          <Text>Dirección</Text>
+          <Text style={styles.text}>Dirección</Text>
           <TextInput
             style={styles.input}
             value={direccion}

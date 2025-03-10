@@ -112,7 +112,7 @@ const VacantesForm = ({ navigation, route }) => {
           {/* Encabezado */}
           <Encabezado />
 
-          <View style={styles.cardWrapper}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
             <Card style={styles.card}>
               <Card.Content>
                 <Text style={styles.title}>
@@ -151,7 +151,7 @@ const VacantesForm = ({ navigation, route }) => {
                   />
                   <Text style={styles.title2}>Requisitos</Text>
                   <TextInput
-                    style={styles.input2}
+                    style={styles.input}
                     placeholder="Ingresa los requisitos"
                     value={requisitos}
                     onChangeText={setRequisitos}
@@ -162,7 +162,7 @@ const VacantesForm = ({ navigation, route }) => {
                   />
                   <Text style={styles.title2}>Experiencia</Text>
                   <TextInput
-                    style={styles.input2}
+                    style={styles.input}
                     placeholder="Ingresa la experiencia"
                     value={experiencia}
                     onChangeText={setExperiencia}
@@ -172,44 +172,25 @@ const VacantesForm = ({ navigation, route }) => {
                   />
                 </ScrollView>
 
-                <TouchableOpacity style={styles.button} onPress={handleGuardar}>
-                  <Text style={styles.buttonText}>
-                    {vacante ? "Actualizar Vacante" : "Guardar Vacante"}
-                  </Text>
-                </TouchableOpacity>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={handleGuardar}
+                  >
+                    <Text style={styles.buttonText}>
+                      {vacante ? "Actualizar" : "Agregar"}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => navigation.navigate("Vacantes")}
+                  >
+                    <Text style={styles.buttonText}>Cancelar</Text>
+                  </TouchableOpacity>
+                </View>
               </Card.Content>
             </Card>
-          </View>
-
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => openURL("https://twitter.com")}
-            >
-              <Image
-                source={require("../assets/x.png")}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => openURL("https://facebook.com")}
-            >
-              <Image
-                source={require("../assets/facebook.png")}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => openURL("https://instagram.com")}
-            >
-              <Image
-                source={require("../assets/instagram.png")}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-          </View>
+          </ScrollView>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

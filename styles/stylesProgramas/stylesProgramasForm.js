@@ -55,8 +55,8 @@ const stylesProgramasForm = StyleSheet.create({
     width: "90%",
   },
   cardWrapper: {
-    width: "90%",  // 🔹 Mantiene el tamaño sin overflow
-    alignItems: "center", 
+    width: "90%", // 🔹 Mantiene el tamaño sin overflow
+    alignItems: "center",
     justifyContent: "center",
   },
   card: {
@@ -69,7 +69,6 @@ const stylesProgramasForm = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
-    
   },
   scrollContent: {
     flexGrow: 1,
@@ -140,8 +139,61 @@ const stylesProgramasForm = StyleSheet.create({
     resizeMode: "contain",
   },
   title2: {
-    textAlign: 'center'
-  }
+    textAlign: "center",
+  },
+  formContainer: {
+    width: 310, // Ajuste del ancho para mantener proporción
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+    marginTop: 45,
+    alignSelf: "center",
+  },
+  titleForm: {
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  inputForm: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: 5,
+    padding: 10,
+    width: "100%",
+    marginVertical: 8,
+  },
+
+  buttonContainerForm: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  addButtonForm: {
+    backgroundColor: "#650D36",
+    padding: 10,
+    borderRadius: 5,
+  },
+  cancelButtonForm: {
+    backgroundColor: "#A67B89",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonTextForm: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  textForm: {
+    color: "#000",
+    marginBottom: 5,
+    textAlign: "left",
+    fontWeight: "bold",
+  },
 });
 
 export default stylesProgramasForm;

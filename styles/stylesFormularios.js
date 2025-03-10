@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { height } = Dimensions.get("window");
 
-export const styles = StyleSheet.create({
+export const stylesForm = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6a0f49",

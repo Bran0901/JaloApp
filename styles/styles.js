@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     color: "#000",
     marginBottom: 5,
     textAlign: "left",
+    fontWeight: "bold",
   },
   avatar: {
     width: 250,
