@@ -63,16 +63,14 @@ const stylesEventos = StyleSheet.create({
   searchBarContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 53,
+    marginTop: 15,
   },
   searchBar: {
     flex: 1,
     backgroundColor: "#FFFF",
     padding: 10,
     borderRadius: 20,
-    marginRight: 10,
-    marginBottom: -10,
   },
   modalContainer: {
     flex: 1,
@@ -172,8 +170,7 @@ const stylesEventos = StyleSheet.create({
   modalTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    marginTop: 2,
-    marginBottom: 2,
+    marginTop: 15,
     alignSelf: "center",
   },
   modalText: {

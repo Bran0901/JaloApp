@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth"; // Agregar autenticación
 
 const firebaseConfig = {
   apiKey: "AIzaSyBL8BtzCQ_jrpn2Um-Q0ugI9SDLYfXV-mg",
@@ -8,10 +9,11 @@ const firebaseConfig = {
   storageBucket: "jaloapp-9de8d.appspot.com",
   messagingSenderId: "138019762076",
   appId: "1:138019762076:web:d15ce8de5539858ab7e259",
-  measurementId: "G-BEPTTQTGVF"
+  measurementId: "G-BEPTTQTGVF",
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app); // Inicializar autenticación
 
-export { db };
+export { db, auth };

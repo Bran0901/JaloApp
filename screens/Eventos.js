@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
-  Image,
+  TextInput,
   TouchableOpacity,
   ScrollView,
-  Dimensions,
-  TextInput,
   Modal,
   Alert,
   ActivityIndicator,
+  Linking,
+  Dimensions,
 } from "react-native";
 import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
@@ -22,6 +22,12 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Card, Avatar } from "react-native-paper";
 
 const screenHeight = Dimensions.get("window").height;
+
+const openURL = (url) => {
+  Linking.openURL(url).catch((err) =>
+    console.error("No se pudo abrir la URL:", err)
+  );
+};
 
 const Eventos = () => {
   const navigation = useNavigation();
@@ -76,13 +82,13 @@ const Eventos = () => {
   const filteredEventos = eventos.filter(
     (evento) =>
       evento.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      evento.descripcion.toLowerCase().includes(searchQuery.toLowerCase())
+      evento.ubicacion.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
     <View style={[styles.container, { height: screenHeight }]}>
-      {/* Encabezado */}
       <Encabezado />
+      {/*
       <Icon
         name="arrow-left"
         size={30}
@@ -90,18 +96,18 @@ const Eventos = () => {
         onPress={() => navigation.navigate("Inicio")}
         style={{ alignSelf: "left", marginHorizontal: 20, marginVertical: 5 }}
       />
-      {/* Barra de búsqueda */}
+      */}
+
       <View style={styles.searchBarContainer}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Buscar evento por nombre"
+          placeholder="Buscar evento por ubicacion o empresa"
           placeholderTextColor="#94949b"
           value={searchQuery}
           onChangeText={setSearchQuery}
         />
       </View>
 
-      {/* Indicador de carga */}
       {loading ? (
         <ActivityIndicator
           size="large"
@@ -110,10 +116,7 @@ const Eventos = () => {
         />
       ) : (
         <ScrollView
-          contentContainerStyle={[
-            styles.scrollContainer,
-            { paddingBottom: 100 },
-          ]}
+          contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}
           showsVerticalScrollIndicator={false}
         >
           {filteredEventos.map((evento) => (
@@ -123,8 +126,8 @@ const Eventos = () => {
               onPress={() => setSelectedEvento(evento)}
             >
               <Card.Title
-                style={{ fontWeight: "bold" }}
-                title={evento.nombre}
+                title={evento.empresa}
+                subtitle={evento.nombre}
                 left={(props) => (
                   <Avatar.Icon
                     {...props}
@@ -132,14 +135,28 @@ const Eventos = () => {
                     color="white"
                     backgroundColor="#6a0f49"
                   />
+                  
                 )}
               />
 
-              <Text style={styles.cardText}>{evento.descripcion}</Text>
-              <Text style={styles.cardText2}>
-                {moment(evento.fecha).format("DD/MM/YYYY")}
+              <Text style={styles.cardText}>Descripción: {evento.descripcion}</Text>
+              <Text style={styles.cardText}>Fecha: {moment(evento.fecha).format("DD/MM/YYYY")}
               </Text>
-              <Text style={styles.cardText}>{evento.ubicacion}</Text>
+              <Text style={styles.cardText}>Ubicación: {evento.ubicacion}</Text>
+
+              {/* NUEVOS CAMPOS 
+              {evento.urlEvento && (
+                <TouchableOpacity onPress={() => openURL(evento.urlEvento)}>
+                  <Text style={[styles.cardText, { color: "blue" }]}>Ver Evento</Text>
+                </TouchableOpacity>
+              )}
+              {evento.googleForms && (
+                <TouchableOpacity onPress={() => openURL(evento.googleForms)}>
+                  <Text style={[styles.cardText, { color: "blue" }]}>Registro</Text>
+                </TouchableOpacity>
+              )}
+               */}
+               
             </Card>
           ))}
         </ScrollView>
@@ -153,7 +170,6 @@ const Eventos = () => {
         <Text>Agregar Evento</Text>
       </Button>
 
-      {/* Modal para mostrar detalles del evento seleccionado */}
       <Modal
         visible={!!selectedEvento}
         transparent
@@ -168,23 +184,48 @@ const Eventos = () => {
           <View style={styles.modalContent}>
             {selectedEvento && (
               <>
+              
                 <Text style={styles.cardTitle}>{selectedEvento.nombre}</Text>
+                {selectedEvento.empresa && (
+                  <>
+                    <Text style={styles.modalTitle}>Empresa:</Text>
+                    <Text style={styles.modalText}>{selectedEvento.empresa}</Text>
+                  </>
+                )}
                 <Text style={styles.modalTitle}>Descripción:</Text>
-                <Text style={styles.modalText}>
-                  {selectedEvento.descripcion}
-                </Text>
+                <Text style={styles.modalText}>{selectedEvento.descripcion}</Text>
                 <Text style={styles.modalTitle}>Fecha:</Text>
                 <Text style={styles.modalText}>{selectedEvento.fecha}</Text>
                 <Text style={styles.modalTitle}>Ubicación:</Text>
                 <Text style={styles.modalText}>{selectedEvento.ubicacion}</Text>
 
+                {/* NUEVOS CAMPOS */}
+                {selectedEvento.urlEvento && (
+                  <>
+                    <Text style={styles.modalTitle}>Enlace del Evento:</Text>
+                    <TouchableOpacity onPress={() => openURL(selectedEvento.urlEvento)}>
+                      <Text style={[styles.modalText, { color: "blue" }]}>
+                        {selectedEvento.urlEvento}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                )}
+                {selectedEvento.googleForms && (
+                  <>
+                    <Text style={styles.modalTitle}>Registro Forms:</Text>
+                    <TouchableOpacity onPress={() => openURL(selectedEvento.googleForms)}>
+                      <Text style={[styles.modalText, { color: "blue" }]}>
+                        {selectedEvento.googleForms}
+                      </Text>
+                    </TouchableOpacity>
+                  </>
+                )}
+
                 <View style={styles.buttonContainer}>
                   <TouchableOpacity
                     style={[styles.modalButton, styles.updateButton]}
                     onPress={() => {
-                      navigation.navigate("EventosForm", {
-                        evento: selectedEvento,
-                      });
+                      navigation.navigate("EventosForm", { evento: selectedEvento });
                       setSelectedEvento(null);
                     }}
                   >

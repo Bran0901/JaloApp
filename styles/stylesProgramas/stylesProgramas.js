@@ -66,11 +66,11 @@ const stylesProgramas = StyleSheet.create({
     marginBottom: 15,
   },
   cardTitle: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
-    marginTop: 2,
-    marginBottom: 2,
     textAlign: "center",
+    marginTop: 5,
+    marginBottom: 15,
   },
   modalHeader: {
     fontSize: 18,
@@ -93,7 +93,7 @@ const stylesProgramas = StyleSheet.create({
   cardText: {
     fontSize: 15,
     color: "#333",
-    textAlign: "center", // Alineado a la izquierda
+    textAlign: "left", // Alineado a la izquierda
     flexWrap: "wrap", // Para que no se desborde el texto
     width: "100%", // Ocupar todo el ancho disponible
     marginBottom: 5,
@@ -123,16 +123,14 @@ const stylesProgramas = StyleSheet.create({
   searchBarContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 53,
+    marginTop: 15,
   },
   searchBar: {
     flex: 1,
     backgroundColor: "#FFFF",
     padding: 10,
     borderRadius: 20,
-    marginRight: 10,
-    marginBottom: -10,
   },
   modalContainer: {
     flex: 1,
@@ -210,8 +208,7 @@ const stylesProgramas = StyleSheet.create({
   modalTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    marginTop: 2,
-    marginBottom: 2,
+    marginTop: 15,
     alignSelf: "center",
   },
   modalText: {

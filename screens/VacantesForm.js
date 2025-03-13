@@ -6,9 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Image,
-  Linking,
-  Dimensions,
   Keyboard,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
@@ -20,14 +17,6 @@ import { db } from "../firebaseConfig";
 import styles from "../styles/stylesVacantes/stylesVacantesForm";
 import Encabezado from "../screens/Encabezado";
 
-const screenWidth = Dimensions.get("window").width;
-
-const openURL = (url) => {
-  Linking.openURL(url).catch((err) =>
-    console.error("No se pudo abrir la URL:", err)
-  );
-};
-
 const VacantesForm = ({ navigation, route }) => {
   const vacante = route.params?.vacante || null;
   const [nombre, setNombre] = useState("");
@@ -35,6 +24,9 @@ const VacantesForm = ({ navigation, route }) => {
   const [salario, setSalario] = useState("");
   const [requisitos, setRequisitos] = useState("");
   const [experiencia, setExperiencia] = useState("");
+  const [ubicacion, setUbicacion] = useState("");
+  const [contacto, setContacto] = useState("");
+  const [empresa, setEmpresa] = useState("");
 
   useEffect(() => {
     if (vacante) {
@@ -43,11 +35,14 @@ const VacantesForm = ({ navigation, route }) => {
       setSalario(vacante.salario);
       setRequisitos(vacante.requisitos);
       setExperiencia(vacante.experiencia);
+      setUbicacion(vacante.ubicacion);
+      setContacto(vacante.contacto);
+      setEmpresa(vacante.empresa);
     }
   }, [vacante]);
 
   const handleGuardar = async () => {
-    if (!nombre || !cargo || !salario || !requisitos || !experiencia) {
+    if (!nombre || !cargo || !salario || !requisitos || !experiencia || !ubicacion || !contacto || !empresa) {
       Alert.alert("Error", "Todos los campos son obligatorios.");
       return;
     }
@@ -60,16 +55,21 @@ const VacantesForm = ({ navigation, route }) => {
           salario,
           requisitos,
           experiencia,
+          ubicacion,
+          contacto,
+          empresa,
         });
         Alert.alert("Éxito", "Vacante actualizada correctamente.");
       } else {
         await addDoc(collection(db, "vacantes"), {
           nombre,
           cargo,
-          salario: getFormattedSalary(), // Se almacena con formato $xx.xx
+          salario: getFormattedSalary(),
           requisitos,
           experiencia,
-          fecha: new Date().toISOString(),
+          ubicacion,
+          contacto,
+          empresa,
         });
         Alert.alert("Éxito", "Vacante guardada correctamente.");
       }
@@ -80,111 +80,44 @@ const VacantesForm = ({ navigation, route }) => {
     }
   };
 
-  const formatMoney = (value) => {
-    // Remueve caracteres que no sean números o punto
-    let numericValue = value.replace(/[^0-9.]/g, "");
-
-    // Permite solo un punto decimal
-    const parts = numericValue.split(".");
-    if (parts.length > 2) {
-      numericValue = parts[0] + "." + parts.slice(1).join("");
-    }
-
-    return numericValue;
-  };
-
   const handleSalarioChange = (text) => {
-    setSalario(formatMoney(text));
+    setSalario(text.replace(/[^0-9.]/g, ""));
   };
 
-  // Formato final antes de guardar en Firebase
   const getFormattedSalary = () => {
     return salario ? `$${parseFloat(salario || 0).toFixed(2)}` : "";
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          {/* Encabezado */}
           <Encabezado />
-
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             <Card style={styles.card}>
               <Card.Content>
-                <Text style={styles.title}>
-                  {vacante ? "Editar Vacante" : "Agregar Vacante"}
-                </Text>
-
-                <ScrollView
-                  style={{ maxHeight: 350 }}
-                  contentContainerStyle={styles.scrollContent}
-                  keyboardShouldPersistTaps="handled"
-                >
-                  <Text style={styles.title2}>Nombre</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Ingresa el nombre"
-                    value={nombre}
-                    onChangeText={setNombre}
-                    placeholderTextColor="#94949b"
-                  />
-                  <Text style={styles.title2}>Cargo</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Ingresa el cargo"
-                    value={cargo}
-                    onChangeText={setCargo}
-                    placeholderTextColor="#94949b"
-                  />
-                  <Text style={styles.title2}>Salario</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Ingresa el salario"
-                    value={salario}
-                    onChangeText={handleSalarioChange}
-                    keyboardType="numeric"
-                    placeholderTextColor="#94949b"
-                  />
-                  <Text style={styles.title2}>Requisitos</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Ingresa los requisitos"
-                    value={requisitos}
-                    onChangeText={setRequisitos}
-                    placeholderTextColor="#94949b"
-                    multiline={true} // Permite varias líneas
-                    numberOfLines={4} // Máximo de líneas visibles
-                    scrollEnabled={true} // Habilita el scroll interno
-                  />
-                  <Text style={styles.title2}>Experiencia</Text>
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Ingresa la experiencia"
-                    value={experiencia}
-                    onChangeText={setExperiencia}
-                    placeholderTextColor="#94949b"
-                    multiline={true} // Permite varias líneas
-                    numberOfLines={4} // Máximo de líneas visibles
-                  />
-                </ScrollView>
-
+                <Text style={styles.title}>{vacante ? "Editar Vacante" : "Agregar Vacante"}</Text>
+                <Text style={styles.title2}>Empresa</Text>
+                <TextInput style={styles.input} placeholder="Ingresa el nombre de la empresa" value={empresa} onChangeText={setEmpresa} />
+                <Text style={styles.title2}>Vacante</Text>
+                <TextInput style={styles.input} placeholder="Ingresa el nombre de la vacante" value={nombre} onChangeText={setNombre} />
+                <Text style={styles.title2}>Ubicación</Text>
+                <TextInput style={styles.input} placeholder="Ingresa la ubicación" value={ubicacion} onChangeText={setUbicacion} />
+                <Text style={styles.title2}>Contacto</Text>
+                <TextInput style={styles.input} placeholder="Ingresa el contacto" value={contacto} onChangeText={setContacto} />
+                <Text style={styles.title2}>Cargo</Text>
+                <TextInput style={styles.input} placeholder="Ingresa el cargo" value={cargo} onChangeText={setCargo} />
+                <Text style={styles.title2}>Salario</Text>
+                <TextInput style={styles.input} placeholder="Ingresa el salario" value={salario} onChangeText={handleSalarioChange} keyboardType="numeric" />
+                <Text style={styles.title2}>Requisitos</Text>
+                <TextInput style={styles.input} placeholder="Ingresa los requisitos" value={requisitos} onChangeText={setRequisitos} multiline numberOfLines={4} />
+                <Text style={styles.title2}>Experiencia</Text>
+                <TextInput style={styles.input} placeholder="Ingresa la experiencia" value={experiencia} onChangeText={setExperiencia} multiline numberOfLines={4} />
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity
-                    style={styles.addButton}
-                    onPress={handleGuardar}
-                  >
-                    <Text style={styles.buttonText}>
-                      {vacante ? "Actualizar" : "Agregar"}
-                    </Text>
+                  <TouchableOpacity style={styles.addButton} onPress={handleGuardar}>
+                    <Text style={styles.buttonText}>{vacante ? "Actualizar" : "Agregar"}</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.cancelButton}
-                    onPress={() => navigation.navigate("Vacantes")}
-                  >
+                  <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate("Vacantes")}>
                     <Text style={styles.buttonText}>Cancelar</Text>
                   </TouchableOpacity>
                 </View>

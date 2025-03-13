@@ -123,16 +123,14 @@ const stylesVacantes = StyleSheet.create({
   searchBarContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-    paddingHorizontal: 16,
+    paddingHorizontal: 53,
+    marginTop: 15,
   },
   searchBar: {
     flex: 1,
     backgroundColor: "#FFFF",
     padding: 10,
     borderRadius: 20,
-    marginRight: 10,
-    marginBottom: -10,
   },
   modalContainer: {
     flex: 1,
@@ -207,18 +205,16 @@ const stylesVacantes = StyleSheet.create({
     height: 35,
     resizeMode: "contain",
   },
-
   modalTitle: {
     fontSize: 16,
     fontWeight: "bold",
-    marginTop: 2,
-    marginBottom: 2,
-    alignSelf: "left",
+    marginTop: 15,
+    alignSelf: "center",
   },
   modalText: {
     marginTop: 2,
     marginBottom: 2,
-    alignSelf: "left",
+    alignSelf: "center",
   },
   modalTextDesc: {
     marginTop: 2,

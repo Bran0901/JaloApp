@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Image,
-  Linking,
   Keyboard,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
@@ -17,35 +15,28 @@ import { Card } from "react-native-paper";
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import styles from "../styles/stylesProgramas/stylesProgramasForm";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
-import moment from "moment";
 import Encabezado from "../screens/Encabezado";
-
-const openURL = (url) => {
-  Linking.openURL(url).catch((err) =>
-    console.error("No se pudo abrir la URL:", err)
-  );
-};
 
 const ProgramasForm = ({ navigation, route }) => {
   const programa = route.params?.programa || null;
   const [nombre, setNombre] = useState("");
-  const [fecha, setFecha] = useState(new Date());
+  const [empresa, setEmpresa] = useState("");
+  const [url, setUrl] = useState("");
   const [ubicacion, setUbicacion] = useState("");
   const [descripcion, setDescripcion] = useState("");
-  const [mostrarCalendario, setMostrarCalendario] = useState(false);
 
   useEffect(() => {
     if (programa) {
       setNombre(programa.nombre);
-      setFecha(new Date(programa.fecha));
+      setEmpresa(programa.empresa || "");
+      setUrl(programa.url || "");
       setUbicacion(programa.ubicacion);
       setDescripcion(programa.descripcion);
     }
   }, [programa]);
 
   const handleGuardar = async () => {
-    if (!nombre || !fecha || !ubicacion || !descripcion) {
+    if (!nombre || !empresa || !url || !ubicacion || !descripcion) {
       Alert.alert("Error", "Todos los campos son obligatorios.");
       return;
     }
@@ -54,7 +45,8 @@ const ProgramasForm = ({ navigation, route }) => {
       if (programa) {
         await updateDoc(doc(db, "programas", programa.id), {
           nombre,
-          fecha: fecha.toISOString().split("T")[0],
+          empresa,
+          url,
           ubicacion,
           descripcion,
         });
@@ -62,7 +54,8 @@ const ProgramasForm = ({ navigation, route }) => {
       } else {
         await addDoc(collection(db, "programas"), {
           nombre,
-          fecha: fecha.toISOString().split("T")[0],
+          empresa,
+          url,
           ubicacion,
           descripcion,
           creadoEn: new Date().toISOString(),
@@ -83,9 +76,7 @@ const ProgramasForm = ({ navigation, route }) => {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          {/* Encabezado */}
           <Encabezado />
-
           <ScrollView contentContainerStyle={styles.scrollContainer}>
             <Card style={styles.formContainer}>
               <Card.Content>
@@ -97,31 +88,31 @@ const ProgramasForm = ({ navigation, route }) => {
                   contentContainerStyle={styles.scrollContent}
                   keyboardShouldPersistTaps="handled"
                 >
-                  <Text style={styles.textForm}>Nombre</Text>
+
+                  <Text style={styles.textForm}>Empresa</Text>
                   <TextInput
                     style={styles.inputForm}
-                    placeholder="Ingrese el nombre"
+                    placeholder="Ingrese el nombre de la empresa"
+                    value={empresa}
+                    onChangeText={setEmpresa}
+                  />
+
+                  <Text style={styles.textForm}>Programa</Text>
+                  <TextInput
+                    style={styles.inputForm}
+                    placeholder="Ingrese el nombre del programa"
                     value={nombre}
                     onChangeText={setNombre}
                   />
 
-                  <Text style={styles.textForm}>Fecha</Text>
-                  <TouchableOpacity
-                    onPress={() => setMostrarCalendario(true)}
+                  <Text style={styles.textForm}>URL</Text>
+                  <TextInput
                     style={styles.inputForm}
-                  >
-                    <Text style={{ color: "#555" }}>
-                      {moment(fecha).format("DD/MM/YYYY")}
-                    </Text>
-                  </TouchableOpacity>
-                  <DateTimePickerModal
-                    isVisible={mostrarCalendario}
-                    mode="date"
-                    onConfirm={(date) => {
-                      setFecha(date);
-                      setMostrarCalendario(false);
-                    }}
-                    onCancel={() => setMostrarCalendario(false)}
+                    placeholder="Ingrese la URL"
+                    value={url}
+                    onChangeText={setUrl}
+                    keyboardType="url"
+                    autoCapitalize="none"
                   />
 
                   <Text style={styles.textForm}>Ubicación</Text>
@@ -135,14 +126,14 @@ const ProgramasForm = ({ navigation, route }) => {
                   <Text style={styles.textForm}>Descripción</Text>
                   <TextInput
                     style={styles.inputForm}
-                    placeholder="Ingrese la descripcion"
+                    placeholder="Ingrese la descripción"
                     value={descripcion}
                     onChangeText={setDescripcion}
                     multiline
                     numberOfLines={4}
-                    placeholderTextColor="#94949b"
                   />
                 </ScrollView>
+
                 <View style={styles.buttonContainerForm}>
                   <TouchableOpacity
                     style={styles.addButtonForm}

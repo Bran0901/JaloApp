@@ -19,6 +19,8 @@ import styles from "../styles/styles";
 import { db } from "../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
+import { auth } from "../firebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import Encabezado from "../screens/Encabezado";
 
 const screenHeight = Dimensions.get("window").height;
@@ -34,41 +36,46 @@ const Login = () => {
   const [correo, setCorreo] = useState("");
   const [mensajeExito, setMensajeExito] = useState("");
   const [cargando, setCargando] = useState(false);
+  const [correoOCurp, setCorreoOCurp] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  
+
 
   const validarCorreo = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
   const handleLogin = async () => {
-    if (!correo.trim()) {
-      Alert.alert("Error", "Por favor, ingrese su correo.");
+    if (!correoOCurp.trim() || !contrasena.trim()) {
+      Alert.alert("Error", "Por favor, ingrese sus datos.");
       return;
     }
-    if (!validarCorreo(correo.trim())) {
-      Alert.alert("Error", "Por favor, ingrese un correo válido.");
+  
+    // Validar el formato del correo
+    if (!validarCorreo(correoOCurp.trim())) {
+      Alert.alert("Error", "Por favor, ingrese un correo electrónico válido.");
       return;
     }
-
-    setCargando(true); // Activamos el indicador de carga
+  
+    setCargando(true);
     try {
-      const usuariosRef = collection(db, "usuarios");
-      const q = query(usuariosRef, where("correo", "==", correo.trim()));
-      const querySnapshot = await getDocs(q);
-
-      if (!querySnapshot.empty) {
-        setMensajeExito("Inicio de sesión exitoso");
-        setCorreo("");
-        setTimeout(() => {
-          setMensajeExito("");
-          navigation.navigate("Inicio"); // Asegura que el destino es correcto
-        }, 2000);
-      } else {
-        Alert.alert("Error", "Correo no encontrado en la base de datos");
-      }
+      // Intentar iniciar sesión con Firebase Authentication
+      const userCredential = await signInWithEmailAndPassword(auth, correoOCurp.trim(), contrasena.trim());
+      const user = userCredential.user;
+  
+      console.log("Usuario autenticado:", user);
+      setMensajeExito("Inicio de sesión exitoso");
+  
+      setTimeout(() => {
+        setMensajeExito("");
+        navigation.navigate("Inicio");
+      }, 2000);
     } catch (error) {
-      Alert.alert("Error", error.message || "No se pudo iniciar sesión");
+      Alert.alert("Error", "Correo o contraseña incorrectos.");
+      console.error("Error de autenticación:", error);
     } finally {
-      setCargando(false); // Asegura que el indicador de carga se desactive siempre
+      setCargando(false);
     }
   };
+  
 
   return (
     <KeyboardAvoidingView
@@ -98,15 +105,20 @@ const Login = () => {
               <Text style={styles.title2}>Correo Electrónico</Text>
               <TextInput
                 style={styles.input2}
-                value={correo}
-                onChangeText={(text) => setCorreo(text.toLowerCase())}
-                keyboardType="email-address"
+                value={correoOCurp}
+                onChangeText={(text) => setCorreoOCurp(text.trim())}
                 autoCapitalize="none"
                 autoCorrect={false}
               />
 
+
               <Text style={styles.title2}>Contraseña</Text>
-              <TextInput style={styles.input2} />
+              <TextInput
+                style={styles.input2}
+                value={contrasena}
+                onChangeText={setContrasena}
+                secureTextEntry
+              />
 
               {/* Indicador de carga o botón */}
               <View>
@@ -114,12 +126,13 @@ const Login = () => {
                   <ActivityIndicator size="large" color="#fff" />
                 ) : (
                   <TouchableOpacity
-                    onPress={handleLogin}
-                    style={[correo.trim() === "" && { opacity: 0.5 }]}
-                    disabled={correo.trim() === ""}
-                  >
-                    <Text style={styles.textoBoton}>Iniciar Sesión</Text>
-                  </TouchableOpacity>
+                  onPress={handleLogin}
+                  style={[correoOCurp.trim() === "" || contrasena.trim() === "" ? { opacity: 0.5 } : {}]}
+                  disabled={correoOCurp.trim() === "" || contrasena.trim() === ""}
+                >
+                  <Text style={styles.textoBoton}>Iniciar Sesión</Text>
+                </TouchableOpacity>
+                
                 )}
               </View>
             </View>
