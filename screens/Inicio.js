@@ -104,47 +104,18 @@ const Inicio = () => {
         {/* Botón Otros */}
         <TouchableOpacity
           style={styles.otrosButton}
-          onPress={() => navigation.navigate("Mapa")}
+          onPress={() => navigation.navigate("Ijumich")}
         >
-          <Text style={styles.title2}>Mapa</Text>
-          <Image source={require("../assets/mapa.png")} style={styles.icon} />
+          <Text style={styles.title2}>IJUMICH</Text>
+          <Image
+            source={require("../assets/jovenes.png")}
+            style={styles.iconLogo}
+          />
         </TouchableOpacity>
       </ScrollView>
 
       {/* Barra inferior */}
       <View style={styles.separator} />
-
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.iconContainer}
-          onPress={() => openURL("https://twitter.com")}
-        >
-          <Image
-            source={require("../assets/x.png")}
-            style={styles.socialIcon}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.iconContainer}
-          onPress={() => openURL("https://facebook.com")}
-        >
-          <Image
-            source={require("../assets/facebook.png")}
-            style={styles.socialIcon}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.iconContainer}
-          onPress={() => openURL("https://instagram.com")}
-        >
-          <Image
-            source={require("../assets/instagram.png")}
-            style={styles.socialIcon}
-          />
-        </TouchableOpacity>
-      </View>
     </View>
   );
 };

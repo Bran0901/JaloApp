@@ -61,14 +61,6 @@ export default StyleSheet.create({
     height: 4,
     backgroundColor: "#6A0F49",
   },
-  generalTitle: {
-    textAlign: "center",
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "black",
-    marginTop: 10,
-    marginBottom: 10,
-  },
   cardTitle: {
     textAlign: "center",
     fontSize: 16,
@@ -77,17 +69,6 @@ export default StyleSheet.create({
     marginBottom: 10,
   },
   profileCard: {
-    backgroundColor: "#FFFFFF",
-    padding: 15, // Ajustado el padding
-    borderRadius: 15,
-    alignItems: "center",
-    width: "90%", // Ajuste el ancho al 90% de la pantalla
-    elevation: 5,
-    alignSelf: "center",
-    marginTop: 15,
-    marginBottom: 10,
-  },
-  general: {
     backgroundColor: "#FFFFFF",
     padding: 15, // Ajustado el padding
     borderRadius: 15,
@@ -150,8 +131,32 @@ export default StyleSheet.create({
     color: "#FFF",
     fontSize: 12,
   },
+  general: {
+    backgroundColor: "#FFFFFF",
+    padding: 15,
+    borderRadius: 15,
+    width: "90%",
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 15,
+    marginBottom: 10,
+    flexDirection: "row", // Para alinear en fila
+    alignItems: "center", // Alinea verticalmente
+    justifyContent: "space-between", // Distribuye los elementos
+  },
+
   icon: {
-    alignSelf: "left",
-    marginHorizontal: 20,
+    marginLeft: 10, // Espacio a la izquierda
+  },
+
+  textContainer: {
+    flex: 1, // Ocupa el espacio disponible
+    alignItems: "center", // Centra el título
+  },
+
+  generalTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "black",
   },
 });

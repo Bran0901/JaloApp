@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
     alignSelf: "left",
     marginHorizontal: 20,
   },
+  iconLogo: {
+    alignSelf: "center",
+    marginHorizontal: 20,
+    width: width * 0.4,
+    height: height * 0.1,
+  },
   header: {
     width: "100%",
     height: height * 0.12, // Ajuste dinámico según la pantalla

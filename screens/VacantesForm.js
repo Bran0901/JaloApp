@@ -27,6 +27,8 @@ const VacantesForm = ({ navigation, route }) => {
   const [ubicacion, setUbicacion] = useState("");
   const [contacto, setContacto] = useState("");
   const [empresa, setEmpresa] = useState("");
+  const [categoria, setCategoria] = useState("");
+  const [linkUbicacion, setLinkUbicacion] = useState("");
 
   useEffect(() => {
     if (vacante) {
@@ -38,11 +40,24 @@ const VacantesForm = ({ navigation, route }) => {
       setUbicacion(vacante.ubicacion);
       setContacto(vacante.contacto);
       setEmpresa(vacante.empresa);
+      setCategoria(vacante.categoria || "");
+      setLinkUbicacion(vacante.linkUbicacion || "");
     }
   }, [vacante]);
 
   const handleGuardar = async () => {
-    if (!nombre || !cargo || !salario || !requisitos || !experiencia || !ubicacion || !contacto || !empresa) {
+    if (
+      !nombre ||
+      !cargo ||
+      !salario ||
+      !requisitos ||
+      !experiencia ||
+      !ubicacion ||
+      !contacto ||
+      !empresa ||
+      !categoria ||
+      !linkUbicacion
+    ) {
       Alert.alert("Error", "Todos los campos son obligatorios.");
       return;
     }
@@ -58,6 +73,8 @@ const VacantesForm = ({ navigation, route }) => {
           ubicacion,
           contacto,
           empresa,
+          categoria,
+          linkUbicacion,
         });
         Alert.alert("Éxito", "Vacante actualizada correctamente.");
       } else {
@@ -70,6 +87,8 @@ const VacantesForm = ({ navigation, route }) => {
           ubicacion,
           contacto,
           empresa,
+          categoria,
+          linkUbicacion,
         });
         Alert.alert("Éxito", "Vacante guardada correctamente.");
       }
@@ -89,43 +108,126 @@ const VacantesForm = ({ navigation, route }) => {
   };
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <Encabezado />
-          <ScrollView contentContainerStyle={styles.scrollContainer}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1 }}
+    >
+      <ScrollView keyboardShouldPersistTaps="handled">
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View style={styles.container}>
+            <Encabezado />
             <Card style={styles.card}>
               <Card.Content>
-                <Text style={styles.title}>{vacante ? "Editar Vacante" : "Agregar Vacante"}</Text>
+                <Text style={styles.title}>
+                  {vacante ? "Editar Vacante" : "Agregar Vacante"}
+                </Text>
+
                 <Text style={styles.title2}>Empresa</Text>
-                <TextInput style={styles.input} placeholder="Ingresa el nombre de la empresa" value={empresa} onChangeText={setEmpresa} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa el nombre de la empresa"
+                  value={empresa}
+                  onChangeText={setEmpresa}
+                />
+
                 <Text style={styles.title2}>Vacante</Text>
-                <TextInput style={styles.input} placeholder="Ingresa el nombre de la vacante" value={nombre} onChangeText={setNombre} />
-                <Text style={styles.title2}>Ubicación</Text>
-                <TextInput style={styles.input} placeholder="Ingresa la ubicación" value={ubicacion} onChangeText={setUbicacion} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa el nombre de la vacante"
+                  value={nombre}
+                  onChangeText={setNombre}
+                />
+
+                <Text style={styles.title2}>Categoría</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa la categoría"
+                  value={categoria}
+                  onChangeText={setCategoria}
+                />
+
                 <Text style={styles.title2}>Contacto</Text>
-                <TextInput style={styles.input} placeholder="Ingresa el contacto" value={contacto} onChangeText={setContacto} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa el contacto"
+                  value={contacto}
+                  onChangeText={setContacto}
+                />
+
                 <Text style={styles.title2}>Cargo</Text>
-                <TextInput style={styles.input} placeholder="Ingresa el cargo" value={cargo} onChangeText={setCargo} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa el cargo"
+                  value={cargo}
+                  onChangeText={setCargo}
+                />
+
                 <Text style={styles.title2}>Salario</Text>
-                <TextInput style={styles.input} placeholder="Ingresa el salario" value={salario} onChangeText={handleSalarioChange} keyboardType="numeric" />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa el salario"
+                  value={salario}
+                  onChangeText={handleSalarioChange}
+                  keyboardType="numeric"
+                />
+
                 <Text style={styles.title2}>Requisitos</Text>
-                <TextInput style={styles.input} placeholder="Ingresa los requisitos" value={requisitos} onChangeText={setRequisitos} multiline numberOfLines={4} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa los requisitos"
+                  value={requisitos}
+                  onChangeText={setRequisitos}
+                  multiline
+                  numberOfLines={4}
+                />
+
                 <Text style={styles.title2}>Experiencia</Text>
-                <TextInput style={styles.input} placeholder="Ingresa la experiencia" value={experiencia} onChangeText={setExperiencia} multiline numberOfLines={4} />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa la experiencia"
+                  value={experiencia}
+                  onChangeText={setExperiencia}
+                  multiline
+                  numberOfLines={4}
+                />
+
+                <Text style={styles.title2}>Ubicación</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa la ubicación"
+                  value={ubicacion}
+                  onChangeText={setUbicacion}
+                />
+
+                <Text style={styles.title2}>Link de Ubicación</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Ingresa el link de ubicación"
+                  value={linkUbicacion}
+                  onChangeText={setLinkUbicacion}
+                />
+
                 <View style={styles.buttonContainer}>
-                  <TouchableOpacity style={styles.addButton} onPress={handleGuardar}>
-                    <Text style={styles.buttonText}>{vacante ? "Actualizar" : "Agregar"}</Text>
+                  <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={handleGuardar}
+                  >
+                    <Text style={styles.buttonText}>
+                      {vacante ? "Actualizar" : "Agregar"}
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.cancelButton} onPress={() => navigation.navigate("Vacantes")}>
+                  <TouchableOpacity
+                    style={styles.cancelButton}
+                    onPress={() => navigation.navigate("Vacantes")}
+                  >
                     <Text style={styles.buttonText}>Cancelar</Text>
                   </TouchableOpacity>
                 </View>
               </Card.Content>
             </Card>
-          </ScrollView>
-        </View>
-      </TouchableWithoutFeedback>
+          </View>
+        </TouchableWithoutFeedback>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 };

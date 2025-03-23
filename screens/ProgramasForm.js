@@ -6,8 +6,6 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
-  Keyboard,
-  TouchableWithoutFeedback,
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
@@ -24,19 +22,28 @@ const ProgramasForm = ({ navigation, route }) => {
   const [url, setUrl] = useState("");
   const [ubicacion, setUbicacion] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [categoria, setCategoria] = useState("");
 
   useEffect(() => {
     if (programa) {
       setNombre(programa.nombre);
       setEmpresa(programa.empresa || "");
       setUrl(programa.url || "");
-      setUbicacion(programa.ubicacion);
-      setDescripcion(programa.descripcion);
+      setUbicacion(programa.ubicacion || "");
+      setDescripcion(programa.descripcion || "");
+      setCategoria(programa.categoria || "");
     }
   }, [programa]);
 
   const handleGuardar = async () => {
-    if (!nombre || !empresa || !url || !ubicacion || !descripcion) {
+    if (
+      !nombre ||
+      !empresa ||
+      !url ||
+      !ubicacion ||
+      !descripcion ||
+      !categoria
+    ) {
       Alert.alert("Error", "Todos los campos son obligatorios.");
       return;
     }
@@ -49,6 +56,7 @@ const ProgramasForm = ({ navigation, route }) => {
           url,
           ubicacion,
           descripcion,
+          categoria,
         });
         Alert.alert("Éxito", "Programa actualizado correctamente.");
       } else {
@@ -58,6 +66,7 @@ const ProgramasForm = ({ navigation, route }) => {
           url,
           ubicacion,
           descripcion,
+          categoria,
           creadoEn: new Date().toISOString(),
         });
         Alert.alert("Éxito", "Programa guardado correctamente.");
@@ -74,65 +83,70 @@ const ProgramasForm = ({ navigation, route }) => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
     >
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={styles.container}>
-          <Encabezado />
-          <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <View style={{ flex: 1 }}>
+        <Encabezado />
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 1, paddingBottom: 20 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.container}>
             <Card style={styles.formContainer}>
               <Card.Content>
                 <Text style={styles.titleForm}>
                   {programa ? "Editar Programa" : "Agregar Programa"}
                 </Text>
 
-                <ScrollView
-                  contentContainerStyle={styles.scrollContent}
-                  keyboardShouldPersistTaps="handled"
-                >
+                <Text style={styles.textForm}>Empresa</Text>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Ingrese el nombre de la empresa"
+                  value={empresa}
+                  onChangeText={setEmpresa}
+                />
 
-                  <Text style={styles.textForm}>Empresa</Text>
-                  <TextInput
-                    style={styles.inputForm}
-                    placeholder="Ingrese el nombre de la empresa"
-                    value={empresa}
-                    onChangeText={setEmpresa}
-                  />
+                <Text style={styles.textForm}>Programa</Text>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Ingrese el nombre del programa"
+                  value={nombre}
+                  onChangeText={setNombre}
+                />
 
-                  <Text style={styles.textForm}>Programa</Text>
-                  <TextInput
-                    style={styles.inputForm}
-                    placeholder="Ingrese el nombre del programa"
-                    value={nombre}
-                    onChangeText={setNombre}
-                  />
+                <Text style={styles.textForm}>URL</Text>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Ingrese la URL"
+                  value={url}
+                  onChangeText={setUrl}
+                  keyboardType="url"
+                  autoCapitalize="none"
+                />
 
-                  <Text style={styles.textForm}>URL</Text>
-                  <TextInput
-                    style={styles.inputForm}
-                    placeholder="Ingrese la URL"
-                    value={url}
-                    onChangeText={setUrl}
-                    keyboardType="url"
-                    autoCapitalize="none"
-                  />
+                <Text style={styles.textForm}>Ubicación</Text>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Ingrese la ubicación"
+                  value={ubicacion}
+                  onChangeText={setUbicacion}
+                />
 
-                  <Text style={styles.textForm}>Ubicación</Text>
-                  <TextInput
-                    style={styles.inputForm}
-                    placeholder="Ingrese la ubicación"
-                    value={ubicacion}
-                    onChangeText={setUbicacion}
-                  />
+                <Text style={styles.textForm}>Descripción</Text>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Ingrese la descripción"
+                  value={descripcion}
+                  onChangeText={setDescripcion}
+                  multiline
+                  numberOfLines={4}
+                />
 
-                  <Text style={styles.textForm}>Descripción</Text>
-                  <TextInput
-                    style={styles.inputForm}
-                    placeholder="Ingrese la descripción"
-                    value={descripcion}
-                    onChangeText={setDescripcion}
-                    multiline
-                    numberOfLines={4}
-                  />
-                </ScrollView>
+                <Text style={styles.textForm}>Categoría</Text>
+                <TextInput
+                  style={styles.inputForm}
+                  placeholder="Ingrese la categoría"
+                  value={categoria}
+                  onChangeText={setCategoria}
+                />
 
                 <View style={styles.buttonContainerForm}>
                   <TouchableOpacity
@@ -152,9 +166,9 @@ const ProgramasForm = ({ navigation, route }) => {
                 </View>
               </Card.Content>
             </Card>
-          </ScrollView>
-        </View>
-      </TouchableWithoutFeedback>
+          </View>
+        </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 };

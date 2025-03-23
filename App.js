@@ -11,7 +11,7 @@ import Vacantes from "./screens/Vacantes";
 import VacantesForm from "./screens/VacantesForm";
 import Eventos from "./screens/Eventos";
 import EventosForm from "./screens/EventosForm";
-import Mapa from "./screens/Mapa";
+import Ijumich from "./screens/ijumich";
 import Cuenta from "./screens/Cuenta";
 import Login from "./screens/Login";
 import DescuentoForm from "./screens/DescuentoForm";
@@ -19,6 +19,9 @@ import DescuentoFormAct from "./screens/DescuentoFormAct";
 import Programas from "./screens/Programas";
 import ProgramasForm from "./screens/ProgramasForm";
 import Bienvenida from "./screens/Bienvenida";
+import MenuScreen from "./screens/MenuH";
+import Asistentes from "./screens/Asistentes";
+import CuentaForm from "./screens/CuentaForm";
 
 const Stack = createStackNavigator();
 
@@ -57,8 +60,8 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Mapa"
-          component={Mapa}
+          name="Ijumich"
+          component={Ijumich}
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -104,6 +107,21 @@ export default function App() {
         <Stack.Screen
           name="Bienvenida"
           component={Bienvenida}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Menu"
+          component={MenuScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Asistentes"
+          component={Asistentes}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CuentaForm"
+          component={CuentaForm}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

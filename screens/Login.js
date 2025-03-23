@@ -38,8 +38,6 @@ const Login = () => {
   const [cargando, setCargando] = useState(false);
   const [correoOCurp, setCorreoOCurp] = useState("");
   const [contrasena, setContrasena] = useState("");
-  
-
 
   const validarCorreo = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -48,22 +46,26 @@ const Login = () => {
       Alert.alert("Error", "Por favor, ingrese sus datos.");
       return;
     }
-  
+
     // Validar el formato del correo
     if (!validarCorreo(correoOCurp.trim())) {
       Alert.alert("Error", "Por favor, ingrese un correo electrónico válido.");
       return;
     }
-  
+
     setCargando(true);
     try {
       // Intentar iniciar sesión con Firebase Authentication
-      const userCredential = await signInWithEmailAndPassword(auth, correoOCurp.trim(), contrasena.trim());
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        correoOCurp.trim(),
+        contrasena.trim()
+      );
       const user = userCredential.user;
-  
+
       console.log("Usuario autenticado:", user);
       setMensajeExito("Inicio de sesión exitoso");
-  
+
       setTimeout(() => {
         setMensajeExito("");
         navigation.navigate("Inicio");
@@ -75,7 +77,6 @@ const Login = () => {
       setCargando(false);
     }
   };
-  
 
   return (
     <KeyboardAvoidingView
@@ -111,7 +112,6 @@ const Login = () => {
                 autoCorrect={false}
               />
 
-
               <Text style={styles.title2}>Contraseña</Text>
               <TextInput
                 style={styles.input2}
@@ -126,48 +126,24 @@ const Login = () => {
                   <ActivityIndicator size="large" color="#fff" />
                 ) : (
                   <TouchableOpacity
-                  onPress={handleLogin}
-                  style={[correoOCurp.trim() === "" || contrasena.trim() === "" ? { opacity: 0.5 } : {}]}
-                  disabled={correoOCurp.trim() === "" || contrasena.trim() === ""}
-                >
-                  <Text style={styles.textoBoton}>Iniciar Sesión</Text>
-                </TouchableOpacity>
-                
+                    onPress={handleLogin}
+                    style={[
+                      correoOCurp.trim() === "" || contrasena.trim() === ""
+                        ? { opacity: 0.5 }
+                        : {},
+                    ]}
+                    disabled={
+                      correoOCurp.trim() === "" || contrasena.trim() === ""
+                    }
+                  >
+                    <Text style={styles.textoBoton}>Iniciar Sesión</Text>
+                  </TouchableOpacity>
                 )}
               </View>
             </View>
           </ScrollView>
 
           <View style={styles.separator} />
-          <View style={styles.footer}>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => openURL("https://twitter.com")}
-            >
-              <Image
-                source={require("../assets/x.png")}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => openURL("https://facebook.com")}
-            >
-              <Image
-                source={require("../assets/facebook.png")}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.iconContainer}
-              onPress={() => openURL("https://instagram.com")}
-            >
-              <Image
-                source={require("../assets/instagram.png")}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-          </View>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

@@ -31,6 +31,10 @@ const DescuentoFormAct = ({ route }) => {
   const [titulo, setTitulo] = useState(selectedItem.titulo);
   const [descripcion, setDescripcion] = useState(selectedItem.descripcion);
   const [direccion, setDireccion] = useState(selectedItem.direccion);
+  const [categoria, setCategoria] = useState(selectedItem.categoria); // Nuevo campo
+  const [linkUbicacion, setLinkUbicacion] = useState(
+    selectedItem.linkUbicacion
+  ); // Nuevo campo
 
   const navigation = useNavigation();
 
@@ -124,6 +128,13 @@ const DescuentoFormAct = ({ route }) => {
             multiline
           />
 
+          <Text style={styles.text}>Categoría</Text>
+          <TextInput
+            style={styles.input}
+            value={categoria}
+            onChangeText={setCategoria}
+          />
+
           <View style={styles.row}>
             <View>
               <Text style={styles.text}>Fecha de inicio</Text>
@@ -173,6 +184,13 @@ const DescuentoFormAct = ({ route }) => {
             style={styles.input}
             value={direccion}
             onChangeText={setDireccion}
+          />
+
+          <Text style={styles.text}>Link de Ubicación</Text>
+          <TextInput
+            style={styles.input}
+            value={linkUbicacion}
+            onChangeText={setLinkUbicacion}
           />
 
           <View style={styles.buttonContainer}>

@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Image,
   Alert,
   KeyboardAvoidingView,
   ScrollView,
@@ -23,10 +22,13 @@ const DescuentosForm = () => {
   const [showInicio, setShowInicio] = useState(false);
   const [showFin, setShowFin] = useState(false);
 
+  // Estados para los campos
   const [empresa, setEmpresa] = useState("");
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [direccion, setDireccion] = useState("");
+  const [categoria, setCategoria] = useState(""); // Nuevo campo
+  const [linkUbicacion, setLinkUbicacion] = useState(""); // Nuevo campo
 
   const navigation = useNavigation();
 
@@ -35,7 +37,9 @@ const DescuentosForm = () => {
       !empresa.trim() ||
       !titulo.trim() ||
       !descripcion.trim() ||
-      !direccion.trim()
+      !direccion.trim() ||
+      !categoria.trim() || // Validación del nuevo campo
+      !linkUbicacion.trim() // Validación del nuevo campo
     ) {
       Alert.alert("Error", "Por favor, completa todos los campos.");
       return;
@@ -55,15 +59,21 @@ const DescuentosForm = () => {
         titulo: titulo.trim(),
         descripcion: descripcion.trim(),
         direccion: direccion.trim(),
+        categoria: categoria.trim(), // Nuevo campo
+        linkUbicacion: linkUbicacion.trim(), // Nuevo campo
         fechaInicio: fechaInicio.toISOString().split("T")[0],
         fechaFin: fechaFin.toISOString().split("T")[0],
       });
 
       Alert.alert("Éxito", "Descuento agregado exitosamente.");
+
+      // Limpiar los campos después de guardar
       setEmpresa("");
       setTitulo("");
       setDescripcion("");
       setDireccion("");
+      setCategoria(""); // Nuevo campo
+      setLinkUbicacion(""); // Nuevo campo
       setFechaInicio(new Date());
       setFechaFin(new Date());
 
@@ -80,11 +90,10 @@ const DescuentosForm = () => {
       style={styles.container}
     >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {/* Encabezado */}
         <Encabezado />
-
         <View style={styles.formContainer}>
           <Text style={styles.title}>Agregar Descuento</Text>
+
           <Text style={styles.text}>Empresa</Text>
           <TextInput
             style={styles.input}
@@ -99,7 +108,7 @@ const DescuentosForm = () => {
             style={styles.input}
             value={titulo}
             onChangeText={setTitulo}
-            placeholder="Ingrese el titulo"
+            placeholder="Ingrese el título"
             placeholderTextColor="#94949b"
           />
 
@@ -108,9 +117,36 @@ const DescuentosForm = () => {
             style={styles.input}
             value={descripcion}
             onChangeText={setDescripcion}
-            placeholder="Ingrese la descripcion"
+            placeholder="Ingrese la descripción"
             placeholderTextColor="#94949b"
             multiline
+          />
+
+          <Text style={styles.text}>Categoría</Text>
+          <TextInput
+            style={styles.input}
+            value={categoria}
+            onChangeText={setCategoria}
+            placeholder="Ingrese la categoria"
+            placeholderTextColor="#94949b"
+          />
+
+          <Text style={styles.text}>Dirección</Text>
+          <TextInput
+            style={styles.input}
+            value={direccion}
+            onChangeText={setDireccion}
+            placeholder="Ingrese la dirección"
+            placeholderTextColor="#94949b"
+          />
+
+          <Text style={styles.text}>Link de Ubicación</Text>
+          <TextInput
+            style={styles.input}
+            value={linkUbicacion}
+            onChangeText={setLinkUbicacion}
+            placeholder="Ingrese el enlace de ubicación"
+            placeholderTextColor="#94949b"
           />
 
           <View style={styles.row}>
@@ -156,15 +192,6 @@ const DescuentosForm = () => {
               )}
             </View>
           </View>
-
-          <Text style={styles.text}>Dirección</Text>
-          <TextInput
-            style={styles.input}
-            value={direccion}
-            onChangeText={setDireccion}
-            placeholder="Ingrese la dirección"
-            placeholderTextColor="#94949b"
-          />
 
           <View style={styles.buttonContainer}>
             <TouchableOpacity

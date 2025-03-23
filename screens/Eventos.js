@@ -88,20 +88,24 @@ const Eventos = () => {
   return (
     <View style={[styles.container, { height: screenHeight }]}>
       <Encabezado />
-      {/*
-      <Icon
-        name="arrow-left"
-        size={30}
-        color="white"
-        onPress={() => navigation.navigate("Inicio")}
-        style={{ alignSelf: "left", marginHorizontal: 20, marginVertical: 5 }}
-      />
-      */}
+      <View style={styles.general}>
+        <Icon
+          name="arrow-left"
+          size={30}
+          color="black"
+          onPress={() => navigation.navigate("Inicio")}
+          style={styles.icon}
+        />
+        <View style={styles.textContainer}>
+          <Text style={styles.generalTitle}>EVENTOS</Text>
+        </View>
+        <View style={{ width: 30 }} />
+      </View>
 
       <View style={styles.searchBarContainer}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Buscar evento por ubicacion o empresa"
+          placeholder="Ubicación o empresa"
           placeholderTextColor="#94949b"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -116,7 +120,10 @@ const Eventos = () => {
         />
       ) : (
         <ScrollView
-          contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}
+          contentContainerStyle={[
+            styles.scrollContainer,
+            { paddingBottom: 100 },
+          ]}
           showsVerticalScrollIndicator={false}
         >
           {filteredEventos.map((evento) => (
@@ -135,28 +142,16 @@ const Eventos = () => {
                     color="white"
                     backgroundColor="#6a0f49"
                   />
-                  
                 )}
               />
 
-              <Text style={styles.cardText}>Descripción: {evento.descripcion}</Text>
-              <Text style={styles.cardText}>Fecha: {moment(evento.fecha).format("DD/MM/YYYY")}
+              <Text style={styles.cardText}>
+                Descripción: {evento.descripcion}
+              </Text>
+              <Text style={styles.cardText}>
+                Fecha: {moment(evento.fecha).format("DD/MM/YYYY")}
               </Text>
               <Text style={styles.cardText}>Ubicación: {evento.ubicacion}</Text>
-
-              {/* NUEVOS CAMPOS 
-              {evento.urlEvento && (
-                <TouchableOpacity onPress={() => openURL(evento.urlEvento)}>
-                  <Text style={[styles.cardText, { color: "blue" }]}>Ver Evento</Text>
-                </TouchableOpacity>
-              )}
-              {evento.googleForms && (
-                <TouchableOpacity onPress={() => openURL(evento.googleForms)}>
-                  <Text style={[styles.cardText, { color: "blue" }]}>Registro</Text>
-                </TouchableOpacity>
-              )}
-               */}
-               
             </Card>
           ))}
         </ScrollView>
@@ -170,86 +165,95 @@ const Eventos = () => {
         <Text>Agregar Evento</Text>
       </Button>
 
+      {/* MODAL SCROLLEABLE */}
       <Modal
         visible={!!selectedEvento}
         transparent
         animationType="slide"
         onRequestClose={() => setSelectedEvento(null)}
       >
-        <TouchableOpacity
-          style={styles.modalContainer}
-          activeOpacity={1}
-          onPress={() => setSelectedEvento(null)}
-        >
-          <View style={styles.modalContent}>
-            {selectedEvento && (
-              <>
-              
-                <Text style={styles.cardTitle}>{selectedEvento.nombre}</Text>
-                {selectedEvento.empresa && (
-                  <>
-                    <Text style={styles.modalTitle}>Empresa:</Text>
-                    <Text style={styles.modalText}>{selectedEvento.empresa}</Text>
-                  </>
-                )}
-                <Text style={styles.modalTitle}>Descripción:</Text>
-                <Text style={styles.modalText}>{selectedEvento.descripcion}</Text>
-                <Text style={styles.modalTitle}>Fecha:</Text>
-                <Text style={styles.modalText}>{selectedEvento.fecha}</Text>
-                <Text style={styles.modalTitle}>Ubicación:</Text>
-                <Text style={styles.modalText}>{selectedEvento.ubicacion}</Text>
-
-                {/* NUEVOS CAMPOS */}
-                {selectedEvento.urlEvento && (
-                  <>
-                    <Text style={styles.modalTitle}>Enlace del Evento:</Text>
-                    <TouchableOpacity onPress={() => openURL(selectedEvento.urlEvento)}>
-                      <Text style={[styles.modalText, { color: "blue" }]}>
-                        {selectedEvento.urlEvento}
+        <View style={styles.modalContainer}>
+          <ScrollView>
+            <View style={styles.modalContent}>
+              {selectedEvento && (
+                <>
+                  <Text style={styles.cardTitle}>{selectedEvento.nombre}</Text>
+                  {selectedEvento.empresa && (
+                    <>
+                      <Text style={styles.modalTitle}>Empresa:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedEvento.empresa}
                       </Text>
-                    </TouchableOpacity>
-                  </>
-                )}
-                {selectedEvento.googleForms && (
-                  <>
-                    <Text style={styles.modalTitle}>Registro Forms:</Text>
-                    <TouchableOpacity onPress={() => openURL(selectedEvento.googleForms)}>
-                      <Text style={[styles.modalText, { color: "blue" }]}>
-                        {selectedEvento.googleForms}
+                    </>
+                  )}
+                  <Text style={styles.modalTitle}>Descripción:</Text>
+                  <Text style={styles.modalText}>
+                    {selectedEvento.descripcion}
+                  </Text>
+                  <Text style={styles.modalTitle}>Fecha:</Text>
+                  <Text style={styles.modalText}>
+                    {moment(selectedEvento.fecha).format("DD/MM/YYYY")}
+                  </Text>
+                  <Text style={styles.modalTitle}>Ubicación:</Text>
+                  <Text style={styles.modalText}>
+                    {selectedEvento.ubicacion}
+                  </Text>
+
+                  {/* NUEVOS CAMPOS */}
+                  {selectedEvento.categoria && (
+                    <>
+                      <Text style={styles.modalTitle}>Categoría:</Text>
+                      <Text style={styles.modalText}>
+                        {selectedEvento.categoria}
                       </Text>
+                    </>
+                  )}
+                  {selectedEvento.linkUbicacion && (
+                    <>
+                      <Text style={styles.modalTitle}>
+                        Ubicación en Google Maps:
+                      </Text>
+                      <TouchableOpacity
+                        onPress={() => openURL(selectedEvento.linkUbicacion)}
+                      >
+                        <Text style={[styles.modalTextLink]}>
+                          {selectedEvento.linkUbicacion}
+                        </Text>
+                      </TouchableOpacity>
+                    </>
+                  )}
+
+                  <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                      style={[styles.modalButton, styles.updateButton]}
+                      onPress={() => {
+                        navigation.navigate("EventosForm", {
+                          evento: selectedEvento,
+                        });
+                        setSelectedEvento(null);
+                      }}
+                    >
+                      <Text style={styles.buttonText}>Actualizar</Text>
                     </TouchableOpacity>
-                  </>
-                )}
 
-                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                      style={[styles.modalButton, styles.deleteButton]}
+                      onPress={() => deleteEvento(selectedEvento.id)}
+                    >
+                      <Text style={styles.buttonText}>Eliminar</Text>
+                    </TouchableOpacity>
+                  </View>
                   <TouchableOpacity
-                    style={[styles.modalButton, styles.updateButton]}
-                    onPress={() => {
-                      navigation.navigate("EventosForm", { evento: selectedEvento });
-                      setSelectedEvento(null);
-                    }}
+                    style={styles.closeButton}
+                    onPress={() => setSelectedEvento(null)}
                   >
-                    <Text style={styles.buttonText}>Actualizar</Text>
+                    <Text style={styles.buttonText}>Cerrar</Text>
                   </TouchableOpacity>
-
-                  <TouchableOpacity
-                    style={[styles.modalButton, styles.deleteButton]}
-                    onPress={() => deleteEvento(selectedEvento.id)}
-                  >
-                    <Text style={styles.buttonText}>Eliminar</Text>
-                  </TouchableOpacity>
-                </View>
-
-                <TouchableOpacity
-                  style={styles.closeButton}
-                  onPress={() => setSelectedEvento(null)}
-                >
-                  <Text style={styles.buttonText}>Cerrar</Text>
-                </TouchableOpacity>
-              </>
-            )}
-          </View>
-        </TouchableOpacity>
+                </>
+              )}
+            </View>
+          </ScrollView>
+        </View>
       </Modal>
     </View>
   );

@@ -54,12 +54,10 @@ export default StyleSheet.create({
     paddingHorizontal: 16,
   },
   searchBar: {
-    flex: 1,
     backgroundColor: "#FFFF",
     padding: 10,
     borderRadius: 20,
-    marginRight: 10,
-    marginBottom: 10,
+    width: width * 0.9,
   },
   filterButton: {
     backgroundColor: "#880E4F",
@@ -72,7 +70,7 @@ export default StyleSheet.create({
     padding: 10,
   },
   cardDesc: {
-    textAlign: "justify",
+    textAlign: "center",
     marginTop: 2,
     marginBottom: 2,
   },
@@ -129,11 +127,21 @@ export default StyleSheet.create({
     marginTop: 2,
     marginBottom: 2,
     alignSelf: "center",
+    textAlign: "center",
+  },
+  modalTextLink: {
+    marginTop: 2,
+    marginBottom: 2,
+    alignSelf: "center",
+    textAlign: "center",
+    color: "#0000ff",
+    textDecorationLine: "underline",
   },
   modalTextDesc: {
     marginTop: 2,
     marginBottom: 2,
-    alignSelf: "justify",
+    alignSelf: "center",
+    textAlign: "center",
   },
   modalCloseButton: {
     marginTop: 20,
@@ -144,5 +152,33 @@ export default StyleSheet.create({
     justifyContent: "space-around",
     marginTop: 10,
     alignItems: "center",
+  },
+  general: {
+    backgroundColor: "#FFFFFF",
+    padding: 15,
+    borderRadius: 15,
+    width: "90%",
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 15,
+    marginBottom: 20,
+    flexDirection: "row", // Para alinear en fila
+    alignItems: "center", // Alinea verticalmente
+    justifyContent: "space-between", // Distribuye los elementos
+  },
+
+  icon: {
+    marginLeft: 10, // Espacio a la izquierda
+  },
+
+  textContainer: {
+    flex: 1, // Ocupa el espacio disponible
+    alignItems: "center", // Centra el título
+  },
+
+  generalTitle: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "black",
   },
 });

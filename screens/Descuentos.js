@@ -8,6 +8,7 @@ import {
   Modal,
   Alert,
   ScrollView,
+  Linking,
 } from "react-native";
 import { Card, Text, Button, Avatar } from "react-native-paper";
 import styles from "../styles/stylesDescuento/stylesLista";
@@ -85,25 +86,40 @@ export default function DescuentosScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Encabezado */}
+      {/* Encabezado Fijo */}
       <Encabezado />
-      <Icon
-        name="arrow-left"
-        size={30}
-        color="white"
-        onPress={() => navigation.navigate("Inicio")}
-        style={{ alignSelf: "left", marginHorizontal: 20, marginVertical: 5 }}
-      />
 
+      {/* Contenedor General */}
+      <View style={styles.general}>
+        {/* Flecha de navegación */}
+        <Icon
+          name="arrow-left"
+          size={30}
+          color="black"
+          onPress={() => navigation.navigate("Inicio")}
+          style={styles.icon}
+        />
+
+        {/* Título centrado */}
+        <View style={styles.textContainer}>
+          <Text style={styles.generalTitle}>DESCUENTOS</Text>
+        </View>
+
+        {/* Espacio para balancear la posición */}
+        <View style={{ width: 30 }} />
+      </View>
+
+      {/* Barra de Búsqueda */}
       <View style={styles.searchBarContainer}>
         <TextInput
-          placeholder="Buscar por empresa, estado o localidad"
+          placeholder="Empresa, estado o localidad"
           value={search}
           onChangeText={setSearch}
           style={styles.searchBar}
         />
       </View>
 
+      {/* Lista de descuentos */}
       <FlatList
         data={searchData}
         keyExtractor={(item) => item.id}
@@ -140,6 +156,7 @@ export default function DescuentosScreen() {
         )}
       />
 
+      {/* Botón de agregar descuento */}
       <Button
         mode="contained"
         onPress={() => navigation.navigate("DescuentoForm")}
@@ -148,7 +165,6 @@ export default function DescuentosScreen() {
         Agregar Descuento
       </Button>
 
-      {/* Modal de Detalles */}
       <Modal
         visible={modalVisible}
         transparent={true}
@@ -157,52 +173,69 @@ export default function DescuentosScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            {selectedItem && (
-              <>
-                <Text style={styles.modalHeader}>{selectedItem.empresa}</Text>
-                <Text style={styles.modalTitle}>Descuento:</Text>
-                <Text style={styles.modalText}>{selectedItem.titulo}</Text>
-                <Text style={styles.modalTitle}>Descripción:</Text>
-                <Text style={styles.modalTextDesc}>
-                  {selectedItem.descripcion}
-                </Text>
-                <Text style={styles.modalTitle}>Disponible desde:</Text>
-                <Text style={styles.modalText}>{selectedItem.fechaInicio}</Text>
-                <Text style={styles.modalTitle}>Hasta:</Text>
-                <Text style={styles.modalText}>{selectedItem.fechaFin}</Text>
-                <Text style={styles.modalTitle}>Dirección:</Text>
-                <Text style={styles.modalText}>{selectedItem.direccion}</Text>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+              {selectedItem && (
+                <>
+                  <Text style={styles.modalHeader}>{selectedItem.empresa}</Text>
+                  <Text style={styles.modalTitle}>Descuento:</Text>
+                  <Text style={styles.modalText}>{selectedItem.titulo}</Text>
+                  <Text style={styles.modalTitle}>Descripción:</Text>
+                  <Text style={styles.modalTextDesc}>
+                    {selectedItem.descripcion}
+                  </Text>
+                  <Text style={styles.modalTitle}>Categoría:</Text>
+                  <Text style={styles.modalTextDesc}>
+                    {selectedItem.categoria}
+                  </Text>
+                  <Text style={styles.modalTitle}>Disponible desde:</Text>
+                  <Text style={styles.modalText}>
+                    {selectedItem.fechaInicio}
+                  </Text>
+                  <Text style={styles.modalTitle}>Hasta:</Text>
+                  <Text style={styles.modalText}>{selectedItem.fechaFin}</Text>
+                  <Text style={styles.modalTitle}>Dirección:</Text>
+                  <Text style={styles.modalText}>{selectedItem.direccion}</Text>
+                  <Text style={styles.modalTitle}>Link de ubicación:</Text>
+                  <Text
+                    style={styles.modalTextLink}
+                    onPress={() => Linking.openURL(selectedItem.linkUbicacion)}
+                  >
+                    {selectedItem.linkUbicacion}
+                  </Text>
 
-                <View style={styles.buttonContainer}>
+                  <View style={styles.buttonContainer}>
+                    <Button
+                      mode="contained"
+                      onPress={() =>
+                        navigation.navigate("DescuentoFormAct", {
+                          selectedItem,
+                        })
+                      }
+                      style={styles.button}
+                    >
+                      Actualizar
+                    </Button>
+                    <Button
+                      mode="contained"
+                      onPress={() =>
+                        eliminarDescuento(selectedItem.id, selectedItem)
+                      }
+                      style={styles.button}
+                    >
+                      Eliminar
+                    </Button>
+                  </View>
+
                   <Button
                     mode="contained"
-                    onPress={() =>
-                      navigation.navigate("DescuentoFormAct", { selectedItem })
-                    }
+                    onPress={() => setModalVisible(false)}
                     style={styles.button}
                   >
-                    Actualizar
+                    Cerrar
                   </Button>
-                  <Button
-                    mode="contained"
-                    onPress={() =>
-                      eliminarDescuento(selectedItem.id, selectedItem)
-                    }
-                    style={styles.button}
-                  >
-                    Eliminar
-                  </Button>
-                </View>
-
-                <Button
-                  mode="contained"
-                  onPress={() => setModalVisible(false)}
-                  style={styles.button}
-                >
-                  Cerrar
-                </Button>
-              </>
-            )}
+                </>
+              )}
+            </ScrollView>
           </View>
         </View>
       </Modal>

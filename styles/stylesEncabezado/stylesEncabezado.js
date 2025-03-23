@@ -43,4 +43,7 @@ export default StyleSheet.create({
     height: 4,
     backgroundColor: "#6A0F49",
   },
+  menuButton: {
+    marginRight: 20,
+  },
 });

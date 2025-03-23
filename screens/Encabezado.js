@@ -9,11 +9,26 @@ import {
 import styles from "../styles/stylesEncabezado/stylesEncabezado";
 const { height } = Dimensions.get("window");
 import { useNavigation } from "@react-navigation/native";
+import { Avatar } from "react-native-paper";
 
 const Header = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.header}>
+      {/* Botón de Menú Hamburguesa */}
+      <TouchableOpacity
+        style={styles.menuButton}
+        onPress={() => navigation.navigate("Menu")}
+      >
+        <Avatar.Icon
+          size={35}
+          icon="menu"
+          color="white"
+          backgroundColor="#6a0f49"
+          style={styles.hamburgerIcon}
+        />
+      </TouchableOpacity>
+
       <TouchableOpacity
         style={styles.imageContainer}
         onPress={() => navigation.navigate("Bienvenida")}

@@ -9,7 +9,7 @@ import {
   Linking,
 } from "react-native";
 import styles from "../styles/styles"; // Importa los estilos
-import Encabezado from "../screens/Encabezado";
+import Encabezado from "./Encabezado";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -19,7 +19,7 @@ const openURL = (url) => {
   );
 };
 
-const Mapa = () => {
+const Ijumich = () => {
   return (
     <View style={[styles.container, { height: screenHeight }]}>
       {/* Encabezado */}
@@ -30,11 +30,11 @@ const Mapa = () => {
         showsVerticalScrollIndicator={false}
       >
         <View>
-          <Text>El mapa estará aqui</Text>
+          <Text>El IJUMICH estará aqui</Text>
         </View>
       </ScrollView>
     </View>
   );
 };
 
-export default Mapa;
+export default Ijumich;

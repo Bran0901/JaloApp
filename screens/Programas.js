@@ -9,7 +9,7 @@ import {
   Modal,
   Alert,
   ActivityIndicator,
-  Linking
+  Linking,
 } from "react-native";
 import { collection, onSnapshot, doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
@@ -81,21 +81,30 @@ const Programas = () => {
     <View style={[styles.container, { height: screenHeight }]}>
       {/* Encabezado */}
       <Encabezado />
-      {/*
-      <Icon
-        name="arrow-left"
-        size={30}
-        color="white"
-        onPress={() => navigation.navigate("Inicio")}
-        style={{ marginHorizontal: 20, marginVertical: 5 }}
-      />
-      */}
-      
+      <View style={styles.general}>
+        {/* Flecha a la izquierda */}
+        <Icon
+          name="arrow-left"
+          size={30}
+          color="black"
+          onPress={() => navigation.navigate("Inicio")}
+          style={styles.icon}
+        />
+
+        {/* Contenedor que centra el título */}
+        <View style={styles.textContainer}>
+          <Text style={styles.generalTitle}>PROGRAMAS</Text>
+        </View>
+
+        {/* Espacio vacío para mantener el título centrado */}
+        <View style={{ width: 30 }} />
+      </View>
+
       {/* Barra de búsqueda */}
       <View style={styles.searchBarContainer}>
         <TextInput
           style={styles.searchBar}
-          placeholder="Buscar evento por ubicacion o empresa"
+          placeholder="Ubicacion o empresa"
           placeholderTextColor="#94949b"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -104,19 +113,35 @@ const Programas = () => {
 
       {/* Indicador de carga */}
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+          style={{ marginTop: 20 }}
+        />
       ) : (
         <ScrollView
-          contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}
+          contentContainerStyle={[
+            styles.scrollContainer,
+            { paddingBottom: 100 },
+          ]}
           showsVerticalScrollIndicator={false}
         >
           {filteredProgramas.map((programa) => (
-            <Card key={programa.id} style={styles.card} onPress={() => setSelectedPrograma(programa)}>
+            <Card
+              key={programa.id}
+              style={styles.card}
+              onPress={() => setSelectedPrograma(programa)}
+            >
               <Card.Title
                 title={programa.empresa}
                 subtitle={programa.nombre}
                 left={(props) => (
-                  <Avatar.Icon {...props} icon="check" color="white" backgroundColor="#6a0f49" />
+                  <Avatar.Icon
+                    {...props}
+                    icon="check"
+                    color="white"
+                    backgroundColor="#6a0f49"
+                  />
                 )}
               />
               <Text style={styles.cardText}>{programa.descripcion}</Text>
@@ -126,7 +151,11 @@ const Programas = () => {
         </ScrollView>
       )}
 
-      <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("ProgramasForm")}>
+      <Button
+        mode="contained"
+        style={styles.button}
+        onPress={() => navigation.navigate("ProgramasForm")}
+      >
         <Text>Agregar Programa</Text>
       </Button>
 
@@ -137,27 +166,42 @@ const Programas = () => {
         animationType="slide"
         onRequestClose={() => setSelectedPrograma(null)}
       >
-        <TouchableOpacity style={styles.modalContainer} activeOpacity={1} onPress={() => setSelectedPrograma(null)}>
+        <TouchableOpacity
+          style={styles.modalContainer}
+          activeOpacity={1}
+          onPress={() => setSelectedPrograma(null)}
+        >
           <View style={styles.modalContent}>
             {selectedPrograma && (
               <>
                 <Text style={styles.cardTitle}>{selectedPrograma.nombre}</Text>
-                
+
                 <Text style={styles.modalTitle}>Empresa:</Text>
                 <Text style={styles.modalText}>{selectedPrograma.empresa}</Text>
 
                 <Text style={styles.modalTitle}>Descripción:</Text>
-                <Text style={styles.modalText}>{selectedPrograma.descripcion}</Text>
+                <Text style={styles.modalText}>
+                  {selectedPrograma.descripcion}
+                </Text>
 
                 <Text style={styles.modalTitle}>Ubicación:</Text>
-                <Text style={styles.modalText}>{selectedPrograma.ubicacion}</Text>
+                <Text style={styles.modalText}>
+                  {selectedPrograma.ubicacion}
+                </Text>
 
                 {/* NUEVOS CAMPOS */}
                 {selectedPrograma.url && (
                   <>
                     <Text style={styles.modalTitle}>Enlace del Programa:</Text>
-                    <TouchableOpacity onPress={() => Linking.openURL(selectedPrograma.url)}>
-                      <Text style={[styles.modalText, { color: "blue", textDecorationLine: "underline" }]}>
+                    <TouchableOpacity
+                      onPress={() => Linking.openURL(selectedPrograma.url)}
+                    >
+                      <Text
+                        style={[
+                          styles.modalText,
+                          { color: "blue", textDecorationLine: "underline" },
+                        ]}
+                      >
                         {selectedPrograma.url}
                       </Text>
                     </TouchableOpacity>
@@ -168,7 +212,9 @@ const Programas = () => {
                   <TouchableOpacity
                     style={[styles.modalButton, styles.updateButton]}
                     onPress={() => {
-                      navigation.navigate("ProgramasForm", { programa: selectedPrograma });
+                      navigation.navigate("ProgramasForm", {
+                        programa: selectedPrograma,
+                      });
                       setSelectedPrograma(null);
                     }}
                   >
@@ -183,7 +229,10 @@ const Programas = () => {
                   </TouchableOpacity>
                 </View>
 
-                <TouchableOpacity style={styles.closeButton} onPress={() => setSelectedPrograma(null)}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setSelectedPrograma(null)}
+                >
                   <Text style={styles.buttonText}>Cerrar</Text>
                 </TouchableOpacity>
               </>
