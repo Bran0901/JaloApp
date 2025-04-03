@@ -3,7 +3,6 @@ import {
   View,
   FlatList,
   TextInput,
-  Image,
   TouchableOpacity,
   Modal,
   Alert,
@@ -20,115 +19,128 @@ import {
   addDoc,
   doc,
   deleteDoc,
+  getDoc,
 } from "firebase/firestore";
-import { db } from "../firebaseConfig";
-import Encabezado from "../screens/Encabezado";
+import { db, auth } from "../firebaseConfig"; // Importación de Firebase
+import Encabezado from "../screens/Encabezado"; // Componente para el encabezado
 
 export default function DescuentosScreen() {
-  const [search, setSearch] = useState("");
-  const [descuentos, setDescuentos] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
-  const [filterModalVisible, setFilterModalVisible] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedItem, setSelectedItem] = useState(null);
-  const navigation = useNavigation();
+  // Estados de la pantalla
+  const [search, setSearch] = useState(""); // Estado para la barra de búsqueda
+  const [descuentos, setDescuentos] = useState([]); // Estado para los descuentos
+  const [modalVisible, setModalVisible] = useState(false); // Estado para controlar la visibilidad del modal
+  const [selectedItem, setSelectedItem] = useState(null); // Estado para el descuento seleccionado
+  const [userRole, setUserRole] = useState(null); // Estado para el rol del usuario
+  const navigation = useNavigation(); // Hook para navegar entre pantallas
 
+  // useEffect para obtener los descuentos y el rol del usuario
   useEffect(() => {
     const fetchDescuentos = async () => {
       try {
+        // Obtiene todos los descuentos desde la base de datos de Firebase
         const querySnapshot = await getDocs(collection(db, "descuentos"));
         const descuentosArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-        setDescuentos(descuentosArray);
+        setDescuentos(descuentosArray); // Establece los descuentos en el estado
       } catch (error) {
-        console.error("Error obteniendo descuentos:", error);
+        console.error("Error obteniendo descuentos:", error); // Manejo de errores
       }
     };
-    fetchDescuentos();
-  }, []);
 
+    const fetchUserRole = async () => {
+      try {
+        // Obtiene el usuario autenticado
+        const user = auth.currentUser;
+        if (user) {
+          // Si el usuario está autenticado, se obtiene su rol desde Firestore
+          const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+          if (userDoc.exists()) {
+            setUserRole(userDoc.data().role); // Establece el rol del usuario en el estado
+          }
+        }
+      } catch (error) {
+        console.error("Error obteniendo el rol del usuario:", error); // Manejo de errores
+      }
+    };
+
+    fetchDescuentos(); // Llama a la función para obtener los descuentos
+    fetchUserRole(); // Llama a la función para obtener el rol del usuario
+  }, []); // Este efecto se ejecuta solo una vez al montar el componente
+
+  // Función para eliminar un descuento
   const eliminarDescuento = async (id, descuento) => {
-    Alert.alert(
-      "Confirmación",
-      "¿Está seguro de que desea eliminar el descuento?",
-      [
-        {
-          text: "Cancelar",
-          style: "cancel",
+    Alert.alert("Confirmación", "¿Está seguro de que desea eliminar el descuento?", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Eliminar",
+        onPress: async () => {
+          try {
+            // Mueve el descuento a la colección de descuentos eliminados
+            await addDoc(collection(db, "descuentoseliminados"), descuento);
+            // Elimina el descuento de la colección de descuentos
+            await deleteDoc(doc(db, "descuentos", id));
+            setDescuentos(descuentos.filter((item) => item.id !== id)); // Actualiza la lista de descuentos
+            setModalVisible(false); // Cierra el modal
+          } catch (error) {
+            console.error("Error al eliminar el descuento:", error); // Manejo de errores
+          }
         },
-        {
-          text: "Eliminar",
-          onPress: async () => {
-            try {
-              await addDoc(collection(db, "descuentoseliminados"), descuento);
-              await deleteDoc(doc(db, "descuentos", id));
-              setDescuentos(descuentos.filter((item) => item.id !== id));
-              setModalVisible(false);
-            } catch (error) {
-              console.error("Error al eliminar el descuento:", error);
-            }
-          },
-        },
-      ]
-    );
+      },
+    ]);
   };
 
-  // Barra de búsqueda por texto y categoría
+  // Filtra los descuentos según la búsqueda
   const searchData = descuentos.filter(
     (item) =>
       [item.titulo, item.empresa, item.direccion].some((field) =>
-        field?.toLowerCase().includes(search.toLowerCase())
-      ) &&
-      (!selectedCategory || item.categoria === selectedCategory)
+        field?.toLowerCase().includes(search.toLowerCase()) // Filtra por título, empresa o dirección
+      )
   );
 
   return (
     <View style={styles.container}>
-      {/* Encabezado Fijo */}
-      <Encabezado />
-
-      {/* Contenedor General */}
+      <Encabezado /> {/* Componente de encabezado */}
+      
+      {/* Barra de navegación y título */}
       <View style={styles.general}>
-        {/* Flecha de navegación */}
         <Icon
           name="arrow-left"
           size={30}
           color="black"
-          onPress={() => navigation.navigate("Inicio")}
+          onPress={() => navigation.navigate("Inicio")} // Navega a la pantalla de inicio
           style={styles.icon}
         />
-
-        {/* Título centrado */}
         <View style={styles.textContainer}>
           <Text style={styles.generalTitle}>DESCUENTOS</Text>
         </View>
-
-        {/* Espacio para balancear la posición */}
         <View style={{ width: 30 }} />
       </View>
 
-      {/* Barra de Búsqueda */}
+      {/* Barra de búsqueda */}
       <View style={styles.searchBarContainer}>
         <TextInput
           placeholder="Empresa, estado o localidad"
           value={search}
-          onChangeText={setSearch}
+          onChangeText={setSearch} // Actualiza el estado con el texto de búsqueda
           style={styles.searchBar}
         />
       </View>
 
       {/* Lista de descuentos */}
       <FlatList
-        data={searchData}
-        keyExtractor={(item) => item.id}
+        data={searchData} // Muestra los descuentos filtrados por la búsqueda
+        keyExtractor={(item) => item.id} // Establece el ID como la clave
         contentContainerStyle={styles.listContainer}
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() => {
-              setSelectedItem(item);
-              setModalVisible(true);
+              setSelectedItem(item); // Establece el descuento seleccionado
+              setModalVisible(true); // Abre el modal para mostrar los detalles
             }}
           >
             <Card style={styles.card}>
@@ -147,7 +159,7 @@ export default function DescuentosScreen() {
                 <Text style={styles.modalTitle2}>{item.titulo}</Text>
                 <Text style={styles.cardDesc}>{item.descripcion}</Text>
                 <Text style={styles.discountDate}>
-                  {item.fechaInicio} - {item.fechaFin}
+                  {item.fechaInicio} - {item.fechaFin} {/* Muestra las fechas de inicio y fin */}
                 </Text>
                 <Text style={styles.direccion}>{item.direccion}</Text>
               </Card.Content>
@@ -156,81 +168,67 @@ export default function DescuentosScreen() {
         )}
       />
 
-      {/* Botón de agregar descuento */}
-      <Button
-        mode="contained"
-        onPress={() => navigation.navigate("DescuentoForm")}
-        style={styles.button}
-      >
-        Agregar Descuento
-      </Button>
+      {/* Botón para agregar un descuento, visible solo para empresas o administradores */}
+      {(userRole === "empresa" || userRole === "administrador") && (
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate("DescuentoForm")}
+          style={styles.button}
+        >
+          Agregar Descuento
+        </Button>
+      )}
 
+      {/* Modal para mostrar los detalles de un descuento */}
       <Modal
         visible={modalVisible}
         transparent={true}
         animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => setModalVisible(false)} // Cierra el modal al presionar fuera
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
               {selectedItem && (
                 <>
+                  {/* Detalles del descuento */}
                   <Text style={styles.modalHeader}>{selectedItem.empresa}</Text>
                   <Text style={styles.modalTitle}>Descuento:</Text>
                   <Text style={styles.modalText}>{selectedItem.titulo}</Text>
                   <Text style={styles.modalTitle}>Descripción:</Text>
-                  <Text style={styles.modalTextDesc}>
-                    {selectedItem.descripcion}
-                  </Text>
-                  <Text style={styles.modalTitle}>Categoría:</Text>
-                  <Text style={styles.modalTextDesc}>
-                    {selectedItem.categoria}
-                  </Text>
-                  <Text style={styles.modalTitle}>Disponible desde:</Text>
-                  <Text style={styles.modalText}>
-                    {selectedItem.fechaInicio}
-                  </Text>
-                  <Text style={styles.modalTitle}>Hasta:</Text>
-                  <Text style={styles.modalText}>{selectedItem.fechaFin}</Text>
+                  <Text style={styles.modalTextDesc}>{selectedItem.descripcion}</Text>
                   <Text style={styles.modalTitle}>Dirección:</Text>
                   <Text style={styles.modalText}>{selectedItem.direccion}</Text>
                   <Text style={styles.modalTitle}>Link de ubicación:</Text>
                   <Text
                     style={styles.modalTextLink}
-                    onPress={() => Linking.openURL(selectedItem.linkUbicacion)}
+                    onPress={() => Linking.openURL(selectedItem.linkUbicacion)} // Abre el link de ubicación
                   >
                     {selectedItem.linkUbicacion}
                   </Text>
 
-                  <View style={styles.buttonContainer}>
-                    <Button
-                      mode="contained"
-                      onPress={() =>
-                        navigation.navigate("DescuentoFormAct", {
-                          selectedItem,
-                        })
-                      }
-                      style={styles.button}
-                    >
-                      Actualizar
-                    </Button>
-                    <Button
-                      mode="contained"
-                      onPress={() =>
-                        eliminarDescuento(selectedItem.id, selectedItem)
-                      }
-                      style={styles.button}
-                    >
-                      Eliminar
-                    </Button>
-                  </View>
+                  {/* Botones solo visibles para administradores */}
+                  {userRole === "administrador" && (
+                    <View style={styles.buttonContainer}>
+                      <Button
+                        mode="contained"
+                        onPress={() => navigation.navigate("DescuentoFormAct", { selectedItem })}
+                        style={styles.button}
+                      >
+                        Actualizar
+                      </Button>
+                      <Button
+                        mode="contained"
+                        onPress={() => eliminarDescuento(selectedItem.id, selectedItem)}
+                        style={styles.button}
+                      >
+                        Eliminar
+                      </Button>
+                    </View>
+                  )}
 
-                  <Button
-                    mode="contained"
-                    onPress={() => setModalVisible(false)}
-                    style={styles.button}
-                  >
+                  {/* Botón para cerrar el modal */}
+                  <Button mode="contained" onPress={() => setModalVisible(false)} style={styles.button}>
                     Cerrar
                   </Button>
                 </>

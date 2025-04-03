@@ -3,19 +3,20 @@ import {
   View,
   Image,
   TouchableOpacity,
-  StyleSheet,
   Dimensions,
 } from "react-native";
 import styles from "../styles/stylesEncabezado/stylesEncabezado";
-const { height } = Dimensions.get("window");
 import { useNavigation } from "@react-navigation/native";
 import { Avatar } from "react-native-paper";
 
+const { height } = Dimensions.get("window"); // Obtiene la altura de la pantalla
+
 const Header = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation(); // Hook para manejar la navegación
+
   return (
     <View style={styles.header}>
-      {/* Botón de Menú Hamburguesa */}
+      {/* Botón de Menú */}
       <TouchableOpacity
         style={styles.menuButton}
         onPress={() => navigation.navigate("Menu")}
@@ -29,6 +30,7 @@ const Header = () => {
         />
       </TouchableOpacity>
 
+      {/* Logo principal - Navega a la pantalla de Bienvenida */}
       <TouchableOpacity
         style={styles.imageContainer}
         onPress={() => navigation.navigate("Bienvenida")}
@@ -36,6 +38,7 @@ const Header = () => {
         <Image source={require("../assets/jovenes.png")} style={styles.logo} />
       </TouchableOpacity>
 
+      {/* Logo del título - Navega a la pantalla de Inicio */}
       <TouchableOpacity
         style={styles.titleContainer}
         onPress={() => navigation.navigate("Inicio")}
@@ -46,6 +49,7 @@ const Header = () => {
         />
       </TouchableOpacity>
 
+      {/* Icono de usuario - Navega a la pantalla de Cuenta */}
       <TouchableOpacity
         style={styles.imageContainer}
         onPress={() => navigation.navigate("Cuenta")}

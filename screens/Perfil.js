@@ -15,10 +15,14 @@ import { collection, doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../firebaseConfig"; // Importar Firebase Auth y Firestore
 import { signOut } from "firebase/auth"; // Importar signOut de Firebase Auth
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+
+// Obtener la altura de la pantalla
 const screenHeight = Dimensions.get("window").height;
 
 const Perfil = () => {
   const navigation = useNavigation();
+
+  // Estados para almacenar los datos del usuario
   const [nombre, setNombre] = useState("Cargando...");
   const [curp, setCurp] = useState("Cargando...");
   const [correo, setCorreo] = useState("Cargando...");
@@ -27,9 +31,10 @@ const Perfil = () => {
   const [estado, setEstado] = useState("Cargando...");
   const [telefono, setTelefono] = useState("Cargando...");
 
+  // useEffect para obtener los datos del usuario desde Firestore
   useEffect(() => {
     const fetchUserData = async () => {
-      const user = auth.currentUser;
+      const user = auth.currentUser; // Obtener el usuario autenticado
       if (user) {
         try {
           const docRef = doc(collection(db, "usuarios"), user.uid);
@@ -37,6 +42,8 @@ const Perfil = () => {
 
           if (docSnap.exists()) {
             const data = docSnap.data();
+
+            // Guardar los datos del usuario en los estados correspondientes
             setNombre(data.nombre || "No disponible");
             setCurp(data.curp || "No disponible");
             setCorreo(data.correo || "No disponible");
@@ -77,7 +84,7 @@ const Perfil = () => {
     fetchUserData();
   }, []);
 
-  // ✅ Función para cerrar sesión
+  // Función para cerrar sesión
   const handleLogout = async () => {
     Alert.alert("Cerrar Sesión", "¿Seguro que quieres cerrar sesión?", [
       { text: "Cancelar", style: "cancel" },
@@ -85,7 +92,7 @@ const Perfil = () => {
         text: "Salir",
         onPress: async () => {
           try {
-            await signOut(auth); // Cierra sesión
+            await signOut(auth); // Cierra sesión en Firebase
             navigation.replace("Login"); // Redirige a la pantalla de Login
           } catch (error) {
             console.error("Error al cerrar sesión:", error);
@@ -97,16 +104,16 @@ const Perfil = () => {
   };
 
   return (
-    <View style={[styles.container, { height: screenHeight }]}>
-      <Encabezado />
+    <View style={[styles.container, { height: screenHeight }]}> {/* Contenedor principal con altura dinámica */}
+      <Encabezado /> {/* Componente de encabezado */}
       <ScrollView>
         <View style={styles.general}>
-          {/* Flecha a la izquierda */}
+          {/* Flecha a la izquierda para regresar */}
           <Icon
             name="arrow-left"
             size={30}
             color="black"
-            onPress={() => navigation.navigate("Inicio")}
+            onPress={() => navigation.navigate("Inicio")} // Navegar a la pantalla de inicio
             style={styles.icon}
           />
 
@@ -119,10 +126,11 @@ const Perfil = () => {
           <View style={{ width: 30 }} />
         </View>
 
+        {/* Tarjeta de información personal */}
         <View style={styles.profileCard}>
           <Text style={styles.cardTitle}>Información Personal</Text>
           <Image
-            source={{ uri: "https://via.placeholder.com/100" }}
+            source={{ uri: "https://via.placeholder.com/100" }} // Imagen de perfil de ejemplo
             style={styles.profileImage}
           />
           <Text style={styles.label}>Nombre</Text>
@@ -138,12 +146,14 @@ const Perfil = () => {
           <Text style={styles.info}>{curp}</Text>
         </View>
 
+        {/* Tarjeta con datos de ubicación */}
         <View style={styles.profileCard}>
           <Text style={styles.cardTitle}>Datos de ubicación</Text>
           <Text style={styles.label}>Estado</Text>
           <Text style={styles.info}>{estado}</Text>
         </View>
 
+        {/* Tarjeta con datos de contacto */}
         <View style={styles.profileCard}>
           <Text style={styles.cardTitle}>Datos de contacto</Text>
           <Text style={styles.label}>Teléfono</Text>
@@ -153,8 +163,9 @@ const Perfil = () => {
           <Text style={styles.info}>{correo}</Text>
         </View>
 
-        {/* Botones */}
+        {/* Contenedor con botones */}
         <View style={styles.buttonContainer}>
+          {/* Botón para modificar la cuenta */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("CuentaForm")}
@@ -162,7 +173,7 @@ const Perfil = () => {
             <Text style={styles.buttonText}>Modificar</Text>
           </TouchableOpacity>
 
-          {/* 🔹 Botón de Cerrar Sesión con handleLogout */}
+          {/* Botón para cerrar sesión */}
           <TouchableOpacity
             style={[styles.button, styles.logoutButton]}
             onPress={handleLogout}

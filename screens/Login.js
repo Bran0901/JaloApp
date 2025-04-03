@@ -17,7 +17,7 @@ import {
 } from "react-native";
 import styles from "../styles/styles";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, getDoc, doc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -46,29 +46,42 @@ const Login = () => {
       Alert.alert("Error", "Por favor, ingrese sus datos.");
       return;
     }
-
-    // Validar el formato del correo
+  
     if (!validarCorreo(correoOCurp.trim())) {
       Alert.alert("Error", "Por favor, ingrese un correo electrónico válido.");
       return;
     }
-
+  
     setCargando(true);
     try {
-      // Intentar iniciar sesión con Firebase Authentication
+      // Iniciar sesión con Firebase Authentication
       const userCredential = await signInWithEmailAndPassword(
         auth,
         correoOCurp.trim(),
         contrasena.trim()
       );
       const user = userCredential.user;
-
-      console.log("Usuario autenticado:", user);
+  
+      // Obtener el rol del usuario desde Firestore
+      const userDoc = await getDoc(doc(db, "usuarios", user.uid));
+  
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const userRole = userData.role || "usuario"; // Si no tiene rol, asigna "usuario"
+        
+        // Guardar el rol en el estado global (opcional, si usas contexto)
+        // setUserRole(userRole);
+  
+        console.log("Rol del usuario:", userRole);
+      } else {
+        console.warn("No se encontró el rol del usuario en Firestore.");
+      }
+  
       setMensajeExito("Inicio de sesión exitoso");
-
+  
       setTimeout(() => {
         setMensajeExito("");
-        navigation.navigate("Inicio");
+        navigation.navigate("Inicio"); // Mantiene la navegación a Inicio
       }, 2000);
     } catch (error) {
       Alert.alert("Error", "Correo o contraseña incorrectos.");
@@ -77,6 +90,7 @@ const Login = () => {
       setCargando(false);
     }
   };
+  
 
   return (
     <KeyboardAvoidingView

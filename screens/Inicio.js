@@ -8,32 +8,36 @@ import {
   Linking,
 } from "react-native";
 import { Dimensions } from "react-native"; // Para hacer todo responsivo
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native"; // Hook para la navegación entre pantallas
 import styles from "../styles/styles"; // Importa los estilos
-import Encabezado from "../screens/Encabezado";
+import Encabezado from "../screens/Encabezado"; // Importa el componente de encabezado
 
-const screenHeight = Dimensions.get("window").height; // Obtiene el alto de la pantalla
+// Obtiene la altura de la pantalla del dispositivo
+const screenHeight = Dimensions.get("window").height; 
 
+// Función para abrir URLs en el navegador del dispositivo
 const openURL = (url) => {
   Linking.openURL(url).catch((err) =>
     console.error("No se pudo abrir la URL:", err)
   );
 };
 
+// Componente principal de la pantalla de inicio
 const Inicio = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation(); // Hook para manejar la navegación
 
   return (
     <View style={[styles.container, { height: screenHeight }]}>
-      {/* Encabezado */}
+      {/* Componente de encabezado */}
       <Encabezado />
 
-      {/* Contenido desplazable */}
+      {/* Contenido desplazable dentro de la pantalla */}
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
-        showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false} // Oculta la barra de desplazamiento vertical
       >
         <View style={styles.buttonGrid}>
+          {/* Botón para navegar a la pantalla "Tarjeta Joven" */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("TarjetaJoven")}
@@ -45,6 +49,7 @@ const Inicio = () => {
             />
           </TouchableOpacity>
 
+          {/* Botón para navegar a la pantalla "Perfil" */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Perfil")}
@@ -56,6 +61,7 @@ const Inicio = () => {
             />
           </TouchableOpacity>
 
+          {/* Botón para navegar a la pantalla "Descuentos" */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Descuentos")}
@@ -67,6 +73,7 @@ const Inicio = () => {
             />
           </TouchableOpacity>
 
+          {/* Botón para navegar a la pantalla "Vacantes" */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Vacantes")}
@@ -78,6 +85,7 @@ const Inicio = () => {
             />
           </TouchableOpacity>
 
+          {/* Botón para navegar a la pantalla "Eventos" */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Eventos")}
@@ -89,6 +97,7 @@ const Inicio = () => {
             />
           </TouchableOpacity>
 
+          {/* Botón para navegar a la pantalla "Programas" */}
           <TouchableOpacity
             style={styles.button}
             onPress={() => navigation.navigate("Programas")}
@@ -101,7 +110,7 @@ const Inicio = () => {
           </TouchableOpacity>
         </View>
 
-        {/* Botón Otros */}
+        {/* Botón "Otros" que lleva a la pantalla "Ijumich" */}
         <TouchableOpacity
           style={styles.otrosButton}
           onPress={() => navigation.navigate("Ijumich")}
@@ -114,10 +123,10 @@ const Inicio = () => {
         </TouchableOpacity>
       </ScrollView>
 
-      {/* Barra inferior */}
+      {/* Barra separadora en la parte inferior de la pantalla */}
       <View style={styles.separator} />
     </View>
   );
 };
 
-export default Inicio;
+export default Inicio; // Exporta el componente para su uso en la aplicación
