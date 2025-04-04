@@ -1,69 +1,43 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  Text,
-  FlatList,
-  ActivityIndicator,
-  Dimensions,
-} from "react-native";
-import { collection, onSnapshot } from "firebase/firestore";
+import { View, Text, ScrollView, ActivityIndicator } from "react-native";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import styles from "../styles/stylesAsistentes/stylesAsistentes";
-import Encabezado from "./Encabezado";
-import { useNavigation } from "@react-navigation/native";
+import styles from "../styles/stylesAsistentes/stylesAsistentes"; // crea o ajusta este archivo de estilos
+import Encabezado from "../screens/Encabezado";
+import { useRoute } from "@react-navigation/native";
+import { Button, Card, Avatar } from "react-native-paper";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Card, Avatar } from "react-native-paper";
-
-const screenHeight = Dimensions.get("window").height;
+import { useNavigation } from "@react-navigation/native";
 
 const Asistentes = () => {
   const navigation = useNavigation();
+  const route = useRoute();
+  const { eventoId, eventoNombre } = route.params;
+
   const [asistentes, setAsistentes] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(
+    const q = query(
       collection(db, "asistentes"),
-      (snapshot) => {
-        const asistentesData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setAsistentes(asistentesData);
-        setLoading(false);
-      },
-      (error) => {
-        console.error("Error obteniendo asistentes:", error);
-        setLoading(false);
-      }
+      where("nombreEvento", "==", eventoNombre)
     );
-    return () => unsubscribe();
-  }, []);
 
-  const renderItem = ({ item }) => (
-    <Card style={styles.profileCard}>
-      <Text style={styles.cardTitle}>{item.nombre}</Text>
-      <Text style={styles.label}>Sexo:</Text>
-      <Text style={styles.text}> {item.sexo}</Text>
-      <Text style={styles.label}>Edad:</Text>
-      <Text style={styles.text}> {item.edad}</Text>
-      <Text style={styles.label}>Municipio: </Text>
-      <Text style={styles.text}> {item.municipio}</Text>
-      <Text style={styles.label}>Institución:</Text>
-      <Text style={styles.text}> {item.institucion}</Text>
-      <Text style={styles.label}>Correo:</Text>
-      <Text style={styles.text}> {item.correo}</Text>
-      <Text style={styles.label}>Teléfono: </Text>
-      <Text style={styles.text}> {item.telefono}</Text>
-      <Text style={styles.label}>Fecha: </Text>
-      <Text style={styles.text}> {item.fecha}</Text>
-    </Card>
-  );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setAsistentes(data);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, [eventoId]);
 
   return (
-    <View style={[styles.container, { height: screenHeight }]}>
+    <View style={styles.container}>
       <Encabezado />
-
       <View style={styles.general}>
         <Icon
           name="arrow-left"
@@ -73,21 +47,37 @@ const Asistentes = () => {
           style={styles.icon}
         />
         <View style={styles.textContainer}>
-          <Text style={styles.generalTitle}>ASISTENTES</Text>
+          <Text style={styles.title}>Asistentes a {eventoNombre}</Text>
         </View>
         <View style={{ width: 30 }} />
       </View>
 
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#6a0f49" />
+      ) : asistentes.length === 0 ? (
+        <Text style={styles.emptyText}>No hay asistentes registrados aún.</Text>
       ) : (
-        <FlatList
-          data={asistentes}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-          contentContainerStyle={styles.listContainer}
-          showsVerticalScrollIndicator={false}
-        />
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          {asistentes.map((asistente) => (
+            <Card key={asistente.id} style={styles.card}>
+              <Card.Title
+                title={asistente.nombreCompleto}
+                subtitle={asistente.correo}
+              />
+              <Text style={styles.cardText}>Edad: {asistente.edad}</Text>
+              <Text style={styles.cardText}>Sexo: {asistente.sexo}</Text>
+              <Text style={styles.cardText}>
+                Municipio: {asistente.municipio}
+              </Text>
+              <Text style={styles.cardText}>
+                Institución: {asistente.institucion}
+              </Text>
+              <Text style={styles.cardText}>
+                Teléfono: {asistente.telefono}
+              </Text>
+            </Card>
+          ))}
+        </ScrollView>
       )}
     </View>
   );

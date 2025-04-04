@@ -83,6 +83,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#333",
   },
+  cardEn: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
   cardDescription: {
     fontSize: 14,
     color: "#666",

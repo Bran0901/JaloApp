@@ -22,6 +22,7 @@ import Bienvenida from "./screens/Bienvenida";
 import MenuScreen from "./screens/MenuH";
 import Asistentes from "./screens/Asistentes";
 import CuentaForm from "./screens/CuentaForm";
+import AsistenciaForm from "./screens/AsistenciaForm";
 
 const Stack = createStackNavigator();
 
@@ -122,6 +123,11 @@ export default function App() {
         <Stack.Screen
           name="CuentaForm"
           component={CuentaForm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AsistenciaForm"
+          component={AsistenciaForm}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

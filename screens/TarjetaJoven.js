@@ -42,7 +42,12 @@ const TarjetaJoven = () => {
               const age =
                 today.getFullYear() -
                 birthDate.getFullYear() -
-                (today < new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate())
+                (today <
+                new Date(
+                  today.getFullYear(),
+                  birthDate.getMonth(),
+                  birthDate.getDate()
+                )
                   ? 1
                   : 0);
               setEdad(age);
@@ -63,19 +68,32 @@ const TarjetaJoven = () => {
   }, []);
 
   return (
-    <View style={[styles.container, { height: screenHeight }]}> {/* Contenedor principal con altura dinámica */}
+    <View style={[styles.container, { height: screenHeight }]}>
+      {" "}
+      {/* Contenedor principal con altura dinámica */}
       <Encabezado /> {/* Componente de encabezado */}
       <Icon
         name="arrow-left"
         size={30}
         color="white"
         onPress={() => navigation.navigate("Inicio")} // Botón para regresar a la pantalla de inicio
-        style={{ alignSelf: "flex-start", marginHorizontal: 20, marginVertical: 5 }}
+        style={{
+          alignSelf: "flex-start",
+          marginHorizontal: 20,
+          marginVertical: 5,
+        }}
       />
-      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-        <View style={styles.cardContainer}> {/* Contenedor de la tarjeta de usuario */}
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.cardContainer}>
+          {" "}
+          {/* Contenedor de la tarjeta de usuario */}
           <Text style={styles.title}>FICHA DE JOVEN</Text>
-          <View style={styles.infoContainer}> {/* Sección de información del usuario */}
+          <View style={styles.infoContainer}>
+            {" "}
+            {/* Sección de información del usuario */}
             <Text style={styles.label}>Nombre:</Text>
             <Text style={styles.value}>{nombre}</Text>
           </View>

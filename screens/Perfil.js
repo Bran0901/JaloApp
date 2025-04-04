@@ -104,7 +104,9 @@ const Perfil = () => {
   };
 
   return (
-    <View style={[styles.container, { height: screenHeight }]}> {/* Contenedor principal con altura dinámica */}
+    <View style={[styles.container, { height: screenHeight }]}>
+      {" "}
+      {/* Contenedor principal con altura dinámica */}
       <Encabezado /> {/* Componente de encabezado */}
       <ScrollView>
         <View style={styles.general}>
@@ -149,7 +151,7 @@ const Perfil = () => {
         {/* Tarjeta con datos de ubicación */}
         <View style={styles.profileCard}>
           <Text style={styles.cardTitle}>Datos de ubicación</Text>
-          <Text style={styles.label}>Estado</Text>
+          <Text style={styles.label}>Estado y localidad</Text>
           <Text style={styles.info}>{estado}</Text>
         </View>
 

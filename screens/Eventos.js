@@ -11,7 +11,13 @@ import {
   Linking,
   Dimensions,
 } from "react-native";
-import { collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  getDoc,
+} from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import styles from "../styles/stylesEventos/stylesEventos";
 import { useNavigation } from "@react-navigation/native";
@@ -136,9 +142,18 @@ const Eventos = () => {
 
       {/* Cargando o mostrando eventos */}
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+          style={{ marginTop: 20 }}
+        />
       ) : (
-        <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}>
+        <ScrollView
+          contentContainerStyle={[
+            styles.scrollContainer,
+            { paddingBottom: 100 },
+          ]}
+        >
           {filteredEventos.map((evento) => (
             <Card
               key={evento.id}
@@ -157,7 +172,9 @@ const Eventos = () => {
                   />
                 )}
               />
-              <Text style={styles.cardText}>Descripción: {evento.descripcion}</Text>
+              <Text style={styles.cardText}>
+                Descripción: {evento.descripcion}
+              </Text>
               <Text style={styles.cardText}>
                 Fecha: {moment(evento.fecha).format("DD/MM/YYYY")}
               </Text>
@@ -169,13 +186,22 @@ const Eventos = () => {
 
       {/* Botón para agregar evento, solo para usuarios con rol 'administrador' o 'empresa' */}
       {(userRole === "administrador" || userRole === "empresa") && (
-        <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("EventosForm")}>
+        <Button
+          mode="contained"
+          style={styles.button}
+          onPress={() => navigation.navigate("EventosForm")}
+        >
           <Text>Agregar Evento</Text>
         </Button>
       )}
 
       {/* Modal para mostrar los detalles del evento seleccionado */}
-      <Modal visible={!!selectedEvento} transparent animationType="slide" onRequestClose={() => setSelectedEvento(null)}>
+      <Modal
+        visible={!!selectedEvento}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setSelectedEvento(null)}
+      >
         <View style={styles.modalContainer}>
           <ScrollView>
             <View style={styles.modalContent}>
@@ -183,7 +209,9 @@ const Eventos = () => {
                 <>
                   <Text style={styles.cardTitle}>{selectedEvento.nombre}</Text>
                   <Text style={styles.modalTitle}>Descripción:</Text>
-                  <Text style={styles.modalText}>{selectedEvento.descripcion}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedEvento.descripcion}
+                  </Text>
 
                   {/* Mostrar botones de actualizar y eliminar solo para administradores */}
                   {userRole === "administrador" && (
@@ -191,7 +219,9 @@ const Eventos = () => {
                       <TouchableOpacity
                         style={[styles.modalButton, styles.updateButton]}
                         onPress={() => {
-                          navigation.navigate("EventosForm", { evento: selectedEvento });
+                          navigation.navigate("EventosForm", {
+                            evento: selectedEvento,
+                          });
                           setSelectedEvento(null); // Cierra el modal
                         }}
                       >
@@ -205,7 +235,28 @@ const Eventos = () => {
                       </TouchableOpacity>
                     </View>
                   )}
-
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() =>
+                      navigation.navigate("Asistentes", {
+                        eventoId: selectedEvento?.id,
+                        eventoNombre: selectedEvento?.nombre,
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>Ver asistentes</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() =>
+                      navigation.navigate("AsistenciaForm", {
+                        eventoNombre: selectedEvento?.nombre, // Pasando el nombre del evento como parámetro
+                        eventoId: selectedEvento?.id, // Puedes pasar otros datos también
+                      })
+                    }
+                  >
+                    <Text style={styles.buttonText}>Registrarte</Text>
+                  </TouchableOpacity>
                   {/* Botón para cerrar el modal */}
                   <TouchableOpacity
                     style={styles.closeButton}

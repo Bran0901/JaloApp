@@ -1,198 +1,27 @@
 import { StyleSheet, Dimensions } from "react-native";
 
-const { width, height } = Dimensions.get("window"); // Obtiene tamaño de la pantalla
+const { width, height } = Dimensions.get("window"); // Obtiene el tamaño de la pantalla
 
 const stylesTarjetaJoven = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6a0f49",
     alignItems: "center",
-    justifyContent: "center",
-  },
-  icon: {
-    alignSelf: "left",
-    marginHorizontal: 20,
-  },
-  iconLogo: {
-    alignSelf: "center",
-    marginHorizontal: 20,
-    width: width * 0.4,
-    height: height * 0.1,
-  },
-  header: {
-    width: "100%",
-    height: height * 0.12, // Ajuste dinámico según la pantalla
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between", // Distribuye equitativamente
-    paddingHorizontal: "5%", // Espaciado proporcional
-    paddingTop: 35,
-    backgroundColor: "#FFFFFF",
-  },
-  imageContainer: {
-    flex: 1, // Permite que las imágenes tengan espacio uniforme
-    alignItems: "center", // Centra la imagen dentro de su espacio
-  },
-  titleContainer: {
-    flex: 2, // Da más espacio al título
-    alignItems: "center",
-  },
-  logo: {
-    maxWidth: 200, // Limita el ancho de la imagen
-    height: 100,
-    resizeMode: "contain", 
-    marginTop: 50,
-  },
-  userIcon: {
-    maxWidth: 50,
-    height: 50,
-    resizeMode: "contain",
-    //marginLeft: 55,
-  },
-  titleLogo: {
-    maxWidth: 120, // Un poco más grande para resaltar el título
-    height: 60,
-    resizeMode: "contain",
-  },
-  separator: {
-    width: "100%",
-    height: 4,
-    backgroundColor: "black", // Línea negra divisoria
+    justifyContent: "flex-start", // Cambiado a flex-start para mejorar la distribución
+    paddingHorizontal: 15, // Añadido padding horizontal
   },
   scrollContainer: {
     flexGrow: 1,
     alignItems: "center",
-    justifyContent: "center",
-  },
-  buttonGrid: {
-    width: "90%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-  },
-  button: {
-    width: "45%",
-    height: 40,
-    backgroundColor: "#FDEEEE",
-    alignItems: "center",
-    justifyContent: "center",
-    marginVertical: 10,
-    borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5, // Sombra para Android
-  },
-  otrosButton: {
-    width: "90%",
-    height: 120,
-    backgroundColor: "#FDEEEE",
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 10,
-    marginVertical: 20,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  footer: {
-    width: "100%",
-    height: height * 0.1, // Se ajusta dinámicamente según la pantalla
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between", // Distribuye equitativamente los íconos
-    backgroundColor: "#FFFFFF",
-    paddingHorizontal: "5%", // Espaciado proporcional
-    paddingVertical: 10,
-    //position: 'absolute', // Fija el footer en la parte inferior
-    bottom: 0,
-  },
-  iconContainer: {
-    flex: 1, // Permite que los iconos tengan el mismo espacio
-    alignItems: "center", // Centra cada ícono
-  },
-  socialIcon: {
-    maxWidth: 40, // Se evita que las imágenes se deformen
-    height: 35,
-    resizeMode: "contain",
-  },
-  icon: {
-    paddingTop: 10,
-    width: 50,
-    height: 60,
-  },
-  title2: {
-    color: "#000",
-    marginBottom: 5,
-    textAlign: "left",
-    fontWeight: "bold",
-  },
-  avatar: {
-    width: 250,
-    height: 250,
-    resizeMode: "contain",
-    marginBottom: 30,
-  },
-  text: {
-    fontSize: 20,
-    marginBottom: 10,
-    color: "#ffffff",
-  },
-  input: {
-    width: "100%",
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-  card: {
-    width: 310, // Ajuste del ancho para mantener proporción
-    backgroundColor: "#FFFFFF", // Fondo blanco para el card
-    borderRadius: 10, // Bordes redondeados
-    padding: 20, // Espaciado interno
-    shadowColor: "#000", // Sombra para efecto de elevación
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5, // Sombra para Android
-  },
-  input2: {
-    backgroundColor: "#f0f0f0",
-    borderRadius: 5,
-    padding: 10,
-    marginVertical: 8,
-    height: 40,
-    width: "100%",
-    alignSelf: "center",
-    marginTop: 10,
-    marginBottom: 15,
-  },
-  boton: {
-    backgroundColor: "#007bff", // Azul como en la imagen
-    padding: 10,
-    borderRadius: 5,
-    alignItems: "center",
-    width: "100%", // Que ocupe todo el ancho del card
-    marginTop: 10,
-  },
-  textoBoton: {
-    backgroundColor: "#650D36",
-    padding: 10,
-    borderRadius: 5,
-    color: "#ffffff", // Texto blanco en el botón
-    textAlign: "center",
+    justifyContent: "flex-start", // Cambiado para ajustar mejor los contenidos
+    paddingBottom: 20,
   },
   cardContainer: {
     backgroundColor: "#FDEEEE",
-    padding: 30,
+    padding: 20,
     borderRadius: 15,
     alignItems: "center",
-    width: "90%",
+    width: "100%", // Se ajusta a la pantalla completa
     alignSelf: "center",
     borderWidth: 3,
     borderColor: "#FFF",
@@ -204,12 +33,13 @@ const stylesTarjetaJoven = StyleSheet.create({
     elevation: 6, // Sombra para Android
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: "bold",
     color: "black",
     marginBottom: 15,
     textTransform: "uppercase",
     textAlign: "center",
+    paddingHorizontal: 10, // Añadido padding horizontal
   },
   infoContainer: {
     flexDirection: "row",
@@ -218,15 +48,21 @@ const stylesTarjetaJoven = StyleSheet.create({
     paddingVertical: 8,
     borderBottomWidth: 1,
     borderBottomColor: "black",
+    paddingHorizontal: 10, // Añadido padding horizontal
   },
   label: {
-    fontSize: 14,
+    fontSize: 16, // Aumentado para mayor legibilidad
     fontWeight: "bold",
     color: "black",
   },
   value: {
-    fontSize: 12,
+    fontSize: 14, // Aumentado para mayor legibilidad
     color: "black",
+  },
+  backButton: {
+    alignSelf: "flex-start",
+    marginHorizontal: 20,
+    marginVertical: 5,
   },
 });
 

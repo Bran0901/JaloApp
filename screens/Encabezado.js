@@ -1,15 +1,10 @@
 import React from "react";
-import {
-  View,
-  Image,
-  TouchableOpacity,
-  Dimensions,
-} from "react-native";
+import { View, Image, TouchableOpacity, Dimensions } from "react-native";
 import styles from "../styles/stylesEncabezado/stylesEncabezado";
 import { useNavigation } from "@react-navigation/native";
 import { Avatar } from "react-native-paper";
 
-const { height } = Dimensions.get("window"); // Obtiene la altura de la pantalla
+const { height, width } = Dimensions.get("window"); // Obtiene las dimensiones de la pantalla
 
 const Header = () => {
   const navigation = useNavigation(); // Hook para manejar la navegación
