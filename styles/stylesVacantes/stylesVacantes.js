@@ -19,6 +19,11 @@ const stylesVacantes = StyleSheet.create({
     paddingTop: 35,
     backgroundColor: "#FFFFFF",
   },
+  contentContainerStyle: {
+    alignItems: "center", // Centra horizontalmente todo lo que está dentro del ScrollView
+    paddingRight: 15,
+    paddingLeft: 0,
+  },
   button: {
     marginTop: 10,
     marginBottom: 10,

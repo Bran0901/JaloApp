@@ -11,7 +11,13 @@ import {
   Dimensions,
   Linking,
 } from "react-native";
-import { collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  getDoc,
+} from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import styles from "../styles/stylesVacantes/stylesVacantes";
 import { useNavigation } from "@react-navigation/native";
@@ -36,7 +42,10 @@ const Vacantes = () => {
   useEffect(() => {
     // Suscripción en tiempo real a las vacantes
     const unsubscribe = onSnapshot(collection(db, "vacantes"), (snapshot) => {
-      const vacantesData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const vacantesData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setVacantes(vacantesData);
       setLoading(false); // Finaliza la carga de datos
     });
@@ -64,26 +73,33 @@ const Vacantes = () => {
   // Función para eliminar una vacante, solo accesible para administradores
   const deleteVacante = async (id) => {
     if (userRole !== "administrador") {
-      Alert.alert("Acceso denegado", "No tienes permisos para eliminar vacantes.");
+      Alert.alert(
+        "Acceso denegado",
+        "No tienes permisos para eliminar vacantes."
+      );
       return;
     }
-    Alert.alert("Confirmar Eliminación", "¿Estás seguro de que deseas eliminar esta vacante?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Eliminar",
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await deleteDoc(doc(db, "vacantes", id)); // Elimina la vacante de Firestore
-            Alert.alert("Eliminado", "La vacante ha sido eliminada.");
-            setSelectedVacante(null); // Cierra el modal tras eliminar
-          } catch (error) {
-            console.error("Error al eliminar:", error);
-            Alert.alert("Error", "No se pudo eliminar la vacante.");
-          }
+    Alert.alert(
+      "Confirmar Eliminación",
+      "¿Estás seguro de que deseas eliminar esta vacante?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Eliminar",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteDoc(doc(db, "vacantes", id)); // Elimina la vacante de Firestore
+              Alert.alert("Eliminado", "La vacante ha sido eliminada.");
+              setSelectedVacante(null); // Cierra el modal tras eliminar
+            } catch (error) {
+              console.error("Error al eliminar:", error);
+              Alert.alert("Error", "No se pudo eliminar la vacante.");
+            }
+          },
         },
-      },
-    ]);
+      ]
+    );
   };
 
   // Filtrar las vacantes según el término de búsqueda
@@ -151,15 +167,23 @@ const Vacantes = () => {
               />
               <Text style={styles.cardText}>Cargo: {vacante.cargo}</Text>
               <Text style={styles.cardText}>Salario: {vacante.salario}</Text>
-              <Text style={styles.cardText}>Ubicacion: {vacante.ubicacion}</Text>
-              <Text style={styles.cardText}>Requisitos: {vacante.requisitos}</Text>
+              <Text style={styles.cardText}>
+                Ubicacion: {vacante.ubicacion}
+              </Text>
+              <Text style={styles.cardText}>
+                Requisitos: {vacante.requisitos}
+              </Text>
             </Card>
           ))
         )}
 
         {/* Botón para agregar vacantes, visible solo para empresas y administradores */}
         {(userRole === "empresa" || userRole === "administrador") && (
-          <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("VacantesForm")}>
+          <Button
+            mode="contained"
+            style={styles.button}
+            onPress={() => navigation.navigate("VacantesForm")}
+          >
             <Text>Agregar Vacante</Text>
           </Button>
         )}
@@ -177,34 +201,50 @@ const Vacantes = () => {
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                   <Text style={styles.cardTitle}>{selectedVacante.nombre}</Text>
                   <Text style={styles.modalTitle}>Empresa:</Text>
-                  <Text style={styles.modalText}>{selectedVacante.empresa}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedVacante.empresa}
+                  </Text>
 
                   <Text style={styles.modalTitle}>Cargo:</Text>
                   <Text style={styles.modalText}>{selectedVacante.cargo}</Text>
 
                   <Text style={styles.modalTitle}>Salario:</Text>
-                  <Text style={styles.modalText}>{selectedVacante.salario}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedVacante.salario}
+                  </Text>
 
                   <Text style={styles.modalTitle}>Ubicación:</Text>
-                  <Text style={styles.modalText}>{selectedVacante.ubicacion}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedVacante.ubicacion}
+                  </Text>
 
                   <Text style={styles.modalTitle}>Contacto:</Text>
-                  <Text style={styles.modalText}>{selectedVacante.contacto}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedVacante.contacto}
+                  </Text>
 
                   <Text style={styles.modalTitle}>Requisitos:</Text>
-                  <Text style={styles.modalText}>{selectedVacante.requisitos}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedVacante.requisitos}
+                  </Text>
 
                   <Text style={styles.modalTitle}>Experiencia:</Text>
-                  <Text style={styles.modalText}>{selectedVacante.experiencia}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedVacante.experiencia}
+                  </Text>
 
                   {/* Nuevos campos para mostrar más detalles */}
                   <Text style={styles.modalTitle}>Categoría:</Text>
-                  <Text style={styles.modalText}>{selectedVacante.categoria}</Text>
+                  <Text style={styles.modalText}>
+                    {selectedVacante.categoria}
+                  </Text>
 
                   <Text style={styles.modalTitle}>Link de Ubicación:</Text>
                   <Text
                     style={styles.modalTextLink}
-                    onPress={() => Linking.openURL(selectedVacante.linkUbicacion)}
+                    onPress={() =>
+                      Linking.openURL(selectedVacante.linkUbicacion)
+                    }
                   >
                     {selectedVacante.linkUbicacion}
                   </Text>

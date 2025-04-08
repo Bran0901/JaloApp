@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Inicio from "./screens/Inicio";
+import { auth } from "./firebaseConfig"; // Asegúrate de tener la configuración de Firebase
+import { View, Text, ActivityIndicator } from "react-native";
 
 // Importamos las pantallas de destino
+import Inicio from "./screens/Inicio";
 import TarjetaJoven from "./screens/TarjetaJoven";
 import Perfil from "./screens/Perfil";
 import Descuentos from "./screens/Descuentos";
@@ -23,13 +25,34 @@ import MenuScreen from "./screens/MenuH";
 import Asistentes from "./screens/Asistentes";
 import CuentaForm from "./screens/CuentaForm";
 import AsistenciaForm from "./screens/AsistenciaForm";
+import Graficas from "./screens/Graficas";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true); // Para manejar la carga de estado
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    // Aquí verificamos el estado de la autenticación
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user); // Si el usuario está autenticado, se actualizará el estado
+      setIsLoading(false); // Una vez que sabemos si el usuario está autenticado, ya podemos cargar la app
+    });
+
+    return () => unsubscribe(); // Limpiamos el observador al desmontar el componente
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Inicio">
+      <Stack.Navigator initialRouteName={user ? "Inicio" : "Bienvenida"}>
         <Stack.Screen
           name="Inicio"
           component={Inicio}
@@ -128,6 +151,11 @@ export default function App() {
         <Stack.Screen
           name="AsistenciaForm"
           component={AsistenciaForm}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Graficas"
+          component={Graficas}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

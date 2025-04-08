@@ -8,7 +8,6 @@ const stylesTarjetaJoven = StyleSheet.create({
     backgroundColor: "#6a0f49",
     alignItems: "center",
     justifyContent: "flex-start", // Cambiado a flex-start para mejorar la distribución
-    paddingHorizontal: 15, // Añadido padding horizontal
   },
   scrollContainer: {
     flexGrow: 1,
@@ -21,11 +20,11 @@ const stylesTarjetaJoven = StyleSheet.create({
     padding: 20,
     borderRadius: 15,
     alignItems: "center",
-    width: "100%", // Se ajusta a la pantalla completa
+    width: "95%", // Se ajusta a la pantalla completa
     alignSelf: "center",
     borderWidth: 3,
     borderColor: "#FFF",
-    marginTop: 20,
+    marginTop: 100,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,

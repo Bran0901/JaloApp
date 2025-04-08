@@ -36,59 +36,72 @@ const Cuenta = () => {
   const validarCurp = (curp) => /^[A-Z0-9]{18}$/i.test(curp);
 
   const handleRegistro = useCallback(async () => {
-    if (!nombre.trim() || !correo.trim() || !curp.trim() || !password || !confirmPassword) {
-      Alert.alert("Error", "Por favor, completa todos los campos obligatorios.");
+    if (
+      !nombre.trim() ||
+      !correo.trim() ||
+      !curp.trim() ||
+      !password ||
+      !confirmPassword
+    ) {
+      Alert.alert(
+        "Error",
+        "Por favor, completa todos los campos obligatorios."
+      );
       return;
     }
-  
+
     if (!validarCorreo(correo)) {
       Alert.alert("Error", "Correo no válido.");
       return;
     }
-  
+
     if (!validarCurp(curp)) {
       Alert.alert("Error", "El CURP debe tener 18 caracteres.");
       return;
     }
-  
+
     if (password !== confirmPassword) {
       Alert.alert("Error", "Las contraseñas no coinciden.");
       return;
     }
-  
+
     const edad = moment().diff(moment(fechaNacimiento), "years");
     if (edad < 18) {
       Alert.alert("Error", "Debes ser mayor de 18 años.");
       return;
     }
-  
+
     try {
       let userRole = "usuario"; // Rol por defecto
-  
-      if (invitationCode.trim()) { 
+
+      if (invitationCode.trim()) {
         // Si el usuario ingresó un código, validarlo en Firestore
         const codeRef = doc(db, "codes", invitationCode.trim());
         const codeSnap = await getDoc(codeRef);
-  
+
         if (!codeSnap.exists()) {
           Alert.alert("Error", "Código de invitación inválido.");
           return;
         }
-  
+
         const codeData = codeSnap.data();
         if (codeData.used) {
           Alert.alert("Error", "El código de invitación ya fue usado.");
           return;
         }
-  
+
         userRole = codeData.role; // Asignar el rol del código válido
         await updateDoc(codeRef, { used: true }); // Marcar código como usado
       }
-  
+
       // 🔥 Registrar usuario en Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, correo.trim(), password.trim());
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        correo.trim(),
+        password.trim()
+      );
       const user = userCredential.user;
-  
+
       // 🚀 Guardar usuario en Firestore
       await setDoc(doc(db, "usuarios", user.uid), {
         nombre: nombre.trim(),
@@ -98,7 +111,7 @@ const Cuenta = () => {
         uid: user.uid,
         role: userRole, // Guardar el rol
       });
-  
+
       ToastAndroid.show("Registro exitoso", ToastAndroid.LONG);
       setNombre("");
       setFechaNacimiento(new Date());
@@ -107,18 +120,24 @@ const Cuenta = () => {
       setPassword("");
       setConfirmPassword("");
       setInvitationCode("");
-  
+
       setTimeout(() => navigation.navigate("Login"), 2000);
     } catch (error) {
       Alert.alert("Error", "No se pudo registrar el usuario.");
       console.error("Error en registro:", error);
     }
-  }, [nombre, fechaNacimiento, correo, curp, password, confirmPassword, invitationCode]);
-  
+  }, [
+    nombre,
+    fechaNacimiento,
+    correo,
+    curp,
+    password,
+    confirmPassword,
+    invitationCode,
+  ]);
 
   return (
     <View style={styles.container}>
-      <Encabezado />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
@@ -203,7 +222,7 @@ const Cuenta = () => {
 
               <TouchableOpacity
                 onPress={handleRegistro}
-                style={styles.addButton} 
+                style={styles.addButton}
               >
                 <Text style={styles.buttonText}>Registrar</Text>
               </TouchableOpacity>

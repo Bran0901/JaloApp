@@ -9,6 +9,11 @@ export default StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  contentContainerStyle: {
+    alignItems: "center", // Centra horizontalmente todo lo que está dentro del ScrollView
+    paddingRight: 15,
+    paddingLeft: 0,
+  },
   header: {
     width: "100%",
     height: height * 0.12,
@@ -50,8 +55,8 @@ export default StyleSheet.create({
   searchBarContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
-    paddingHorizontal: 16,
+    marginBottom: 5,
+    paddingHorizontal: 15,
   },
   searchBar: {
     backgroundColor: "#FFFF",
@@ -83,6 +88,18 @@ export default StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     backgroundColor: "#c83182",
+  },
+  buttonF: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: "#c83182",
+    width: width * 0.9,
+  },
+  buttonQ: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: "rgb(151, 0, 0)",
+    width: width * 0.9,
   },
   discountDate: {
     color: "gray",
@@ -180,5 +197,17 @@ export default StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "black",
+  },
+  containerButtons: {
+    flexDirection: "row", // Alinea los elementos horizontalmente
+    alignItems: "center", // Alinea los elementos verticalmente en el centro
+    paddingHorizontal: 16, // Espaciado horizontal
+    marginBottom: 10, // Espaciado inferior
+  },
+  categoryButton: {
+    padding: 10,
+    backgroundColor: "#f2f2f2",
+    borderRadius: 5,
+    marginBottom: 45,
   },
 });

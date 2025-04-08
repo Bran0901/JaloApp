@@ -235,17 +235,20 @@ const Eventos = () => {
                       </TouchableOpacity>
                     </View>
                   )}
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={() =>
-                      navigation.navigate("Asistentes", {
-                        eventoId: selectedEvento?.id,
-                        eventoNombre: selectedEvento?.nombre,
-                      })
-                    }
-                  >
-                    <Text style={styles.buttonText}>Ver asistentes</Text>
-                  </TouchableOpacity>
+                  {userRole === "administrador" && (
+                    <TouchableOpacity
+                      style={styles.closeButton}
+                      onPress={() =>
+                        navigation.navigate("Asistentes", {
+                          eventoId: selectedEvento?.id,
+                          eventoNombre: selectedEvento?.nombre,
+                        })
+                      }
+                    >
+                      <Text style={styles.buttonText}>Ver asistentes</Text>
+                    </TouchableOpacity>
+                  )}
+
                   <TouchableOpacity
                     style={styles.closeButton}
                     onPress={() =>

@@ -49,9 +49,10 @@ export const styles = StyleSheet.create({
     resizeMode: "contain",
   },
   formContainer: {
-    width: "90%",
+    width: "85%",
     backgroundColor: "#fff",
     padding: 30,
+    marginStart: -15,
     borderRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },

@@ -4,7 +4,7 @@ const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
   header: {
-    width: "110%",
+    width: "105%",
     height: height * 0.12, // Se mantiene el porcentaje de la pantalla
     flexDirection: "row",
     alignItems: "center",
@@ -45,6 +45,7 @@ export default StyleSheet.create({
     backgroundColor: "#6A0F49",
   },
   menuButton: {
-    marginRight: width * 0.05, // Mantener espacio respecto al borde derecho
+    marginRight: width * 0.13,
+    marginLeft: width * 0.03, // Mantener espacio respecto al borde derecho
   },
 });

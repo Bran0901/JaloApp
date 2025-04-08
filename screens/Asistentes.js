@@ -58,6 +58,18 @@ const Asistentes = () => {
         <Text style={styles.emptyText}>No hay asistentes registrados aún.</Text>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <Button
+            mode="contained"
+            onPress={() =>
+              navigation.navigate("Graficas", {
+                asistentes,
+                eventoNombre,
+              })
+            }
+            style={styles.button2}
+          >
+            Ver gráficas
+          </Button>
           {asistentes.map((asistente) => (
             <Card key={asistente.id} style={styles.card}>
               <Card.Title

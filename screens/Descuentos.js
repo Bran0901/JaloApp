@@ -32,6 +32,7 @@ export default function DescuentosScreen() {
   const [selectedItem, setSelectedItem] = useState(null); // Estado para el descuento seleccionado
   const [userRole, setUserRole] = useState(null); // Estado para el rol del usuario
   const navigation = useNavigation(); // Hook para navegar entre pantallas
+  const [categorias, setCategorias] = useState([]);
 
   // useEffect para obtener los descuentos y el rol del usuario
   useEffect(() => {
@@ -43,7 +44,12 @@ export default function DescuentosScreen() {
           id: doc.id,
           ...doc.data(),
         }));
-        setDescuentos(descuentosArray); // Establece los descuentos en el estado
+        setDescuentos(descuentosArray);
+        const categoriasUnicas = [
+          ...new Set(descuentosArray.map((item) => item.categoria?.trim())),
+        ];
+        setCategorias(categoriasUnicas);
+        // Establece los descuentos en el estado
       } catch (error) {
         console.error("Error obteniendo descuentos:", error); // Manejo de errores
       }
@@ -71,41 +77,55 @@ export default function DescuentosScreen() {
 
   // Función para eliminar un descuento
   const eliminarDescuento = async (id, descuento) => {
-    Alert.alert("Confirmación", "¿Está seguro de que desea eliminar el descuento?", [
-      {
-        text: "Cancelar",
-        style: "cancel",
-      },
-      {
-        text: "Eliminar",
-        onPress: async () => {
-          try {
-            // Mueve el descuento a la colección de descuentos eliminados
-            await addDoc(collection(db, "descuentoseliminados"), descuento);
-            // Elimina el descuento de la colección de descuentos
-            await deleteDoc(doc(db, "descuentos", id));
-            setDescuentos(descuentos.filter((item) => item.id !== id)); // Actualiza la lista de descuentos
-            setModalVisible(false); // Cierra el modal
-          } catch (error) {
-            console.error("Error al eliminar el descuento:", error); // Manejo de errores
-          }
+    Alert.alert(
+      "Confirmación",
+      "¿Está seguro de que desea eliminar el descuento?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel",
         },
-      },
-    ]);
+        {
+          text: "Eliminar",
+          onPress: async () => {
+            try {
+              // Mueve el descuento a la colección de descuentos eliminados
+              await addDoc(collection(db, "descuentoseliminados"), descuento);
+              // Elimina el descuento de la colección de descuentos
+              await deleteDoc(doc(db, "descuentos", id));
+              setDescuentos(descuentos.filter((item) => item.id !== id)); // Actualiza la lista de descuentos
+              setModalVisible(false); // Cierra el modal
+            } catch (error) {
+              console.error("Error al eliminar el descuento:", error); // Manejo de errores
+            }
+          },
+        },
+      ]
+    );
   };
 
-  // Filtra los descuentos según la búsqueda
-  const searchData = descuentos.filter(
-    (item) =>
-      [item.titulo, item.empresa, item.direccion].some((field) =>
-        field?.toLowerCase().includes(search.toLowerCase()) // Filtra por título, empresa o dirección
-      )
-  );
+  /* Buscar descuentos
+  const searchData = descuentos.filter((item) =>
+    [item.titulo, item.empresa, item.direccion].some(
+      (field) => field?.toLowerCase().includes(search.toLowerCase()) // Busca por título, empresa o dirección
+    )
+  );*/
+  const [showCategorias, setShowCategorias] = useState(false);
+  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null);
+
+  const searchData = descuentos.filter((item) => {
+    const coincideBusqueda = [item.titulo, item.empresa, item.direccion].some(
+      (field) => field?.toLowerCase().includes(search.toLowerCase())
+    );
+    const coincideCategoria = categoriaSeleccionada
+      ? item.categoria?.trim() === categoriaSeleccionada
+      : true;
+    return coincideBusqueda && coincideCategoria;
+  });
 
   return (
     <View style={styles.container}>
       <Encabezado /> {/* Componente de encabezado */}
-      
       {/* Barra de navegación y título */}
       <View style={styles.general}>
         <Icon
@@ -120,7 +140,6 @@ export default function DescuentosScreen() {
         </View>
         <View style={{ width: 30 }} />
       </View>
-
       {/* Barra de búsqueda */}
       <View style={styles.searchBarContainer}>
         <TextInput
@@ -130,7 +149,42 @@ export default function DescuentosScreen() {
           style={styles.searchBar}
         />
       </View>
-
+      <View style={{ paddingHorizontal: 16, marginBottom: 10 }}>
+        <Button
+          onPress={() => setShowCategorias(!showCategorias)}
+          style={styles.buttonF}
+          mode="contained"
+        >
+          <Text style={{ color: "#fff", textAlign: "center" }}>
+            Filtrar por categoría
+          </Text>
+        </Button>
+        {showCategorias &&
+          categorias.map((cat, index) => (
+            <TouchableOpacity
+              key={index}
+              style={{
+                padding: 10,
+                backgroundColor: "#f2f2f2",
+                borderRadius: 5,
+                marginBottom: 5,
+              }}
+              onPress={() => setCategoriaSeleccionada(cat)}
+            >
+              <Text style={{ color: "#333" }}>{cat}</Text>
+            </TouchableOpacity>
+          ))}
+        ,
+        {categoriaSeleccionada && (
+          <Button
+            onPress={() => setCategoriaSeleccionada(null)}
+            style={styles.buttonQ}
+            mode="contained"
+          >
+            <Text style={{ color: "#fff" }}>Quitar filtros</Text>
+          </Button>
+        )}
+      </View>
       {/* Lista de descuentos */}
       <FlatList
         data={searchData} // Muestra los descuentos filtrados por la búsqueda
@@ -159,7 +213,8 @@ export default function DescuentosScreen() {
                 <Text style={styles.modalTitle2}>{item.titulo}</Text>
                 <Text style={styles.cardDesc}>{item.descripcion}</Text>
                 <Text style={styles.discountDate}>
-                  {item.fechaInicio} - {item.fechaFin} {/* Muestra las fechas de inicio y fin */}
+                  {item.fechaInicio} - {item.fechaFin}{" "}
+                  {/* Muestra las fechas de inicio y fin */}
                 </Text>
                 <Text style={styles.direccion}>{item.direccion}</Text>
               </Card.Content>
@@ -167,7 +222,6 @@ export default function DescuentosScreen() {
           </TouchableOpacity>
         )}
       />
-
       {/* Botón para agregar un descuento, visible solo para empresas o administradores */}
       {(userRole === "empresa" || userRole === "administrador") && (
         <Button
@@ -178,7 +232,6 @@ export default function DescuentosScreen() {
           Agregar Descuento
         </Button>
       )}
-
       {/* Modal para mostrar los detalles de un descuento */}
       <Modal
         visible={modalVisible}
@@ -196,7 +249,9 @@ export default function DescuentosScreen() {
                   <Text style={styles.modalTitle}>Descuento:</Text>
                   <Text style={styles.modalText}>{selectedItem.titulo}</Text>
                   <Text style={styles.modalTitle}>Descripción:</Text>
-                  <Text style={styles.modalTextDesc}>{selectedItem.descripcion}</Text>
+                  <Text style={styles.modalTextDesc}>
+                    {selectedItem.descripcion}
+                  </Text>
                   <Text style={styles.modalTitle}>Dirección:</Text>
                   <Text style={styles.modalText}>{selectedItem.direccion}</Text>
                   <Text style={styles.modalTitle}>Link de ubicación:</Text>
@@ -212,14 +267,20 @@ export default function DescuentosScreen() {
                     <View style={styles.buttonContainer}>
                       <Button
                         mode="contained"
-                        onPress={() => navigation.navigate("DescuentoFormAct", { selectedItem })}
+                        onPress={() =>
+                          navigation.navigate("DescuentoFormAct", {
+                            selectedItem,
+                          })
+                        }
                         style={styles.button}
                       >
                         Actualizar
                       </Button>
                       <Button
                         mode="contained"
-                        onPress={() => eliminarDescuento(selectedItem.id, selectedItem)}
+                        onPress={() =>
+                          eliminarDescuento(selectedItem.id, selectedItem)
+                        }
                         style={styles.button}
                       >
                         Eliminar
@@ -228,7 +289,11 @@ export default function DescuentosScreen() {
                   )}
 
                   {/* Botón para cerrar el modal */}
-                  <Button mode="contained" onPress={() => setModalVisible(false)} style={styles.button}>
+                  <Button
+                    mode="contained"
+                    onPress={() => setModalVisible(false)}
+                    style={styles.button}
+                  >
                     Cerrar
                   </Button>
                 </>
