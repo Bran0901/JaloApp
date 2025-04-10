@@ -76,7 +76,7 @@ const TarjetaJoven = () => {
         name="arrow-left"
         size={30}
         color="white"
-        onPress={() => navigation.navigate("Inicio")} // Botón para regresar a la pantalla de inicio
+        onPress={() => navigation.goBack()} // Botón para regresar a la pantalla de inicio
         style={{
           alignSelf: "flex-start",
           marginHorizontal: 20,

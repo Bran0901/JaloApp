@@ -136,7 +136,7 @@ const Cuenta = () => {
       setTelefono("");
       setEstado("");
 
-      setTimeout(() => navigation.navigate("Login"), 2000);
+      setTimeout(() => navigation.replace("Login"), 2000);
     } catch (error) {
       Alert.alert("Error", "No se pudo registrar el usuario.");
       console.error("Error en registro:", error);
@@ -267,7 +267,7 @@ const Cuenta = () => {
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => navigation.navigate("Bienvenida")}
+                onPress={() => navigation.goBack()}
                 style={styles.cancelButton}
               >
                 <Text style={styles.buttonText}>Cancelar</Text>

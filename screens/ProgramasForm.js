@@ -159,7 +159,7 @@ const ProgramasForm = ({ navigation, route }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButtonForm}
-                    onPress={() => navigation.navigate("Programas")}
+                    onPress={() => navigation.goBack()}
                   >
                     <Text style={styles.buttonTextForm}>Cancelar</Text>
                   </TouchableOpacity>

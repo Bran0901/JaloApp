@@ -196,7 +196,7 @@ const EventosForm = ({ navigation, route }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButtonForm}
-                    onPress={() => navigation.navigate("Eventos")}
+                    onPress={() => navigation.goBack()}
                   >
                     <Text style={styles.buttonTextForm}>Cancelar</Text>
                   </TouchableOpacity>

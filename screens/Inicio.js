@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -6,14 +6,16 @@ import {
   TouchableOpacity,
   ScrollView,
   Linking,
+  Alert,
+  BackHandler,
 } from "react-native";
 import { Dimensions } from "react-native"; // Para hacer todo responsivo
-import { useNavigation } from "@react-navigation/native"; // Hook para la navegación entre pantallas
+import { useNavigation, useRoute } from "@react-navigation/native"; // Hook para la navegación entre pantallas
 import styles from "../styles/styles"; // Importa los estilos
 import Encabezado from "../screens/Encabezado"; // Importa el componente de encabezado
 
 // Obtiene la altura de la pantalla del dispositivo
-const screenHeight = Dimensions.get("window").height; 
+const screenHeight = Dimensions.get("window").height;
 
 // Función para abrir URLs en el navegador del dispositivo
 const openURL = (url) => {

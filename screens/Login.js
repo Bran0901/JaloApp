@@ -94,7 +94,7 @@ const Login = () => {
 
       setTimeout(() => {
         setMensajeExito("");
-        navigation.navigate("Inicio"); // Mantiene la navegación a Inicio
+        navigation.replace("Inicio"); // Mantiene la navegación a Inicio
       }, 2000);
     } catch (error) {
       Alert.alert("Error", "Correo o contraseña incorrectos.");

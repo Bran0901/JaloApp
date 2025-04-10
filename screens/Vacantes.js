@@ -119,7 +119,7 @@ const Vacantes = () => {
           name="arrow-left"
           size={30}
           color="black"
-          onPress={() => navigation.navigate("Inicio")}
+          onPress={() => navigation.goBack()}
           style={styles.icon}
         />
         <View style={styles.textContainer}>

@@ -11,7 +11,13 @@ import {
   ActivityIndicator,
   Linking,
 } from "react-native";
-import { collection, onSnapshot, doc, deleteDoc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  doc,
+  deleteDoc,
+  getDoc,
+} from "firebase/firestore";
 import { db, auth } from "../firebaseConfig";
 import styles from "../styles/stylesProgramas/stylesProgramas";
 import { useNavigation } from "@react-navigation/native";
@@ -34,7 +40,10 @@ const Programas = () => {
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "programas"), (snapshot) => {
       // Obtiene todos los programas de la base de datos
-      const programasData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      const programasData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
       setProgramas(programasData);
       setLoading(false); // Marca como no cargando
     });
@@ -62,27 +71,34 @@ const Programas = () => {
   const deletePrograma = async (id) => {
     if (userRole !== "administrador") {
       // Si el usuario no es administrador, muestra un mensaje de error
-      Alert.alert("Acceso denegado", "No tienes permisos para eliminar programas.");
+      Alert.alert(
+        "Acceso denegado",
+        "No tienes permisos para eliminar programas."
+      );
       return;
     }
     // Confirma si el usuario está seguro de eliminar el programa
-    Alert.alert("Confirmar Eliminación", "¿Estás seguro de que deseas eliminar este programa?", [
-      { text: "Cancelar", style: "cancel" },
-      {
-        text: "Eliminar",
-        style: "destructive",
-        onPress: async () => {
-          try {
-            await deleteDoc(doc(db, "programas", id)); // Elimina el programa de la base de datos
-            Alert.alert("Eliminado", "El programa ha sido eliminado.");
-            setSelectedPrograma(null); // Desselecciona el programa después de eliminarlo
-          } catch (error) {
-            console.error("Error al eliminar:", error);
-            Alert.alert("Error", "No se pudo eliminar el programa.");
-          }
+    Alert.alert(
+      "Confirmar Eliminación",
+      "¿Estás seguro de que deseas eliminar este programa?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "Eliminar",
+          style: "destructive",
+          onPress: async () => {
+            try {
+              await deleteDoc(doc(db, "programas", id)); // Elimina el programa de la base de datos
+              Alert.alert("Eliminado", "El programa ha sido eliminado.");
+              setSelectedPrograma(null); // Desselecciona el programa después de eliminarlo
+            } catch (error) {
+              console.error("Error al eliminar:", error);
+              Alert.alert("Error", "No se pudo eliminar el programa.");
+            }
+          },
         },
-      },
-    ]);
+      ]
+    );
   };
 
   // Filtra los programas según la búsqueda del usuario
@@ -100,7 +116,7 @@ const Programas = () => {
           name="arrow-left"
           size={30}
           color="black"
-          onPress={() => navigation.navigate("Inicio")} // Navega a la pantalla de inicio
+          onPress={() => navigation.goBack()} // Navega a la pantalla de inicio
           style={styles.icon}
         />
         <View style={styles.textContainer}>
@@ -122,17 +138,35 @@ const Programas = () => {
 
       {/* Muestra el indicador de carga mientras los datos se cargan */}
       {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" style={{ marginTop: 20 }} />
+        <ActivityIndicator
+          size="large"
+          color="#0000ff"
+          style={{ marginTop: 20 }}
+        />
       ) : (
-        <ScrollView contentContainerStyle={[styles.scrollContainer, { paddingBottom: 100 }]}>
+        <ScrollView
+          contentContainerStyle={[
+            styles.scrollContainer,
+            { paddingBottom: 100 },
+          ]}
+        >
           {/* Muestra los programas filtrados */}
           {filteredProgramas.map((programa) => (
-            <Card key={programa.id} style={styles.card} onPress={() => setSelectedPrograma(programa)}>
+            <Card
+              key={programa.id}
+              style={styles.card}
+              onPress={() => setSelectedPrograma(programa)}
+            >
               <Card.Title
                 title={programa.empresa}
                 subtitle={programa.nombre}
                 left={(props) => (
-                  <Avatar.Icon {...props} icon="check" color="white" backgroundColor="#6a0f49" />
+                  <Avatar.Icon
+                    {...props}
+                    icon="check"
+                    color="white"
+                    backgroundColor="#6a0f49"
+                  />
                 )}
               />
               <Text style={styles.cardText}>{programa.descripcion}</Text>
@@ -144,7 +178,11 @@ const Programas = () => {
 
       {/* Botón para agregar programa, visible solo para usuarios con rol de empresa o administrador */}
       {(userRole === "empresa" || userRole === "administrador") && (
-        <Button mode="contained" style={styles.button} onPress={() => navigation.navigate("ProgramasForm")}>
+        <Button
+          mode="contained"
+          style={styles.button}
+          onPress={() => navigation.navigate("ProgramasForm")}
+        >
           <Text>Agregar Programa</Text>
         </Button>
       )}
@@ -156,7 +194,11 @@ const Programas = () => {
         animationType="slide"
         onRequestClose={() => setSelectedPrograma(null)}
       >
-        <TouchableOpacity style={styles.modalContainer} activeOpacity={1} onPress={() => setSelectedPrograma(null)}>
+        <TouchableOpacity
+          style={styles.modalContainer}
+          activeOpacity={1}
+          onPress={() => setSelectedPrograma(null)}
+        >
           <View style={styles.modalContent}>
             {selectedPrograma && (
               <>
@@ -164,15 +206,26 @@ const Programas = () => {
                 <Text style={styles.modalTitle}>Empresa:</Text>
                 <Text style={styles.modalText}>{selectedPrograma.empresa}</Text>
                 <Text style={styles.modalTitle}>Descripción:</Text>
-                <Text style={styles.modalText}>{selectedPrograma.descripcion}</Text>
+                <Text style={styles.modalText}>
+                  {selectedPrograma.descripcion}
+                </Text>
                 <Text style={styles.modalTitle}>Ubicación:</Text>
-                <Text style={styles.modalText}>{selectedPrograma.ubicacion}</Text>
+                <Text style={styles.modalText}>
+                  {selectedPrograma.ubicacion}
+                </Text>
                 {/* Si hay un enlace, lo muestra como un enlace clickeable */}
                 {selectedPrograma.url && (
                   <>
                     <Text style={styles.modalTitle}>Enlace del Programa:</Text>
-                    <TouchableOpacity onPress={() => Linking.openURL(selectedPrograma.url)}>
-                      <Text style={[styles.modalText, { color: "blue", textDecorationLine: "underline" }]}>
+                    <TouchableOpacity
+                      onPress={() => Linking.openURL(selectedPrograma.url)}
+                    >
+                      <Text
+                        style={[
+                          styles.modalText,
+                          { color: "blue", textDecorationLine: "underline" },
+                        ]}
+                      >
                         {selectedPrograma.url}
                       </Text>
                     </TouchableOpacity>
@@ -184,7 +237,9 @@ const Programas = () => {
                     <TouchableOpacity
                       style={[styles.modalButton, styles.updateButton]}
                       onPress={() => {
-                        navigation.navigate("ProgramasForm", { programa: selectedPrograma });
+                        navigation.navigate("ProgramasForm", {
+                          programa: selectedPrograma,
+                        });
                         setSelectedPrograma(null);
                       }}
                     >
@@ -199,7 +254,10 @@ const Programas = () => {
                   </View>
                 )}
                 {/* Cierra el modal */}
-                <TouchableOpacity style={styles.closeButton} onPress={() => setSelectedPrograma(null)}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setSelectedPrograma(null)}
+                >
                   <Text style={styles.buttonText}>Cerrar</Text>
                 </TouchableOpacity>
               </>

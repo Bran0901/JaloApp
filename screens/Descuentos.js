@@ -95,6 +95,7 @@ export default function DescuentosScreen() {
               await deleteDoc(doc(db, "descuentos", id));
               setDescuentos(descuentos.filter((item) => item.id !== id)); // Actualiza la lista de descuentos
               setModalVisible(false); // Cierra el modal
+              Alert.alert("Eliminado", "El descuento ha sido eliminado.");
             } catch (error) {
               console.error("Error al eliminar el descuento:", error); // Manejo de errores
             }
@@ -132,7 +133,7 @@ export default function DescuentosScreen() {
           name="arrow-left"
           size={30}
           color="black"
-          onPress={() => navigation.navigate("Inicio")} // Navega a la pantalla de inicio
+          onPress={() => navigation.goBack()} // Navega a la pantalla de inicio
           style={styles.icon}
         />
         <View style={styles.textContainer}>
