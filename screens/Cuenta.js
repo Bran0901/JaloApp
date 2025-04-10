@@ -138,6 +138,7 @@ const Cuenta = () => {
 
   return (
     <View style={styles.container}>
+      <Encabezado />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}

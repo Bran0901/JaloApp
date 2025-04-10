@@ -2,7 +2,10 @@
   "expo": {
     "name": "Jaloapp",
     "slug": "Jaloapp",
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/jaloLogo.png",
@@ -15,18 +18,23 @@
     },
     "ios": {
       "supportsTablet": true,
-       "bundleIdentifier": "IJUMICH"
+      "bundleIdentifier": "IJUMICH"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "IJUMICH",
+      "package": "com.victorhugo22.Jaloapp",
       "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "d43c8e9f-2603-4330-b3c9-7272f475af5d"
+      }
     }
   }
 }

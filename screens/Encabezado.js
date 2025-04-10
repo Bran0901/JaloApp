@@ -28,7 +28,7 @@ const Header = () => {
       {/* Logo principal - Navega a la pantalla de Bienvenida */}
       <TouchableOpacity
         style={styles.imageContainer}
-        onPress={() => navigation.navigate("Bienvenida")}
+        //onPress={() => navigation.navigate("Bienvenida")}
       >
         <Image source={require("../assets/jovenes.png")} style={styles.logo} />
       </TouchableOpacity>
@@ -36,7 +36,7 @@ const Header = () => {
       {/* Logo del título - Navega a la pantalla de Inicio */}
       <TouchableOpacity
         style={styles.titleContainer}
-        onPress={() => navigation.navigate("Inicio")}
+        //onPress={() => navigation.navigate("Inicio")}
       >
         <Image
           source={require("../assets/jaloLogo.png")}
@@ -47,7 +47,7 @@ const Header = () => {
       {/* Icono de usuario - Navega a la pantalla de Cuenta */}
       <TouchableOpacity
         style={styles.imageContainer}
-        onPress={() => navigation.navigate("Cuenta")}
+        //onPress={() => navigation.navigate("Cuenta")}
       >
         <Image
           source={require("../assets/usuario-seguro.png")}
