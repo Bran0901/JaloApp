@@ -212,7 +212,21 @@ const Eventos = () => {
                   <Text style={styles.modalText}>
                     {selectedEvento.descripcion}
                   </Text>
+                  <Text style={styles.modalTitle}>Fecha:</Text>
+                  <Text style={styles.cardText2}>{selectedEvento.fecha}</Text>
 
+                  <Text style={styles.modalTitle}>Ubicación:</Text>
+                  <Text style={styles.cardText}>
+                    {selectedEvento.ubicacion}
+                  </Text>
+                  <Text style={styles.modalTitle}>Link de la ubicación:</Text>
+                  <Text style={styles.cardText}>
+                    {selectedEvento.linkUbicacion}
+                  </Text>
+                  <Text style={styles.modalTitle}>URL del evento:</Text>
+                  <Text style={styles.cardText}>
+                    {selectedEvento.urlEvento}
+                  </Text>
                   {/* Mostrar botones de actualizar y eliminar solo para administradores */}
                   {userRole === "administrador" && (
                     <View style={styles.buttonContainer}>

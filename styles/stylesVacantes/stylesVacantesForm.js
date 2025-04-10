@@ -60,7 +60,7 @@ const stylesVacantesForm = StyleSheet.create({
     justifyContent: "center",
   },
   card: {
-    width: 310, // Ajuste del ancho para mantener proporción
+    width: "90%", // Ajuste del ancho para mantener proporción
     backgroundColor: "#FFFFFF", // Fondo blanco para el card
     borderRadius: 10, // Bordes redondeados
     padding: 15, // Espaciado interno
@@ -69,6 +69,7 @@ const stylesVacantesForm = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5, // Sombra para Android
+    marginBottom: 40,
   },
   scrollContent: {
     flexGrow: 1,

@@ -20,6 +20,7 @@ import { auth, db } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import Encabezado from "../screens/Encabezado";
+import Encabezado2 from "../screens/Encabezado2";
 
 const Cuenta = () => {
   const navigation = useNavigation();
@@ -31,6 +32,9 @@ const Cuenta = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [mostrarCalendario, setMostrarCalendario] = useState(false);
   const [invitationCode, setInvitationCode] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [estado, setEstado] = useState("");
 
   const validarCorreo = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validarCurp = (curp) => /^[A-Z0-9]{18}$/i.test(curp);
@@ -40,8 +44,13 @@ const Cuenta = () => {
       !nombre.trim() ||
       !correo.trim() ||
       !curp.trim() ||
+      !sexo.trim() ||
+      !telefono.trim() ||
+      !estado.trim() ||
       !password ||
-      !confirmPassword
+      !confirmPassword ||
+      !fechaNacimiento ||
+      isNaN(new Date(fechaNacimiento))
     ) {
       Alert.alert(
         "Error",
@@ -110,6 +119,9 @@ const Cuenta = () => {
         curp: curp.trim().toUpperCase(),
         uid: user.uid,
         role: userRole, // Guardar el rol
+        sexo: sexo.trim(),
+        telefono: telefono.trim(),
+        estado: estado.trim(),
       });
 
       ToastAndroid.show("Registro exitoso", ToastAndroid.LONG);
@@ -120,6 +132,9 @@ const Cuenta = () => {
       setPassword("");
       setConfirmPassword("");
       setInvitationCode("");
+      setSexo("");
+      setTelefono("");
+      setEstado("");
 
       setTimeout(() => navigation.navigate("Login"), 2000);
     } catch (error) {
@@ -138,7 +153,7 @@ const Cuenta = () => {
 
   return (
     <View style={styles.container}>
-      <Encabezado />
+      <Encabezado2 />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
@@ -176,6 +191,30 @@ const Cuenta = () => {
                 }}
                 onCancel={() => setMostrarCalendario(false)}
               />
+              <Text style={styles.title2}>CURP</Text>
+              <TextInput
+                style={styles.input2}
+                placeholder="CURP"
+                value={curp}
+                onChangeText={setCurp}
+                autoCapitalize="characters"
+                maxLength={18}
+              />
+              <Text style={styles.title2}>Género</Text>
+              <TextInput
+                style={styles.input2}
+                placeholder="Masculino / Femenino / Otro"
+                value={sexo}
+                onChangeText={setSexo}
+              />
+
+              <Text style={styles.title2}>Estado</Text>
+              <TextInput
+                style={styles.input2}
+                placeholder="Estado de residencia"
+                value={estado}
+                onChangeText={setEstado}
+              />
               <Text style={styles.title2}>Correo electrónico</Text>
               <TextInput
                 style={styles.input2}
@@ -186,14 +225,13 @@ const Cuenta = () => {
                 autoCapitalize="none"
                 autoCorrect={false}
               />
-              <Text style={styles.title2}>CURP</Text>
+              <Text style={styles.title2}>Teléfono</Text>
               <TextInput
                 style={styles.input2}
-                placeholder="CURP"
-                value={curp}
-                onChangeText={setCurp}
-                autoCapitalize="characters"
-                maxLength={18}
+                placeholder="Teléfono"
+                value={telefono}
+                onChangeText={setTelefono}
+                keyboardType="phone-pad"
               />
               <Text style={styles.title2}>Contraseña</Text>
               <TextInput

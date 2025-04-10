@@ -103,6 +103,7 @@ export default StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "center",
     marginTop: 20,
+    marginBottom: 40,
     alignItems: "center",
   },
   button: {

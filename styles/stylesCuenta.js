@@ -53,7 +53,7 @@ const stylesCuenta = StyleSheet.create({
     justifyContent: "center",
   },
   card: {
-    width: 310, // Ajuste del ancho para mantener proporción
+    width: 320, // Ajuste del ancho para mantener proporción
     backgroundColor: "#FFFFFF", // Fondo blanco para el card
     borderRadius: 10, // Bordes redondeados
     padding: 20, // Espaciado interno

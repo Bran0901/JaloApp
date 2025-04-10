@@ -173,7 +173,7 @@ const CuentaForm = () => {
                 onChangeText={setTelefono}
                 keyboardType="phone-pad"
               />
-              <Text style={styles.title2}>Estado</Text>
+              <Text style={styles.title2}>Estado y localidad</Text>
               <TextInput
                 style={styles.input2}
                 placeholder="Estado"

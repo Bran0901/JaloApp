@@ -6,38 +6,18 @@ import { Avatar } from "react-native-paper";
 
 const { height, width } = Dimensions.get("window"); // Obtiene las dimensiones de la pantalla
 
-const Header = () => {
+const Header2 = () => {
   const navigation = useNavigation(); // Hook para manejar la navegación
 
   return (
     <View style={styles.header}>
-      {/* Botón de Menú */}
-      <TouchableOpacity
-        style={styles.menuButton}
-        onPress={() => navigation.navigate("Menu")}
-      >
-        <Avatar.Icon
-          size={35}
-          icon="menu"
-          color="white"
-          backgroundColor="#6a0f49"
-          style={styles.hamburgerIcon}
-        />
-      </TouchableOpacity>
-
       {/* Logo principal - Navega a la pantalla de Bienvenida */}
-      <TouchableOpacity
-        style={styles.imageContainer}
-        //onPress={() => navigation.navigate("Cuenta")}
-      >
+      <TouchableOpacity style={styles.imageContainer}>
         <Image source={require("../assets/jovenes.png")} style={styles.logo} />
       </TouchableOpacity>
 
       {/* Logo del título - Navega a la pantalla de Inicio */}
-      <TouchableOpacity
-        style={styles.titleContainer}
-        onPress={() => navigation.navigate("Inicio")}
-      >
+      <TouchableOpacity style={styles.titleContainer}>
         <Image
           source={require("../assets/jaloLogo.png")}
           style={styles.titleLogo}
@@ -45,10 +25,7 @@ const Header = () => {
       </TouchableOpacity>
 
       {/* Icono de usuario - Navega a la pantalla de Cuenta */}
-      <TouchableOpacity
-        style={styles.imageContainer}
-        onPress={() => navigation.navigate("Perfil")}
-      >
+      <TouchableOpacity style={styles.imageContainer}>
         <Image
           source={require("../assets/usuario-seguro.png")}
           style={styles.userIcon}
@@ -58,4 +35,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header2;

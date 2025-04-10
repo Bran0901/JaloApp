@@ -17,11 +17,19 @@ import {
 } from "react-native";
 import styles from "../styles/styles";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, query, where, getDoc, doc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  getDoc,
+  doc,
+} from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import { auth } from "../firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import Encabezado from "../screens/Encabezado";
+import Encabezado2 from "../screens/Encabezado2";
 
 const screenHeight = Dimensions.get("window").height;
 
@@ -46,12 +54,12 @@ const Login = () => {
       Alert.alert("Error", "Por favor, ingrese sus datos.");
       return;
     }
-  
+
     if (!validarCorreo(correoOCurp.trim())) {
       Alert.alert("Error", "Por favor, ingrese un correo electrónico válido.");
       return;
     }
-  
+
     setCargando(true);
     try {
       // Iniciar sesión con Firebase Authentication
@@ -61,24 +69,29 @@ const Login = () => {
         contrasena.trim()
       );
       const user = userCredential.user;
-  
+
       // Obtener el rol del usuario desde Firestore
       const userDoc = await getDoc(doc(db, "usuarios", user.uid));
-  
+
       if (userDoc.exists()) {
         const userData = userDoc.data();
         const userRole = userData.role || "usuario"; // Si no tiene rol, asigna "usuario"
-        
+
         // Guardar el rol en el estado global (opcional, si usas contexto)
         // setUserRole(userRole);
-  
+
         console.log("Rol del usuario:", userRole);
       } else {
         console.warn("No se encontró el rol del usuario en Firestore.");
       }
-  
+
       setMensajeExito("Inicio de sesión exitoso");
-  
+
+      Alert.alert(
+        "¡Bienvenido!",
+        "Tus credenciales son correctas, en un momento entrarás a la app"
+      );
+
       setTimeout(() => {
         setMensajeExito("");
         navigation.navigate("Inicio"); // Mantiene la navegación a Inicio
@@ -90,7 +103,6 @@ const Login = () => {
       setCargando(false);
     }
   };
-  
 
   return (
     <KeyboardAvoidingView
@@ -100,7 +112,7 @@ const Login = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={[styles.container, { height: screenHeight }]}>
           {/* Encabezado */}
-          <Encabezado />
+          <Encabezado2 />
 
           <ScrollView
             contentContainerStyle={styles.scrollContainer}
