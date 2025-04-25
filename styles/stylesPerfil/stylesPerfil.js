@@ -1,4 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
+
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
@@ -6,12 +7,12 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: "#6a0f49",
     alignItems: "center",
-    justifyContent: "flex-start", // Cambié a flex-start para que no se centre todo
+    justifyContent: "flex-start",
   },
   perfilContainer: {
-    width: "90%", // Ajuste responsivo
+    width: "90%",
     backgroundColor: "#fff",
-    padding: 20, // Ajustado para no ocupar demasiado espacio en pantallas pequeñas
+    padding: 20,
     borderRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -23,7 +24,7 @@ export default StyleSheet.create({
   },
   header: {
     width: "100%",
-    height: height * 0.12, // Se mantiene el porcentaje de la pantalla
+    height: height * 0.12,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -40,9 +41,9 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: "200%", // Ajustar la imagen al 80% del ancho de la pantalla
+    width: "200%",
     height: undefined,
-    aspectRatio: 4, // Relación de aspecto para mantener la proporción
+    aspectRatio: 4,
     resizeMode: "contain",
   },
   userIcon: {
@@ -51,9 +52,9 @@ export default StyleSheet.create({
     resizeMode: "contain",
   },
   titleLogo: {
-    width: "60%", // Ajustar según el tamaño de la pantalla
+    width: "60%",
     height: undefined,
-    aspectRatio: 2, // Mantener la proporción
+    aspectRatio: 2,
     resizeMode: "contain",
   },
   separator: {
@@ -70,10 +71,10 @@ export default StyleSheet.create({
   },
   profileCard: {
     backgroundColor: "#FFFFFF",
-    padding: 15, // Ajustado el padding
+    padding: 15,
     borderRadius: 15,
     alignItems: "center",
-    width: "90%", // Ajuste el ancho al 90% de la pantalla
+    width: "90%",
     elevation: 5,
     alignSelf: "center",
     marginTop: 15,
@@ -99,30 +100,30 @@ export default StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: "row",
-    flexWrap: "wrap", // Permite que los botones se ajusten si no caben en una línea
-    justifyContent: "center", // Centra los botones horizontalmente
+    flexWrap: "wrap",
+    justifyContent: "center",
     marginTop: 20,
-    alignItems: "center", // Centra los botones verticalmente si es necesario
+    marginBottom: 40,
+    alignItems: "center",
   },
   button: {
     backgroundColor: "#c83182",
     color: "#FFF",
     alignItems: "center",
-    paddingVertical: 12, // Agregamos un padding vertical para que se vean más grandes en pantallas pequeñas
-    paddingHorizontal: 20, // También puedes ajustar el padding horizontal si es necesario
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: 10,
     marginHorizontal: 5,
-    width: "45%", // Esto hace que los botones ocupen un 45% del ancho de la pantalla, permitiendo que se ajusten mejor
+    width: "45%",
   },
   buttonBack: {
     backgroundColor: "#c83182",
     color: "#FFF",
-
     borderRadius: 10,
     marginHorizontal: 5,
     fontSize: 10,
     alignSelf: "left",
-    width: "30%", // Esto hace que los botones ocupen un 45% del ancho de la pantalla, permitiendo que se ajusten mejor
+    width: "30%",
   },
   logoutButton: {
     backgroundColor: "#A3003F",
@@ -140,20 +141,17 @@ export default StyleSheet.create({
     alignSelf: "center",
     marginTop: 15,
     marginBottom: 10,
-    flexDirection: "row", // Para alinear en fila
-    alignItems: "center", // Alinea verticalmente
-    justifyContent: "space-between", // Distribuye los elementos
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-
   icon: {
-    marginLeft: 10, // Espacio a la izquierda
+    marginLeft: 10,
   },
-
   textContainer: {
-    flex: 1, // Ocupa el espacio disponible
-    alignItems: "center", // Centra el título
+    flex: 1,
+    alignItems: "center",
   },
-
   generalTitle: {
     fontSize: 16,
     fontWeight: "bold",

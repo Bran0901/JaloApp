@@ -20,6 +20,7 @@ import { auth, db } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import Encabezado from "../screens/Encabezado";
+import Encabezado2 from "../screens/Encabezado2";
 
 const Cuenta = () => {
   const navigation = useNavigation();
@@ -31,64 +32,85 @@ const Cuenta = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [mostrarCalendario, setMostrarCalendario] = useState(false);
   const [invitationCode, setInvitationCode] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [telefono, setTelefono] = useState("");
+  const [estado, setEstado] = useState("");
 
   const validarCorreo = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const validarCurp = (curp) => /^[A-Z0-9]{18}$/i.test(curp);
 
   const handleRegistro = useCallback(async () => {
-    if (!nombre.trim() || !correo.trim() || !curp.trim() || !password || !confirmPassword) {
-      Alert.alert("Error", "Por favor, completa todos los campos obligatorios.");
+    if (
+      !nombre.trim() ||
+      !correo.trim() ||
+      !curp.trim() ||
+      !sexo.trim() ||
+      !telefono.trim() ||
+      !estado.trim() ||
+      !password ||
+      !confirmPassword ||
+      !fechaNacimiento ||
+      isNaN(new Date(fechaNacimiento))
+    ) {
+      Alert.alert(
+        "Error",
+        "Por favor, completa todos los campos obligatorios."
+      );
       return;
     }
-  
+
     if (!validarCorreo(correo)) {
       Alert.alert("Error", "Correo no válido.");
       return;
     }
-  
+
     if (!validarCurp(curp)) {
       Alert.alert("Error", "El CURP debe tener 18 caracteres.");
       return;
     }
-  
+
     if (password !== confirmPassword) {
       Alert.alert("Error", "Las contraseñas no coinciden.");
       return;
     }
-  
+
     const edad = moment().diff(moment(fechaNacimiento), "years");
     if (edad < 18) {
       Alert.alert("Error", "Debes ser mayor de 18 años.");
       return;
     }
-  
+
     try {
       let userRole = "usuario"; // Rol por defecto
-  
-      if (invitationCode.trim()) { 
+
+      if (invitationCode.trim()) {
         // Si el usuario ingresó un código, validarlo en Firestore
         const codeRef = doc(db, "codes", invitationCode.trim());
         const codeSnap = await getDoc(codeRef);
-  
+
         if (!codeSnap.exists()) {
           Alert.alert("Error", "Código de invitación inválido.");
           return;
         }
-  
+
         const codeData = codeSnap.data();
         if (codeData.used) {
           Alert.alert("Error", "El código de invitación ya fue usado.");
           return;
         }
-  
+
         userRole = codeData.role; // Asignar el rol del código válido
         await updateDoc(codeRef, { used: true }); // Marcar código como usado
       }
-  
+
       // 🔥 Registrar usuario en Firebase Authentication
-      const userCredential = await createUserWithEmailAndPassword(auth, correo.trim(), password.trim());
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        correo.trim(),
+        password.trim()
+      );
       const user = userCredential.user;
-  
+
       // 🚀 Guardar usuario en Firestore
       await setDoc(doc(db, "usuarios", user.uid), {
         nombre: nombre.trim(),
@@ -97,8 +119,11 @@ const Cuenta = () => {
         curp: curp.trim().toUpperCase(),
         uid: user.uid,
         role: userRole, // Guardar el rol
+        sexo: sexo.trim(),
+        telefono: telefono.trim(),
+        estado: estado.trim(),
       });
-  
+
       ToastAndroid.show("Registro exitoso", ToastAndroid.LONG);
       setNombre("");
       setFechaNacimiento(new Date());
@@ -107,18 +132,28 @@ const Cuenta = () => {
       setPassword("");
       setConfirmPassword("");
       setInvitationCode("");
-  
-      setTimeout(() => navigation.navigate("Login"), 2000);
+      setSexo("");
+      setTelefono("");
+      setEstado("");
+
+      setTimeout(() => navigation.replace("Login"), 2000);
     } catch (error) {
       Alert.alert("Error", "No se pudo registrar el usuario.");
       console.error("Error en registro:", error);
     }
-  }, [nombre, fechaNacimiento, correo, curp, password, confirmPassword, invitationCode]);
-  
+  }, [
+    nombre,
+    fechaNacimiento,
+    correo,
+    curp,
+    password,
+    confirmPassword,
+    invitationCode,
+  ]);
 
   return (
     <View style={styles.container}>
-      <Encabezado />
+      <Encabezado2 />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
@@ -156,6 +191,30 @@ const Cuenta = () => {
                 }}
                 onCancel={() => setMostrarCalendario(false)}
               />
+              <Text style={styles.title2}>CURP</Text>
+              <TextInput
+                style={styles.input2}
+                placeholder="CURP"
+                value={curp}
+                onChangeText={setCurp}
+                autoCapitalize="characters"
+                maxLength={18}
+              />
+              <Text style={styles.title2}>Género</Text>
+              <TextInput
+                style={styles.input2}
+                placeholder="Masculino / Femenino / Otro"
+                value={sexo}
+                onChangeText={setSexo}
+              />
+
+              <Text style={styles.title2}>Estado</Text>
+              <TextInput
+                style={styles.input2}
+                placeholder="Estado de residencia"
+                value={estado}
+                onChangeText={setEstado}
+              />
               <Text style={styles.title2}>Correo electrónico</Text>
               <TextInput
                 style={styles.input2}
@@ -166,14 +225,13 @@ const Cuenta = () => {
                 autoCapitalize="none"
                 autoCorrect={false}
               />
-              <Text style={styles.title2}>CURP</Text>
+              <Text style={styles.title2}>Teléfono</Text>
               <TextInput
                 style={styles.input2}
-                placeholder="CURP"
-                value={curp}
-                onChangeText={setCurp}
-                autoCapitalize="characters"
-                maxLength={18}
+                placeholder="Teléfono"
+                value={telefono}
+                onChangeText={setTelefono}
+                keyboardType="phone-pad"
               />
               <Text style={styles.title2}>Contraseña</Text>
               <TextInput
@@ -203,13 +261,13 @@ const Cuenta = () => {
 
               <TouchableOpacity
                 onPress={handleRegistro}
-                style={styles.addButton} 
+                style={styles.addButton}
               >
                 <Text style={styles.buttonText}>Registrar</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
-                onPress={() => navigation.navigate("Bienvenida")}
+                onPress={() => navigation.goBack()}
                 style={styles.cancelButton}
               >
                 <Text style={styles.buttonText}>Cancelar</Text>

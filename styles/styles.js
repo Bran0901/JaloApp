@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   card: {
-    width: 310, // Ajuste del ancho para mantener proporción
+    width: 350, // Ajuste del ancho para mantener proporción
     backgroundColor: "#FFFFFF", // Fondo blanco para el card
     borderRadius: 10, // Bordes redondeados
     padding: 20, // Espaciado interno

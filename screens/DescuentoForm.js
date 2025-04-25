@@ -77,7 +77,7 @@ const DescuentosForm = () => {
       setFechaInicio(new Date());
       setFechaFin(new Date());
 
-      navigation.navigate("Descuentos");
+      navigation.replace("Descuentos");
     } catch (error) {
       console.error("Error al agregar descuento:", error);
       Alert.alert("Error", "Hubo un problema al agregar el descuento.");
@@ -202,7 +202,7 @@ const DescuentosForm = () => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => navigation.navigate("Descuentos")}
+              onPress={() => navigation.goBack()}
             >
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>

@@ -77,7 +77,7 @@ const DescuentoFormAct = ({ route }) => {
               });
 
               Alert.alert("Éxito", "Descuento actualizado exitosamente.");
-              navigation.navigate("Descuentos");
+              navigation.replace("Descuentos");
             } catch (error) {
               console.error("Error al actualizar descuento:", error);
               Alert.alert(
@@ -202,7 +202,7 @@ const DescuentoFormAct = ({ route }) => {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={() => navigation.navigate("Descuentos")}
+              onPress={() => navigation.goBack()}
             >
               <Text style={styles.buttonText}>Cancelar</Text>
             </TouchableOpacity>

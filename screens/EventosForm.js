@@ -25,7 +25,7 @@ const EventosForm = ({ navigation, route }) => {
   const [nombre, setNombre] = useState("");
   const [empresa, setEmpresa] = useState("");
   const [urlEvento, setUrlEvento] = useState("");
-  const [googleForms, setGoogleForms] = useState("");
+
   const [fecha, setFecha] = useState(null);
   const [ubicacion, setUbicacion] = useState("");
   const [descripcion, setDescripcion] = useState("");
@@ -38,7 +38,7 @@ const EventosForm = ({ navigation, route }) => {
       setNombre(evento.nombre);
       setEmpresa(evento.empresa || "");
       setUrlEvento(evento.urlEvento || "");
-      setGoogleForms(evento.googleForms || "");
+
       setFecha(evento.fecha ? new Date(evento.fecha) : null);
       setUbicacion(evento.ubicacion);
       setDescripcion(evento.descripcion);
@@ -55,7 +55,6 @@ const EventosForm = ({ navigation, route }) => {
       !ubicacion ||
       !descripcion ||
       !urlEvento ||
-      !googleForms ||
       !linkUbicacion ||
       !categoria
     ) {
@@ -69,7 +68,6 @@ const EventosForm = ({ navigation, route }) => {
           nombre,
           empresa,
           urlEvento,
-          googleForms,
           fecha: fecha.toISOString().split("T")[0],
           ubicacion,
           descripcion,
@@ -82,7 +80,6 @@ const EventosForm = ({ navigation, route }) => {
           nombre,
           empresa,
           urlEvento,
-          googleForms,
           fecha: fecha.toISOString().split("T")[0],
           ubicacion,
           descripcion,
@@ -188,14 +185,6 @@ const EventosForm = ({ navigation, route }) => {
                   onChangeText={setUrlEvento}
                   keyboardType="url"
                 />
-                <Text style={styles.textForm}>Google Forms</Text>
-                <TextInput
-                  style={styles.inputForm}
-                  placeholder="Ingrese el enlace de Google Forms"
-                  value={googleForms}
-                  onChangeText={setGoogleForms}
-                  keyboardType="url"
-                />
                 <View style={styles.buttonContainerForm}>
                   <TouchableOpacity
                     style={styles.addButtonForm}
@@ -207,7 +196,7 @@ const EventosForm = ({ navigation, route }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButtonForm}
-                    onPress={() => navigation.navigate("Eventos")}
+                    onPress={() => navigation.goBack()}
                   >
                     <Text style={styles.buttonTextForm}>Cancelar</Text>
                   </TouchableOpacity>

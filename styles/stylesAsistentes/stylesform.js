@@ -2,7 +2,7 @@ import { StyleSheet, Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window"); // Obtiene tamaño de la pantalla
 
-const stylesVacantesForm = StyleSheet.create({
+const stylesAsistentesForm = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#6a0f49",
@@ -60,31 +60,36 @@ const stylesVacantesForm = StyleSheet.create({
     justifyContent: "center",
   },
   card: {
-    width: "90%", // Ajuste del ancho para mantener proporción
-    backgroundColor: "#FFFFFF", // Fondo blanco para el card
-    borderRadius: 10, // Bordes redondeados
-    padding: 15, // Espaciado interno
-    shadowColor: "#000", // Sombra para efecto de elevación
+    width: "100%",
+    backgroundColor: "#FDEEEE",
+    padding: 20,
+    borderRadius: 10,
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5, // Sombra para Android
-    marginBottom: 40,
+    elevation: 5,
   },
   scrollContent: {
     flexGrow: 1,
   },
   title: {
+    fontSize: 28,
     fontWeight: "bold",
-    fontSize: 20,
-    textAlign: "center",
     marginBottom: 20,
+    color: "#333",
+    textAlign: "center",
   },
   input: {
-    backgroundColor: "#f0f0f0",
+    width: "100%",
+    height: 40,
+    borderColor: "black",
+    borderWidth: 1,
     borderRadius: 5,
-    padding: 10,
-    marginVertical: 8,
+    marginBottom: 20,
+    paddingHorizontal: 10,
+    backgroundColor: "#FFFFFF",
+    textAlign: "center",
   },
   input2: {
     width: "100%",
@@ -134,35 +139,13 @@ const stylesVacantesForm = StyleSheet.create({
     resizeMode: "contain",
   },
   title2: {
-    color: "#000",
-    marginBottom: 5,
-    textAlign: "left",
-    fontWeight: "bold",
-  },
-  addButton: {
-    backgroundColor: "#650D36",
-    padding: 10,
-    borderRadius: 5,
-  },
-  cancelButton: {
-    backgroundColor: "#A67B89",
-    padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "white",
-    fontWeight: "bold",
     textAlign: "center",
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 30,
-  },
   formContainer: {
-    width: "90%",
+    width: "90%", // Ajuste del ancho para mantener proporción
     backgroundColor: "#fff",
     padding: 15,
+    marginBottom: 40,
     borderRadius: 15,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -172,6 +155,46 @@ const stylesVacantesForm = StyleSheet.create({
     marginTop: 45,
     alignSelf: "center",
   },
+  titleForm: {
+    fontWeight: "bold",
+    fontSize: 20,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  inputForm: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: 5,
+    padding: 10,
+    width: "100%",
+    marginVertical: 8,
+  },
+
+  buttonContainerForm: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  addButtonForm: {
+    backgroundColor: "#650D36",
+    padding: 10,
+    borderRadius: 5,
+  },
+  cancelButtonForm: {
+    backgroundColor: "#A67B89",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonTextForm: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  textForm: {
+    color: "#000",
+    marginBottom: 5,
+    textAlign: "left",
+    fontWeight: "bold",
+  },
 });
 
-export default stylesVacantesForm;
+export default stylesAsistentesForm;

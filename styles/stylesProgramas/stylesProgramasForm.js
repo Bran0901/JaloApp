@@ -142,10 +142,11 @@ const stylesProgramasForm = StyleSheet.create({
     textAlign: "center",
   },
   formContainer: {
-    width: 310, // Ajuste del ancho para mantener proporción
+    width: "90%", // Ajuste del ancho para mantener proporción
     backgroundColor: "#fff",
     padding: 15,
     borderRadius: 15,
+    marginBottom: 20,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,

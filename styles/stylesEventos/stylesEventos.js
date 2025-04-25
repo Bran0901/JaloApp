@@ -38,7 +38,7 @@ const stylesEventos = StyleSheet.create({
   cardText: {
     fontSize: 15,
     color: "#333",
-    textAlign: "left", // Alineado a la izquierda
+    textAlign: "center", // Alineado a la izquierda
     flexWrap: "wrap", // Para que no se desborde el texto
     width: "100%", // Ocupar todo el ancho disponible
     marginBottom: 5,
@@ -84,12 +84,13 @@ const stylesEventos = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     alignItems: "center",
+    marginTop: 50,
     alignSelf: "center",
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.2,
     shadowRadius: 4,
-    elevation: 5,
+    elevation: 2,
   },
   modalTextLink: {
     marginTop: 2,

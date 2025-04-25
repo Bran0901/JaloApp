@@ -19,6 +19,11 @@ const stylesVacantes = StyleSheet.create({
     paddingTop: 35,
     backgroundColor: "#FFFFFF",
   },
+  contentContainerStyle: {
+    alignItems: "center", // Centra horizontalmente todo lo que está dentro del ScrollView
+    paddingRight: 15,
+    paddingLeft: 0,
+  },
   button: {
     marginTop: 10,
     marginBottom: 10,
@@ -149,6 +154,7 @@ const stylesVacantes = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 5,
+    height: "80%",
   },
   buttonContainer: {
     flexDirection: "row",

@@ -66,6 +66,12 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
   },
+  button2: {
+    marginTop: 10,
+    marginBottom: 10,
+    backgroundColor: "#c83182",
+    alignSelf: "left",
+  },
   card: {
     width: width * 0.9,
     backgroundColor: "#FFFFFF",
@@ -79,6 +85,11 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   cardTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+  },
+  cardEn: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#333",

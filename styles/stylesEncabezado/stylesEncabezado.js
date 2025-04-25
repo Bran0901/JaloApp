@@ -1,15 +1,16 @@
 import { StyleSheet, Dimensions } from "react-native";
+
 const { width, height } = Dimensions.get("window");
 
 export default StyleSheet.create({
   header: {
-    width: "100%",
+    width: "105%",
     height: height * 0.12, // Se mantiene el porcentaje de la pantalla
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: "5%",
-    paddingTop: 30,
+    paddingHorizontal: width * 0.05, // Responsivo, usa un 5% del ancho
+    paddingTop: height * 0.05, // Ajustar con un 5% de la altura de la pantalla
     backgroundColor: "#FFFFFF",
     marginBottom: 15,
   },
@@ -22,18 +23,18 @@ export default StyleSheet.create({
     alignItems: "center",
   },
   logo: {
-    width: "200%", // Ajustar la imagen al 80% del ancho de la pantalla
+    width: width * 0.46, // Ajustar la imagen al 80% del ancho de la pantalla
     height: undefined,
     aspectRatio: 4, // Relación de aspecto para mantener la proporción
     resizeMode: "contain",
   },
   userIcon: {
-    width: 50,
-    height: 50,
+    width: width * 0.11, // Ajusta el tamaño del icono en función del ancho
+    height: width * 0.12, // Ajusta la altura para mantener la proporción
     resizeMode: "contain",
   },
   titleLogo: {
-    width: "60%", // Ajustar según el tamaño de la pantalla
+    width: width * 0.28, // Ajustar según el tamaño de la pantalla
     height: undefined,
     aspectRatio: 2, // Mantener la proporción
     resizeMode: "contain",
@@ -44,6 +45,7 @@ export default StyleSheet.create({
     backgroundColor: "#6A0F49",
   },
   menuButton: {
-    marginRight: 20,
+    marginRight: width * 0.13,
+    marginLeft: width * 0.03, // Mantener espacio respecto al borde derecho
   },
 });

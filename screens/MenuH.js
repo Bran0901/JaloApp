@@ -27,41 +27,95 @@ const MenuScreen = () => {
                 name="arrow-left"
                 size={30}
                 color="black"
-                onPress={() => navigation.navigate("Inicio")}
+                onPress={() => navigation.goBack()}
                 style={{ marginRight: 10 }}
               />
               <Text style={styles.title}>Menú</Text>
             </View>
 
             {/* Logo principal */}
-            <Image source={require("../assets/jovenes.png")} style={styles.logo} />
+            <Image
+              source={require("../assets/jovenes.png")}
+              style={styles.logo}
+            />
 
             {/* Redes sociales */}
-            <Text style={styles.menuText}>¡Visita nuestras redes sociales!</Text>
+            <Text style={styles.menuText}>
+              ¡Visita nuestras redes sociales!
+            </Text>
             <View style={styles.iconRow}>
-              <TouchableOpacity onPress={() => Linking.openURL("https://www.facebook.com/share/1AEySY45Tg/")}> 
-                <Icon style={styles.iconRed} name="facebook" size={35} color="#3b5998" />
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL("https://www.facebook.com/share/1AEySY45Tg/")
+                }
+              >
+                <Icon
+                  style={styles.iconRed}
+                  name="facebook"
+                  size={35}
+                  color="#3b5998"
+                />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => Linking.openURL("https://www.instagram.com/gobmichoacan/?hl=es")}> 
-                <Icon style={styles.iconRed} name="instagram" size={35} color="#1DA1F2" />
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL(
+                    "https://www.instagram.com/gobmichoacan/?hl=es"
+                  )
+                }
+              >
+                <Icon
+                  style={styles.iconRed}
+                  name="instagram"
+                  size={35}
+                  color="#1DA1F2"
+                />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => Linking.openURL("https://x.com/IJUMICHoficial?s=09")}> 
-                <Icon style={styles.iconRed} name="twitter" size={35} color="#1DA1F2" />
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL("https://x.com/IJUMICHoficial?s=09")
+                }
+              >
+                <Icon
+                  style={styles.iconRed}
+                  name="twitter"
+                  size={35}
+                  color="#1DA1F2"
+                />
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={() => Linking.openURL("https://t.me/GobiernodeMichoacan")}> 
-                <Icon style={styles.iconRed} name="telegram" size={35} color="#1DA1F2" />
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL("https://t.me/GobiernodeMichoacan")
+                }
+              >
+                <Icon
+                  style={styles.iconRed}
+                  name="telegram"
+                  size={35}
+                  color="#1DA1F2"
+                />
               </TouchableOpacity>
             </View>
 
             {/* Sitio web */}
-            <Text style={styles.menuText}>¡Dale un vistazo a nuestro sitio web!</Text>
+            <Text style={styles.menuText}>
+              ¡Dale un vistazo a nuestro sitio web!
+            </Text>
             <View style={styles.containerWeb}>
-              <TouchableOpacity onPress={() => Linking.openURL("https://jovenes.michoacan.gob.mx/")}> 
+              <TouchableOpacity
+                onPress={() =>
+                  Linking.openURL("https://jovenes.michoacan.gob.mx/")
+                }
+              >
                 <View style={styles.linkContainer}>
-                  <Icon style={styles.icon} name="at" size={35} color="#3b5998" />
+                  <Icon
+                    style={styles.icon}
+                    name="at"
+                    size={35}
+                    color="#3b5998"
+                  />
                   <Text style={styles.iconTextLink}>jovenes.michoacan</Text>
                 </View>
               </TouchableOpacity>
@@ -69,24 +123,52 @@ const MenuScreen = () => {
 
             {/* Contacto */}
             <Text style={styles.menuText}>¡Contáctanos para saber más!</Text>
-            <TouchableOpacity onPress={() => Linking.openURL("mailto:juventudmichoacan2127@gmail.com")}> 
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL("mailto:juventudmichoacan2127@gmail.com")
+              }
+            >
               <View style={styles.iconTextContainer}>
-                <Icon style={styles.icon} name="envelope" size={35} color="#3b5998" />
-                <Text style={styles.iconText}>juventudmichoacan2127@gmail.com</Text>
+                <Icon
+                  style={styles.icon}
+                  name="envelope"
+                  size={35}
+                  color="#3b5998"
+                />
+                <Text style={styles.iconText}>
+                  juventudmichoacan2127@gmail.com
+                </Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => Linking.openURL("tel:4433135656")}> 
+            <TouchableOpacity onPress={() => Linking.openURL("tel:4433135656")}>
               <View style={styles.iconTextContainerPhone}>
-                <Icon style={styles.icon} name="phone" size={35} color="#3b5998" />
+                <Icon
+                  style={styles.icon}
+                  name="phone"
+                  size={35}
+                  color="#3b5998"
+                />
                 <Text style={styles.iconTextPhone}>4433135656</Text>
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => Linking.openURL("https://maps.app.goo.gl/N27GRBpUL3DFZP47A")}> 
+            <TouchableOpacity
+              onPress={() =>
+                Linking.openURL("https://maps.app.goo.gl/N27GRBpUL3DFZP47A")
+              }
+            >
               <View style={styles.iconTextContainerUbi}>
-                <Icon style={styles.icon} name="tag" size={35} color="#3b5998" />
-                <Text style={styles.iconText}>Perif. Paseo de la República 2451, Camelinas, 58290 Morelia, Mich.</Text>
+                <Icon
+                  style={styles.icon}
+                  name="tag"
+                  size={35}
+                  color="#3b5998"
+                />
+                <Text style={styles.iconText}>
+                  Perif. Paseo de la República 2451, Camelinas, 58290 Morelia,
+                  Mich.
+                </Text>
               </View>
             </TouchableOpacity>
           </View>

@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   menuContainer: {
-    width: width * 1.01,
+    width: "101%",
     height: height,
     backgroundColor: "#6a0f49",
     paddingTop: 50,
@@ -19,12 +19,12 @@ const styles = StyleSheet.create({
   scrollContent: {
     flexGrow: 1,
     alignItems: "center",
-    paddingBottom: 20, // Para evitar que el contenido se corte
+    paddingBottom: 20,
   },
   title: {
-    flex: 1, // Ocupa el espacio disponible
-    textAlign: "center", // Centra el texto en su contenedor
-    fontSize: 20, // Tamaño del texto
+    flex: 1,
+    textAlign: "center",
+    fontSize: 20,
     fontWeight: "bold",
   },
   menuText: {
@@ -36,13 +36,12 @@ const styles = StyleSheet.create({
   },
   cardMenu: {
     backgroundColor: "white",
-    width: width * 0.9,
+    width: "99%", // Se ajusta el ancho al 90% del dispositivo
     alignSelf: "center",
-    alignContent: "center",
-    borderRadius: 10,
     alignItems: "center",
     paddingVertical: 20,
     paddingHorizontal: 15,
+    borderRadius: 10,
   },
   containerWeb: {
     alignItems: "center",
@@ -51,8 +50,8 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   linkContainer: {
-    flexDirection: "row", // Alinea el ícono y el texto en la misma línea
-    alignItems: "center", // Centra verticalmente el ícono y el texto
+    flexDirection: "row",
+    alignItems: "center",
   },
   iconRow: {
     flexDirection: "row",
@@ -67,12 +66,12 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   headerContainer: {
-    flexDirection: "row", // Elementos en fila
-    alignItems: "center", // Alinear verticalmente
-    justifyContent: "space-between", // Menú en medio, flecha al final
-    width: "100%", // Ocupa todo el ancho disponible
-    paddingHorizontal: 20, // Espaciado en los lados
-    paddingVertical: 10, // Espaciado arriba y abajo
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   iconTextContainerPhone: {
     flexDirection: "row",
@@ -107,8 +106,8 @@ const styles = StyleSheet.create({
     color: "black",
   },
   logo: {
-    height: height * 0.2,
-    width: width * 0.8,
+    height: height * 0.18, // Se ajusta al 20% de la altura de la pantalla
+    width: width * 0.8, // Se ajusta al 80% del ancho de la pantalla
   },
 });
 

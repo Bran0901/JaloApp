@@ -93,7 +93,10 @@ const Perfil = () => {
         onPress: async () => {
           try {
             await signOut(auth); // Cierra sesión en Firebase
-            navigation.replace("Login"); // Redirige a la pantalla de Login
+            navigation.reset({
+              index: 0, // Establece la pantalla inicial en el índice 0
+              routes: [{ name: "Bienvenida" }], // Ruta a la pantalla de Bienvenida
+            });
           } catch (error) {
             console.error("Error al cerrar sesión:", error);
             Alert.alert("Error", "No se pudo cerrar sesión.");
@@ -104,7 +107,9 @@ const Perfil = () => {
   };
 
   return (
-    <View style={[styles.container, { height: screenHeight }]}> {/* Contenedor principal con altura dinámica */}
+    <View style={[styles.container, { height: screenHeight }]}>
+      {" "}
+      {/* Contenedor principal con altura dinámica */}
       <Encabezado /> {/* Componente de encabezado */}
       <ScrollView>
         <View style={styles.general}>
@@ -113,7 +118,7 @@ const Perfil = () => {
             name="arrow-left"
             size={30}
             color="black"
-            onPress={() => navigation.navigate("Inicio")} // Navegar a la pantalla de inicio
+            onPress={() => navigation.goBack()} // Navegar a la pantalla de inicio
             style={styles.icon}
           />
 
@@ -129,10 +134,7 @@ const Perfil = () => {
         {/* Tarjeta de información personal */}
         <View style={styles.profileCard}>
           <Text style={styles.cardTitle}>Información Personal</Text>
-          <Image
-            source={{ uri: "https://via.placeholder.com/100" }} // Imagen de perfil de ejemplo
-            style={styles.profileImage}
-          />
+
           <Text style={styles.label}>Nombre</Text>
           <Text style={styles.info}>{nombre}</Text>
 
@@ -149,7 +151,7 @@ const Perfil = () => {
         {/* Tarjeta con datos de ubicación */}
         <View style={styles.profileCard}>
           <Text style={styles.cardTitle}>Datos de ubicación</Text>
-          <Text style={styles.label}>Estado</Text>
+          <Text style={styles.label}>Estado y localidad</Text>
           <Text style={styles.info}>{estado}</Text>
         </View>
 

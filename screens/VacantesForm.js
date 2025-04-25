@@ -218,7 +218,7 @@ const VacantesForm = ({ navigation, route }) => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.cancelButton}
-                    onPress={() => navigation.navigate("Vacantes")}
+                    onPress={() => navigation.goBack()}
                   >
                     <Text style={styles.buttonText}>Cancelar</Text>
                   </TouchableOpacity>
