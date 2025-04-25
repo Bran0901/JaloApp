@@ -176,8 +176,8 @@ const Programas = () => {
         </ScrollView>
       )}
 
-      {/* Botón para agregar programa, visible solo para usuarios con rol de empresa o administrador */}
-      {(userRole === "empresa" || userRole === "administrador") && (
+      {/* Botón para agregar evento, solo para usuarios con rol 'administrador' */}
+      {userRole === "administrador" && (
         <Button
           mode="contained"
           style={styles.button}
@@ -186,6 +186,7 @@ const Programas = () => {
           <Text>Agregar Programa</Text>
         </Button>
       )}
+
 
       {/* Modal que muestra los detalles del programa seleccionado */}
       <Modal

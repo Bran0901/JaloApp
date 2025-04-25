@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import { Card } from "react-native-paper";
 import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db, auth } from "../firebaseConfig";
 import styles from "../styles/stylesVacantes/stylesVacantesForm";
 import Encabezado from "../screens/Encabezado";
 
@@ -89,6 +89,7 @@ const VacantesForm = ({ navigation, route }) => {
           empresa,
           categoria,
           linkUbicacion,
+          creadoPor: auth.currentUser.uid
         });
         Alert.alert("Éxito", "Vacante guardada correctamente.");
       }

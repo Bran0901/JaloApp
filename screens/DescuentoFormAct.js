@@ -74,6 +74,8 @@ const DescuentoFormAct = ({ route }) => {
                 direccion: direccion.trim(),
                 fechaInicio: fechaInicio.toISOString().split("T")[0],
                 fechaFin: fechaFin.toISOString().split("T")[0],
+                categoria: categoria.trim(),
+                linkUbicacion: linkUbicacion.trim(),
               });
 
               Alert.alert("Éxito", "Descuento actualizado exitosamente.");

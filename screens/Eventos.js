@@ -184,8 +184,8 @@ const Eventos = () => {
         </ScrollView>
       )}
 
-      {/* Botón para agregar evento, solo para usuarios con rol 'administrador' o 'empresa' */}
-      {(userRole === "administrador" || userRole === "empresa") && (
+      {/* Botón para agregar evento, solo para usuarios con rol 'administrador' */}
+      {userRole === "administrador" && (
         <Button
           mode="contained"
           style={styles.button}
@@ -194,6 +194,7 @@ const Eventos = () => {
           <Text>Agregar Evento</Text>
         </Button>
       )}
+
 
       {/* Modal para mostrar los detalles del evento seleccionado */}
       <Modal

@@ -33,6 +33,8 @@ export default function DescuentosScreen() {
   const [userRole, setUserRole] = useState(null); // Estado para el rol del usuario
   const navigation = useNavigation(); // Hook para navegar entre pantallas
   const [categorias, setCategorias] = useState([]);
+  const [currentUid, setCurrentUid] = useState(null);
+
 
   // useEffect para obtener los descuentos y el rol del usuario
   useEffect(() => {
@@ -57,19 +59,19 @@ export default function DescuentosScreen() {
 
     const fetchUserRole = async () => {
       try {
-        // Obtiene el usuario autenticado
         const user = auth.currentUser;
         if (user) {
-          // Si el usuario está autenticado, se obtiene su rol desde Firestore
+          setCurrentUid(user.uid); // Guardamos el UID del usuario actual
           const userDoc = await getDoc(doc(db, "usuarios", user.uid));
           if (userDoc.exists()) {
-            setUserRole(userDoc.data().role); // Establece el rol del usuario en el estado
+            setUserRole(userDoc.data().role);
           }
         }
       } catch (error) {
-        console.error("Error obteniendo el rol del usuario:", error); // Manejo de errores
+        console.error("Error obteniendo el rol del usuario:", error);
       }
     };
+    
 
     fetchDescuentos(); // Llama a la función para obtener los descuentos
     fetchUserRole(); // Llama a la función para obtener el rol del usuario
@@ -264,7 +266,7 @@ export default function DescuentosScreen() {
                   </Text>
 
                   {/* Botones solo visibles para administradores */}
-                  {userRole === "administrador" && (
+                  {(userRole === "administrador" || selectedItem?.creadoPor === currentUid) && (
                     <View style={styles.buttonContainer}>
                       <Button
                         mode="contained"
@@ -288,6 +290,7 @@ export default function DescuentosScreen() {
                       </Button>
                     </View>
                   )}
+
 
                   {/* Botón para cerrar el modal */}
                   <Button

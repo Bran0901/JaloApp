@@ -37,6 +37,8 @@ const Vacantes = () => {
   const [selectedVacante, setSelectedVacante] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userRole, setUserRole] = useState(null);
+  const [currentUid, setCurrentUid] = useState(null);
+
 
   // useEffect para obtener las vacantes de Firestore y el rol del usuario
   useEffect(() => {
@@ -55,6 +57,7 @@ const Vacantes = () => {
       try {
         const user = auth.currentUser;
         if (user) {
+          setCurrentUid(user.uid);
           const userDoc = await getDoc(doc(db, "usuarios", user.uid));
           if (userDoc.exists()) {
             setUserRole(userDoc.data().role); // Establece el rol del usuario
@@ -72,13 +75,14 @@ const Vacantes = () => {
 
   // Función para eliminar una vacante, solo accesible para administradores
   const deleteVacante = async (id) => {
-    if (userRole !== "administrador") {
+    if (userRole !== "administrador" && selectedVacante?.creadoPor !== currentUid) {
       Alert.alert(
         "Acceso denegado",
         "No tienes permisos para eliminar vacantes."
       );
       return;
     }
+    
     Alert.alert(
       "Confirmar Eliminación",
       "¿Estás seguro de que deseas eliminar esta vacante?",
@@ -250,7 +254,7 @@ const Vacantes = () => {
                   </Text>
 
                   {/* Botones de actualización y eliminación solo para administradores */}
-                  {userRole === "administrador" && (
+                  {(userRole === "administrador" || selectedVacante?.creadoPor === currentUid) && (
                     <View style={styles.buttonContainer}>
                       <TouchableOpacity
                         style={[styles.modalButton, styles.updateButton]}
@@ -258,7 +262,7 @@ const Vacantes = () => {
                           navigation.navigate("VacantesForm", {
                             vacante: selectedVacante,
                           });
-                          setSelectedVacante(null);
+                          setSelectedVacante(null); 
                         }}
                       >
                         <Text style={styles.buttonText}>Actualizar</Text>
@@ -271,6 +275,8 @@ const Vacantes = () => {
                       </TouchableOpacity>
                     </View>
                   )}
+
+
 
                   {/* Botón para cerrar el modal */}
                   <TouchableOpacity

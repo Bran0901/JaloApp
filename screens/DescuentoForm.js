@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { styles } from "../styles/stylesDescuento/stylesForm";
-import { db } from "../firebaseConfig";
+import { db, auth } from "../firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
 import Encabezado from "../screens/Encabezado";
@@ -63,6 +63,7 @@ const DescuentosForm = () => {
         linkUbicacion: linkUbicacion.trim(), // Nuevo campo
         fechaInicio: fechaInicio.toISOString().split("T")[0],
         fechaFin: fechaFin.toISOString().split("T")[0],
+        creadoPor: auth.currentUser.uid,
       });
 
       Alert.alert("Éxito", "Descuento agregado exitosamente.");
